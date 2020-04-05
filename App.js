@@ -4,12 +4,13 @@ import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import useLinking from './navigation/useLinking';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import useLinking from './src/navigation/useLinking';
 
-const Stack = createStackNavigator();
+if (__DEV__) {
+  import('./ReactotronConfig');
+}
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -23,8 +24,30 @@ export default function App(props) {
       try {
         SplashScreen.preventAutoHide();
 
-        // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
+        // First method to get init state - Load our initial navigation state
+        const initState = await getInitialState();
+        setInitialNavigationState(initState);
+        console.log('getInitialState', initState);
+
+        // Second method to get init state -
+        // Promise.race([
+        //   getInitialState(),
+        //   new Promise((resolve) =>
+        //     // Timeout in 150ms if `getInitialState` doesn't resolve
+        //     // Workaround for https://github.com/facebook/react-native/issues/25675
+        //     setTimeout(resolve, 150)
+        //   ),
+        // ])
+        //   .catch((e) => {
+        //     console.error(e);
+        //   })
+        //   .then((state) => {
+        //     console.log('getInitialState then');
+        //     if (state !== undefined) {
+        //       setInitialNavigationState(state);
+        //       console.log('getInitialState', state);
+        //     }
+        //   });
 
         // Load fonts
         await Font.loadAsync({
@@ -49,10 +72,11 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-          </Stack.Navigator>
+        <NavigationContainer
+          ref={containerRef}
+          initialState={initialNavigationState}
+        >
+          <BottomTabNavigator />
         </NavigationContainer>
       </View>
     );
