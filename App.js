@@ -4,9 +4,17 @@ import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import {
+  StoreProvider,
+  StoreContext,
+  LocalizationContext,
+} from './src/context/provider';
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import useLinking from './src/navigation/useLinking';
+import Colors from './src/constants/Colors';
 
 if (__DEV__) {
   import('./ReactotronConfig');
@@ -70,15 +78,25 @@ export default function App(props) {
     return null;
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer
-          ref={containerRef}
-          initialState={initialNavigationState}
-        >
-          <BottomTabNavigator />
-        </NavigationContainer>
-      </View>
+      <>
+        {Platform.OS === 'ios' && (
+          <StatusBar
+            translucent
+            backgroundColor="#F2A458"
+            barStyle="light-content"
+          />
+        )}
+        <StoreProvider>
+          <SafeAreaProvider>
+            <NavigationContainer
+              ref={containerRef}
+              initialState={initialNavigationState}
+            >
+              <BottomTabNavigator />
+            </NavigationContainer>
+          </SafeAreaProvider>
+        </StoreProvider>
+      </>
     );
   }
 }
@@ -86,6 +104,6 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F2A458',
   },
 });

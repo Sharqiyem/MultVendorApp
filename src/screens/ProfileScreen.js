@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import Colors from '../constants/Colors';
 
-export default function HomeScreen({ navigation }) {
+export default function ProfileScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -17,7 +18,7 @@ export default function HomeScreen({ navigation }) {
   );
 }
 
-HomeScreen.navigationOptions = {
+ProfileScreen.navigationOptions = {
   // header: null,
   // headerShown: false,
   title: 'sda',
@@ -31,12 +32,7 @@ const styles = StyleSheet.create({
   },
 
   welcomeContainer: {
-    flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 10,
-    // marginBottom: 20,
-    backgroundColor: '#fff',
   },
 
   tabBarInfoText: {
