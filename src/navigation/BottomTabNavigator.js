@@ -8,6 +8,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import DetailsScreen from '../screens/DetailsScreen';
+import StoresScreen from '../screens/StoresScreen';
 import Colors from '../constants/Colors';
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -34,8 +35,8 @@ export default function BottomTabNavigator() {
         indicatorStyle: { display: 'none' },
         labelStyle: { fontSize: 12 },
         style: {
-          // backgroundColor: '#e91e',
-          paddingBottom: 10,
+          backgroundColor: Colors.tabBarBG,
+          paddingBottom: 20,
         },
         activeTintColor: Colors.tintColor,
         inactiveTintColor: Colors.tabIconDefault,
@@ -46,13 +47,9 @@ export default function BottomTabNavigator() {
         name="Home"
         component={Home}
         options={{
-          title: 'Get Started',
+          title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon
-              focused={focused}
-              name="md-code-working"
-              color="#e91e63"
-            />
+            <TabBarIcon focused={focused} name="md-home" />
           ),
         }}
       />
@@ -60,9 +57,29 @@ export default function BottomTabNavigator() {
         name="Links"
         component={LinksScreen}
         options={{
+          title: 'Categories',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name="md-book" />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Stores"
+        component={StoresScreen}
+        options={{
           title: 'Resources',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" color="#e91e63" />
+            <TabBarIcon focused={focused} name="md-apps" />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Categories"
+        component={StoresScreen}
+        options={{
+          title: 'Resources',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name="md-person" />
           ),
         }}
       />
