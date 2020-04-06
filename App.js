@@ -18,6 +18,8 @@ import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import useLinking from './src/navigation/useLinking';
 import Colors from './src/constants/Colors';
 
+import I18n from './src/i18n/i18n';
+
 if (__DEV__) {
   import('./ReactotronConfig');
 }
@@ -27,6 +29,16 @@ export default function App(props) {
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
+
+  const [locale, setLocale] = React.useState(I18n.locale);
+  const localizationContext = React.useMemo(
+    () => ({
+      t: (scope, options) => I18n.t(scope, { locale, ...options }),
+      locale,
+      setLocale,
+    }),
+    [locale]
+  );
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -93,12 +105,14 @@ export default function App(props) {
         )}
         <StoreProvider>
           <SafeAreaProvider>
-            <NavigationContainer
-              ref={containerRef}
-              initialState={initialNavigationState}
-            >
-              <BottomTabNavigator />
-            </NavigationContainer>
+            <LocalizationContext.Provider value={localizationContext}>
+              <NavigationContainer
+                ref={containerRef}
+                initialState={initialNavigationState}
+              >
+                <BottomTabNavigator />
+              </NavigationContainer>
+            </LocalizationContext.Provider>
           </SafeAreaProvider>
         </StoreProvider>
       </>

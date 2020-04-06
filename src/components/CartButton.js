@@ -4,7 +4,7 @@ import * as Icon from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 export default CartButton = ({ state, navigation, sourceScreen }) => {
-  console.log('CartButton', { state });
+  // console.log('CartButton', { state });
   //   const cartCount = state.cartCount;
   state.cartCount;
   const cartCount = state.cartItems.reduce(

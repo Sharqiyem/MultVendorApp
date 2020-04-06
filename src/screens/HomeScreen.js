@@ -5,9 +5,10 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from 'react-native';
 import types from '../context/types';
-import { StoreContext } from '../context/provider';
+import { StoreContext, LocalizationContext } from '../context/provider';
 import {
   ExProductCycleItem,
   BannerScrollView,
@@ -15,12 +16,19 @@ import {
   ExCategoryCycleItem,
 } from '../components/index';
 import Colors from '../constants/Colors';
-
+import getStyle from '../constants/styles.js';
 export default function HomeScreen({ navigation }) {
   const { dispatch } = React.useContext(StoreContext);
+  const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <Button
+        title="Lang"
+        onPress={() => {
+          locale === 'en' ? setLocale('ar') : setLocale('en');
+        }}
+      />
       {/* Banner */}
       <View style={{ marginVertical: 5 }}>
         <BannerScrollView />
@@ -29,14 +37,16 @@ export default function HomeScreen({ navigation }) {
       {/* Shop By Stores */}
       <View style={{ margin: 5 }}>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 15,
-          }}
+          style={[
+            getStyle().row,
+            {
+              justifyContent: 'space-between',
+              marginVertical: 15,
+            },
+          ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>Shop by Stores</Text>
+            <Text style={{ fontSize: 20 }}>{t('Shop by Stores')}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -56,7 +66,7 @@ export default function HomeScreen({ navigation }) {
                 color: Colors.white,
               }}
             >
-              Sell All
+              {t('See All')}
             </Text>
           </TouchableOpacity>
         </View>

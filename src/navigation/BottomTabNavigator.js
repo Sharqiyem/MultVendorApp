@@ -13,7 +13,7 @@ import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import StoresScreen from '../screens/StoresScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import { StoreContext } from '../context/provider';
+import { StoreContext, LocalizationContext } from '../context/provider';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import StoreScreen from '../screens/StoreScreen';
 import CategoryScreen from '../screens/CategoryScreen';
@@ -24,27 +24,18 @@ const Stack = createStackNavigator();
 
 const INITIAL_ROUTE_NAME = 'Home';
 
-// const CartBtn = ({ navigation, state }) => (
-//   <TouchableOpacity
-//     style={{
-//       flexDirection: 'row',
-//       alignItems: 'center',
-//       marginHorizontal: 10,
-//     }}
-//     onPress={() => navigation.navigate('Details')}
-//   >
-//     <Text>Cart {state.cartCount}</Text>
-//   </TouchableOpacity>
-// );
-
 function HomeStack({ navigation }) {
+  const { t, locale, setLocale } = React.useContext(LocalizationContext);
+
   const { state, dispatch } = React.useContext(StoreContext);
+  // console.log('STATE', { screenProps });
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.headerBG,
           shadowColor: 'transparent',
+          elevation: 0,
         },
         //Header text color
         headerTintColor: '#fff',
@@ -57,7 +48,11 @@ function HomeStack({ navigation }) {
         ),
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        options={{ title: t('Home') }}
+        name="Home"
+        component={HomeScreen}
+      />
       <Stack.Screen
         name="CartHome"
         options={{ title: 'Details', headerRight: null }}
@@ -81,6 +76,7 @@ function CategoriesStack({ navigation }) {
         headerStyle: {
           backgroundColor: Colors.headerBG,
           shadowColor: 'transparent',
+          elevation: 0,
         },
         //Header text color
         headerTintColor: '#fff',
@@ -120,6 +116,8 @@ function StoresStack({ navigation }) {
         headerStyle: {
           backgroundColor: Colors.headerBG,
           shadowColor: 'transparent',
+          borderBottomWidth: 0,
+          elevation: 0,
         },
         //Header text color
         headerTintColor: '#fff',
@@ -153,6 +151,22 @@ function StoresStack({ navigation }) {
 
 export default function BottomTabNavigator() {
   console.log('os', Platform.OS);
+
+  const { state, dispatch } = React.useContext(StoreContext);
+  // console.log({ state });
+  // const { lang, isRTL } = state;
+  // const [locale, setLocale] = React.useState(lang);
+
+  // const t = (scope, options) => {
+  //   return getString(scope, options);
+  // };
+
+  // const screenProps = {
+  //   t,
+  //   isRTL,
+  //   locale: lang,
+  // };
+
   return (
     <BottomTab.Navigator
       tabBarPosition="bottom"
@@ -165,7 +179,7 @@ export default function BottomTabNavigator() {
           borderColor: 'transparent',
           borderBottomWidth: 0,
         },
-        labelStyle: { fontSize: 12 },
+        labelStyle: { fontSize: 10 },
         style: {
           backgroundColor: Colors.tabBarBG,
           paddingBottom: Platform.OS === 'ios' ? 20 : 0,

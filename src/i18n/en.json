@@ -1,0 +1,27 @@
+{
+  "Home": "Home",
+  "Shop by Stores": "Shop by Stores",
+  "See All": "See All",
+  "Errors": {
+    "user with tel no not exist": "User with this tel No. not exist",
+    "Authentication Faild": "Authentication failed",
+    "account already exists": "Account already exists",
+    "No account with that email address exists": "No account with this email address exists",
+    "not correct data": "Old password wrong",
+    "User succeffuly updated": "Changes successfully saved",
+    "An e-mail has been sent": "An e-mail has been sent to reset password",
+    "No valid entry found for provided Tel number": "No valid user found for provided Tel number",
+    "Not found": "Not found",
+    "Network Error": "Network Error",
+    "timeout of 20000ms exceeded": "Network Error",
+    "Network request failed": "Network Error"
+  },
+  "Messages": {
+    "No_results": "No results",
+    "No_news": "No news",
+    "Request_sent_successfully": "Request was sent successfully",
+    "fiels_sent_successfully": "Files have been sent successfully",
+    "Password_no_match": "Password and confirm no match",
+    "No_requests": "No requests"
+  }
+}

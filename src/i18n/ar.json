@@ -1,0 +1,28 @@
+{
+  "Home": "الرئيسية",
+  "Shop by Stores": "تسوق حسب الماركت",
+  "See All": "عرض الكل",
+  "Errors": {
+    "user with tel no not exist": "لا يوجد مستخدم بهذا الرقم",
+    "Authentication Faild": "فشلت عملية الدخول. كلمة المرور غير صحيحة",
+    "Account already exists": "هذا الحساب موجود با الفعل",
+    "No account with that email address exists": "لا يوجد حساب بهذا البريد الالكتروني",
+    "not correct data": "كلمة المرور القديمة غير صحيحه",
+    "User succeffuly updated": "تم التعديل بنجاح",
+    "An e-mail has been sent": "تم ارسال ايميل لاسترجاع كلمة المرور",
+    "No valid entry found for provided Tel number": "لا يوجد مستخدم بهذا الرقم",
+    "Not found": "لا يوجد مستخدم بهذا الرقم",
+    "Network Error": "خطأ في الاتصال حاول مره اخرى",
+    "timeout of 20000ms exceeded": "خطأ في الاتصال حاول مره اخرى",
+    "Network request failed": "خطأ في الاتصال حاول مره اخرى"
+  },
+  "Messages": {
+    "No_results": "لا يوجد نتائج",
+    "No_news": "لا يوجد اخبار",
+    "Request_sent_successfully": "تم ارسال طلبك بنجاح",
+    "fiels_sent_successfully": "تم ارسال الملفات بنجاح",
+    "Password_no_match": "كلمة المرور الجديده لا تطابق تاكيد كلمة المرور",
+    "No_requests": "لا يوجد طلبات",
+    "please attach files or press cancel": "من فضلك اختار الملفات او اختار تخطي"
+  }
+}

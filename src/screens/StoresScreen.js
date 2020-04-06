@@ -22,7 +22,7 @@ export default function StoresScreen({ navigation }) {
       >
         <View
           style={{
-            width: 400,
+            width: '90%',
             height: 40,
             borderRadius: 20,
             backgroundColor: Colors.primaryLight,

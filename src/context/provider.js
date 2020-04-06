@@ -14,7 +14,7 @@ const StoreProvider = ({ children }) => {
 
   // Log new state
   useEffect(() => {
-    console.log({ newState: state });
+    // console.log({ newState: state });
   }, [state]);
 
   // Render state, dispatch and special case actions
