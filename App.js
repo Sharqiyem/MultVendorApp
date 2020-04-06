@@ -12,6 +12,8 @@ import {
   LocalizationContext,
 } from './src/context/provider';
 
+import { registerForPushNotificationsAsync } from './src/services';
+
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import useLinking from './src/navigation/useLinking';
 import Colors from './src/constants/Colors';
@@ -57,6 +59,9 @@ export default function App(props) {
         //     }
         //   });
 
+        // Register PushNotifications
+        const token = await registerForPushNotificationsAsync();
+        console.log('Push token', token);
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
