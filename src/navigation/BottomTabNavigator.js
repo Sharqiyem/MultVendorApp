@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -9,11 +9,14 @@ import Colors from '../constants/Colors';
 import CartButton from '../components/CartButton';
 //Screens
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import DetailsScreen from '../screens/DetailsScreen';
+
+import CartScreen from '../screens/CartScreen';
 import StoresScreen from '../screens/StoresScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { StoreContext } from '../context/provider';
+import CategoriesScreen from '../screens/CategoriesScreen';
+import StoreScreen from '../screens/StoreScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -41,85 +44,132 @@ function HomeStack({ navigation }) {
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
         },
         //Header text color
         headerTintColor: '#fff',
         headerRight: (props) => (
-          <CartButton navigation={navigation} state={state} />
+          <CartButton
+            navigation={navigation}
+            state={state}
+            sourceScreen="CartHome"
+          />
         ),
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen
-        name="Details"
+        name="CartHome"
         options={{ title: 'Details', headerRight: null }}
-        component={DetailsScreen}
+        component={CartScreen}
+      />
+      <Stack.Screen
+        name="Store"
+        options={({ route }) => ({ title: route.params.name })}
+        component={StoreScreen}
       />
     </Stack.Navigator>
   );
 }
 
-function CategoriesStack() {
+function CategoriesStack({ navigation }) {
+  const { state, dispatch } = React.useContext(StoreContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
         },
         //Header text color
         headerTintColor: '#fff',
+        headerRight: (props) => (
+          <CartButton
+            navigation={navigation}
+            state={state}
+            sourceScreen="CartCat"
+          />
+        ),
       }}
     >
       <Stack.Screen
-        name="Links"
+        name="Categories"
         options={{ title: 'Categories' }}
-        component={LinksScreen}
+        component={CategoriesScreen}
       />
-      {/* <Stack.Screen
-        name="Details"
-        options={{ title: 'Details' }}
-        component={DetailsScreen}
-      /> */}
+      <Stack.Screen
+        name="Category"
+        options={({ route }) => ({ title: route.params.name })}
+        component={CategoryScreen}
+      />
+      <Stack.Screen
+        name="CartCat"
+        options={{ title: 'Details', headerRight: null }}
+        component={CartScreen}
+      />
     </Stack.Navigator>
   );
 }
-function StoresStack() {
+function StoresStack({ navigation }) {
+  const { state, dispatch } = React.useContext(StoreContext);
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
         },
         //Header text color
         headerTintColor: '#fff',
+        headerRight: (props) => (
+          <CartButton
+            navigation={navigation}
+            state={state}
+            sourceScreen="CartStores"
+          />
+        ),
       }}
     >
       <Stack.Screen
-        name="Links"
+        name="Stores"
         options={{ title: 'Stores' }}
-        component={LinksScreen}
+        component={StoresScreen}
       />
-      {/* <Stack.Screen
-        name="Details"
-        options={{ title: 'Details' }}
-        component={DetailsScreen}
-      /> */}
+      <Stack.Screen
+        name="Store"
+        options={({ route }) => ({ title: route.params.name })}
+        component={StoreScreen}
+      />
+      <Stack.Screen
+        name="CartStores"
+        options={{ title: 'Details', headerRight: null }}
+        component={CartScreen}
+      />
     </Stack.Navigator>
   );
 }
 
 export default function BottomTabNavigator() {
+  console.log('os', Platform.OS);
   return (
     <BottomTab.Navigator
       tabBarPosition="bottom"
       initialRouteName={INITIAL_ROUTE_NAME}
       tabBarOptions={{
         safeAreaInset: { bottom: 'always' },
-        indicatorStyle: { display: 'none' },
+        indicatorStyle: {
+          display: 'none',
+          color: '#fff',
+          borderColor: 'transparent',
+          borderBottomWidth: 0,
+        },
         labelStyle: { fontSize: 12 },
         style: {
           backgroundColor: Colors.tabBarBG,
-          paddingBottom: 20,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+          // paddingBottom: 20,
         },
         activeTintColor: Colors.tabIconSelected,
         inactiveTintColor: Colors.primaryLight,
@@ -150,7 +200,7 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Links"
+        name="Categories"
         component={CategoriesStack}
         options={{
           title: 'Categories',

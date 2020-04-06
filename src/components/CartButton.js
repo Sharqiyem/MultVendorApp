@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import * as Icon from '@expo/vector-icons';
+import Colors from '../constants/Colors';
 
-export default CartButton = ({ state, navigation }) => {
+export default CartButton = ({ state, navigation, sourceScreen }) => {
   console.log('CartButton', { state });
   //   const cartCount = state.cartCount;
   state.cartCount;
@@ -17,7 +18,7 @@ export default CartButton = ({ state, navigation }) => {
         alignItems: 'center',
         marginHorizontal: 10,
       }}
-      onPress={() => navigation.navigate('Details', '')}
+      onPress={() => navigation.navigate(sourceScreen, '')}
     >
       <Icon.Feather
         name="shopping-cart"
@@ -27,8 +28,8 @@ export default CartButton = ({ state, navigation }) => {
       />
       <View
         style={{
-          backgroundColor: '#ddee33',
-          borderColor: '#fff',
+          backgroundColor: Colors.secondary,
+          borderColor: Colors.secondary,
           borderWidth: 1,
           width: 25,
           height: 25,
@@ -41,12 +42,10 @@ export default CartButton = ({ state, navigation }) => {
       >
         <Text
           style={{
-            fontSize: 12,
-
-            color: 'red',
+            fontSize: 13,
+            color: Colors.white,
             alignSelf: 'center',
-            textAlign: 'center',
-            // padding: 3
+            // textAlign: 'center',
           }}
         >
           {cartCount}

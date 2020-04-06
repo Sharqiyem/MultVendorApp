@@ -8,8 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import { StoreListItem } from '../components/index';
-export default function StoresScreen({ navigation }) {
+import { StoreListItem, CategoryListItem } from '../components/index';
+export default function CategoriesScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -30,20 +30,19 @@ export default function StoresScreen({ navigation }) {
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: Colors.white }}>Search your store</Text>
+          <Text style={{ color: Colors.white }}>Search your category</Text>
         </View>
       </View>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <StoreListItem navigation={navigation} />
-        <StoreListItem navigation={navigation} />
-
-        <StoreListItem navigation={navigation} />
+        <CategoryListItem navigation={navigation} />
+        <CategoryListItem navigation={navigation} />
+        <CategoryListItem navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-StoresScreen.navigationOptions = {
+CategoriesScreen.navigationOptions = {
   // header: null,
   // headerShown: false,
   title: 'sda',

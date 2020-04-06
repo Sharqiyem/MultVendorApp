@@ -3,6 +3,8 @@ import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 import Layout from '../constants/Layout';
+import { StoreContext } from '../context/provider';
+import types from '../context/types';
 
 export const ExProductCycleItem = () => {
   const item = {
@@ -19,22 +21,32 @@ export const ExProductCycleItem = () => {
 
   return <ProductCycleItem item={item} />;
 };
-export const ProductCycleItem = ({ item }) => (
-  <View style={styles.container} key={item.id}>
-    <View style={styles.itemTwoContainer}>
-      <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
-    </View>
-    <Text style={styles.itemTwoTitle}>{item.title}</Text>
+export const ProductCycleItem = ({ item }) => {
+  const { dispatch } = React.useContext(StoreContext);
 
-    <TouchableOpacity
-      style={styles.button}
-      key={item.id}
-      onPress={() => console.log({ item })}
-    >
-      <Text style={styles.btnText}>+</Text>
-    </TouchableOpacity>
-  </View>
-);
+  const addToCart = (item) => {
+    dispatch({ type: types.CART_ADD, payload: item });
+  };
+
+  return (
+    <View style={styles.container} key={item.id}>
+      <View style={styles.itemTwoContainer}>
+        <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
+      </View>
+      <Text style={styles.itemTwoTitle}>{item.title}</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        key={item.id}
+        onPress={() => {
+          addToCart({ id: 1, quantity: 1, price: 5 });
+        }}
+      >
+        <Text style={styles.btnText}>+</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const itemsPerRow = 3;
 const margenHorizontal = 5;
@@ -56,8 +68,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderRightColor: 'red',
-    borderRightWidth: 2,
     backgroundColor: Colors.primary,
   },
   itemTwoContainer: {
