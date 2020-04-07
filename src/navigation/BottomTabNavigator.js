@@ -13,10 +13,16 @@ import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import StoresScreen from '../screens/StoresScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import { StoreContext, LocalizationContext } from '../context/provider';
+import {
+  StoreContext,
+  LocalizationContext,
+} from '../context/cartContext/provider';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import StoreScreen from '../screens/StoreScreen';
 import CategoryScreen from '../screens/CategoryScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -43,23 +49,23 @@ function HomeStack({ navigation }) {
           <CartButton
             navigation={navigation}
             state={state}
-            sourceScreen="CartHome"
+            sourceScreen='CartHome'
           />
         ),
       }}
     >
       <Stack.Screen
         options={{ title: t('Home') }}
-        name="Home"
+        name='Home'
         component={HomeScreen}
       />
       <Stack.Screen
-        name="CartHome"
-        options={{ title: 'Details', headerRight: null }}
+        name='CartHome'
+        options={{ title: 'Your cart', headerRight: null }}
         component={CartScreen}
       />
       <Stack.Screen
-        name="Store"
+        name='Store'
         options={({ route }) => ({ title: route.params.name })}
         component={StoreScreen}
       />
@@ -84,29 +90,30 @@ function CategoriesStack({ navigation }) {
           <CartButton
             navigation={navigation}
             state={state}
-            sourceScreen="CartCat"
+            sourceScreen='CartCat'
           />
         ),
       }}
     >
       <Stack.Screen
-        name="Categories"
+        name='Categories'
         options={{ title: 'Categories' }}
         component={CategoriesScreen}
       />
       <Stack.Screen
-        name="Category"
+        name='Category'
         options={({ route }) => ({ title: route.params.name })}
         component={CategoryScreen}
       />
       <Stack.Screen
-        name="CartCat"
-        options={{ title: 'Details', headerRight: null }}
+        name='CartCat'
+        options={{ title: 'Your cart', headerRight: null }}
         component={CartScreen}
       />
     </Stack.Navigator>
   );
 }
+
 function StoresStack({ navigation }) {
   const { state, dispatch } = React.useContext(StoreContext);
 
@@ -125,25 +132,71 @@ function StoresStack({ navigation }) {
           <CartButton
             navigation={navigation}
             state={state}
-            sourceScreen="CartStores"
+            sourceScreen='CartStores'
           />
         ),
       }}
     >
       <Stack.Screen
-        name="Stores"
+        name='Stores'
         options={{ title: 'Stores' }}
         component={StoresScreen}
       />
       <Stack.Screen
-        name="Store"
+        name='Store'
         options={({ route }) => ({ title: route.params.name })}
         component={StoreScreen}
       />
       <Stack.Screen
-        name="CartStores"
-        options={{ title: 'Details', headerRight: null }}
+        name='CartStores'
+        options={{ title: 'Your cart', headerRight: null }}
         component={CartScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ProfileStack({ navigation }) {
+  const { state } = React.useContext(StoreContext);
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
+          elevation: 0,
+        },
+        // Header text color
+        headerTintColor: '#fff',
+        // headerRight: (props) => (
+        //   <CartButton
+        //     navigation={navigation}
+        //     state={state}
+        //     sourceScreen='CartCat'
+        //   />
+        // ),
+      }}
+    >
+      <Stack.Screen
+        name='Login'
+        options={{ title: 'Login' }}
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        name='Register'
+        options={{ title: 'Register' }}
+        component={RegisterScreen}
+      />
+      <Stack.Screen
+        name='ForgotPassword'
+        options={{ title: 'Forgot password' }}
+        component={ForgotPasswordScreen}
+      />
+      <Stack.Screen
+        name='Profile'
+        options={{ title: 'Profile' }}
+        component={ProfileScreen}
       />
     </Stack.Navigator>
   );
@@ -169,7 +222,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      tabBarPosition="bottom"
+      tabBarPosition='bottom'
       initialRouteName={INITIAL_ROUTE_NAME}
       tabBarOptions={{
         safeAreaInset: { bottom: 'always' },
@@ -191,22 +244,22 @@ export default function BottomTabNavigator() {
       }}
     >
       <BottomTab.Screen
-        name="Home"
+        name='Home'
         component={HomeStack}
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-home" />
+            <TabBarIcon focused={focused} name='md-home' />
           ),
         }}
       />
       <BottomTab.Screen
-        name="Stores"
+        name='Stores'
         component={StoresStack}
         options={{
           title: 'Stores',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-apps" />
+            <TabBarIcon focused={focused} name='md-apps' />
           ),
           headerStyle: {
             backgroundColor: Colors.headerBG,
@@ -214,23 +267,23 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Categories"
+        name='Categories'
         component={CategoriesStack}
         options={{
           title: 'Categories',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-book" />
+            <TabBarIcon focused={focused} name='md-book' />
           ),
         }}
       />
 
       <BottomTab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name='Profile'
+        component={ProfileStack}
         options={{
           title: 'Profile',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name="md-person" />
+            <TabBarIcon focused={focused} name='md-person' />
           ),
         }}
       />
