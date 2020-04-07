@@ -6,21 +6,24 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { ExStoreDetailHeader, ExProductCycleItem } from '../components';
+import { ExStoreDetailHeader, ExProductCycleList } from '../components';
 import Colors from '../constants/Colors';
 
 export default function StoreScreen() {
+  const [activeTab, setActiveTab] = React.useState('products');
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
       <ExStoreDetailHeader />
 
+      {/* BUTTONS */}
       <View
         style={{
-          marginTop: -15,
+          marginTop: -12,
           flexDirection: 'row',
         }}
       >
         <TouchableOpacity
+          activeOpacity={0.8}
           style={{
             backgroundColor: Colors.primary,
             height: 50,
@@ -29,58 +32,75 @@ export default function StoreScreen() {
             alignItems: 'center',
             justifyContent: 'center',
             borderBottomColor: '#fff',
-            borderBottomWidth: 1,
+            borderBottomWidth: activeTab === 'products' ? 1 : 0,
           }}
-          onPress={() => {}}
+          onPress={() => {
+            setActiveTab('products');
+          }}
         >
           <Text style={styles.btnText}>Products</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          activeOpacity={0.8}
           style={{
             backgroundColor: Colors.primary,
             height: 50,
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-
-            // width: '100%',
+            borderBottomColor: '#fff',
+            borderBottomWidth: activeTab === 'reviews' ? 1 : 0,
           }}
-          onPress={() => {}}
+          onPress={() => {
+            setActiveTab('reviews');
+          }}
         >
           <Text style={styles.btnText}>Reviews</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          activeOpacity={0.8}
           style={{
             backgroundColor: Colors.primary,
             height: 50,
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-
-            // width: '100%',
+            borderBottomColor: '#fff',
+            borderBottomWidth: activeTab === 'about' ? 1 : 0,
           }}
-          onPress={() => {}}
+          onPress={() => {
+            setActiveTab('about');
+          }}
         >
           <Text style={styles.btnText}>About</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{ margin: 5, marginVertical: 15 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
+      {/* TABS */}
+      {activeTab === 'products' && (
+        <View style={{ margin: 5, marginVertical: 15 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            <ExProductCycleList />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      )}
+      {activeTab === 'reviews' && (
+        <View style={{ margin: 5, marginVertical: 15 }}>
+          <Text>Reviews</Text>
+        </View>
+      )}
+      {activeTab === 'about' && (
+        <View style={{ margin: 5, marginVertical: 15 }}>
+          <Text>About</Text>
+        </View>
+      )}
+    </View>
   );
 }
 

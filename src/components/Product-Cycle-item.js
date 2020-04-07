@@ -1,51 +1,72 @@
 import * as React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  FlatList,
+} from 'react-native';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 import Layout from '../constants/Layout';
-import { StoreContext } from '../context/provider';
-import types from '../context/types';
+import { StoreContext } from '../context/cartContext/provider';
+import types from '../context/cartContext/types';
+import PropTypes from 'prop-types';
+import productHooks from '../hooks/useGetDataByCollection';
 
-export const ExProductCycleItem = () => {
-  const item = {
-    id: 1,
-    brand: 'Citizen',
-    title: 'CITIZEN',
-    subtitle: 'Limited Edition',
-    price: '$129.99',
-    badge: 'NEW',
-    badgeColor: '#3cd39f',
-    image:
-      'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
-  };
+function Item({ title }) {
+  return (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
+}
 
-  return <ProductCycleItem item={item} />;
+export const ExProductCycleList = () => {
+  const [data, isLoading] = productHooks.useGetDataByCollection('products');
+
+  if (isLoading) return <Text> Loading </Text>;
+
+  // return <ProductCycleItem item={data[0]} />;
+  return (
+    <FlatList
+      numColumns={3}
+      data={data}
+      renderItem={({ item }) => <ProductCycleItem item={item} />}
+      keyExtractor={(item) => item.id}
+    />
+  );
 };
 export const ProductCycleItem = ({ item }) => {
   const { dispatch } = React.useContext(StoreContext);
 
-  const addToCart = (item) => {
-    dispatch({ type: types.CART_ADD, payload: item });
+  const addToCart = (productItem) => {
+    dispatch({ type: types.CART_ADD, payload: productItem });
   };
 
   return (
     <View style={styles.container} key={item.id}>
       <View style={styles.itemTwoContainer}>
-        <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
+        <Image style={styles.itemTwoImage} source={{ uri: item.images[0] }} />
       </View>
-      <Text style={styles.itemTwoTitle}>{item.title}</Text>
+      <Text style={styles.itemTwoTitle}>{item.name}</Text>
 
       <TouchableOpacity
         style={styles.button}
         key={item.id}
         onPress={() => {
-          addToCart({ id: 1, quantity: 1, price: 5 });
+          addToCart(item);
         }}
       >
         <Text style={styles.btnText}>+</Text>
       </TouchableOpacity>
     </View>
   );
+};
+
+ProductCycleItem.propTypes = {
+  item: PropTypes.object,
 };
 
 const itemsPerRow = 3;
@@ -72,7 +93,7 @@ const styles = StyleSheet.create({
   },
   itemTwoContainer: {
     // paddingBottom: 10,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     marginBottom: 2,
     width: width,
     // height: width,
@@ -81,12 +102,12 @@ const styles = StyleSheet.create({
 
   itemTwoTitle: {
     color: Colors.primary,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 15,
   },
   btnText: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 28,
     alignSelf: 'center',
   },
@@ -98,7 +119,7 @@ const styles = StyleSheet.create({
   },
   itemTwoPrice: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 20,
   },
   itemTwoImage: {

@@ -46,19 +46,19 @@ export const StoreDetailHeader = ({ item }) => (
       >
         <Text style={{ color: Colors.white }}>Social Media : </Text>
         <Ionicons
-          name="logo-facebook"
+          name='logo-facebook'
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
         />
         <Ionicons
-          name="logo-youtube"
+          name='logo-youtube'
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
         />
         <Ionicons
-          name="logo-instagram"
+          name='logo-instagram'
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   itemTwoTitle: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 20,
     textAlign: 'center',
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   },
   itemTwoPrice: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 20,
   },
   itemTwoImage: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   metaText: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 14,
     marginHorizontal: 10,
   },

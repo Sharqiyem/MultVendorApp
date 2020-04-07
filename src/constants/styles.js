@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import Colors from './Colors';
 import I18n from '../i18n/i18n';
-import { LocalizationContext } from '../context/provider';
+import { LocalizationContext } from '../context/cartContext/provider';
 
 const { width } = Dimensions.get('window');
 
@@ -106,7 +106,7 @@ const getStyle = () => {
     row: {
       flexDirection: isRTL ? 'row-reverse' : 'row',
     },
-
+    flexDir: { alignItems: isRTL ? 'flex-start' : 'flex-end' },
     text: {
       textAlign: isRTL ? 'right' : 'left',
       fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
@@ -132,11 +132,36 @@ const getStyle = () => {
     //Forms
     textInput: {
       height: inputTextHeight,
-      borderColor: Colors.primary,
+      borderColor: Colors.primaryLight,
       borderWidth: 1,
       textAlign: 'center',
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
+    },
+    buttonPrimary: {
+      height: inputTextHeight,
+
+      backgroundColor: Colors.primary,
+
+      textAlign: 'center',
+      borderRadius: inputTextHeight / 2,
+      marginVertical: 5,
+      justifyContent: 'center',
+    },
+    buttonOutline: {
+      height: inputTextHeight,
+
+      backgroundColor: Colors.white,
+      borderColor: Colors.primaryLight,
+      borderWidth: 1,
+      textAlign: 'center',
+      borderRadius: inputTextHeight / 2,
+      marginVertical: 5,
+      justifyContent: 'center',
+    },
+    link: {
+      borderBottomColor: Colors.primary,
+      borderBottomWidth: 1,
     },
   };
 };

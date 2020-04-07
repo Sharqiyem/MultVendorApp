@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   itemTwoTitle: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 20,
   },
   itemTwoSubTitle: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   itemTwoPrice: {
     color: Colors.white,
-    fontFamily: Fonts.primaryBold,
+
     fontSize: 20,
   },
   itemTwoImage: {

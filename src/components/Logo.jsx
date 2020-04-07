@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import React from 'react';
+import { View, Image } from 'react-native';
+
 const logo = require('../../assets/images/logo.png');
 
-export const Logo = () => {
+const Logo = ({ style }) => {
   return (
-    <View style={{ alignItems: 'center' }}>
+    <View style={[{ alignItems: 'center' }, style]}>
       <View
         style={{
           height: 50,
@@ -24,3 +25,5 @@ export const Logo = () => {
     </View>
   );
 };
+
+export default Logo;

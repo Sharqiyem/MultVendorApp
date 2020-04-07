@@ -2,7 +2,7 @@
 
 ## 1.1 Customer App Section
 
-Setup Push notification
+[Done] Setup Push notification
 
 [Done] Setup Localization
 
@@ -10,10 +10,18 @@ Setup Push notification
 
 Theming
 
-UI design account screens (register, login and etc..)
+[Done] UI design auth screens (register, login and forgot password)
 
-Setup firebase
-Firebase Firestore
+[Done] Cart managment (Add, remove items to cart and increase or decrese items)
+
+[Done] Setup firebase
+
+[Done] Fetch data from firebase using hook
+
+Change fake data to firebase data
+
+[Done] Firebase Firestore
+
 Firebase Auth
 
 UI design Checkout screens (delivery address and payment)

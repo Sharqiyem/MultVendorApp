@@ -6,28 +6,14 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { ExStoreDetailHeader, ExProductCycleItem } from '../components';
+import { ExStoreDetailHeader, ExProductCycleList } from '../components';
 import Colors from '../constants/Colors';
 
 export default function CategoryScreen() {
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={{ margin: 5, marginVertical: 15 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-        </View>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <ExProductCycleList />
+    </View>
   );
 }
 
@@ -40,6 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingVertical: 20,
   },
 
   welcomeContainer: {

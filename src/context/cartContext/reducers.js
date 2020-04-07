@@ -3,26 +3,11 @@ import initialState from './state';
 const reducer = (state = initialState, action) => {
   console.log({ oldState: state, type: action.type, payload: action.payload });
   switch (action.type) {
-    case types.SET_USER:
-      return {
-        ...state,
-        currentUser: { ...action.payload },
-      };
-    case types.SET_LOGGED:
-      return {
-        ...state,
-        isLogged: action.payload,
-      };
-
-    case types.CHANGE_POSITION:
-      return {
-        ...state,
-        position: action.payload,
-      };
-
     case types.CART_ADD:
       const newItem = action.payload;
-      const itemExist = state.cartItems.find((item) => item.id === newItem.id);
+      const itemExist = state.cartItems.find(
+        (item) => item.item.id === newItem.id
+      );
       if (itemExist) {
         itemExist.quantity += 1;
 

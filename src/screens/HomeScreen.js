@@ -7,28 +7,49 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import types from '../context/types';
-import { StoreContext, LocalizationContext } from '../context/provider';
+import types from '../context/cartContext/types';
 import {
-  ExProductCycleItem,
+  StoreContext,
+  LocalizationContext,
+} from '../context/cartContext/provider';
+import {
+  ExProductCycleList,
   BannerScrollView,
   StoreScrollView,
   ExCategoryCycleItem,
 } from '../components/index';
 import Colors from '../constants/Colors';
 import getStyle from '../constants/styles.js';
+import productHooks from '../hooks/useGetDataByCollection';
+import firebase from '../config/firebase.config';
+
 export default function HomeScreen({ navigation }) {
+  //Test firebase
+
   const { dispatch } = React.useContext(StoreContext);
   const { t, locale, setLocale } = React.useContext(LocalizationContext);
+  const [data, isLoading] = productHooks.useGetDataByCollection('products');
+  console.log('data', data);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Button
-        title="Lang"
+        title='Lang'
         onPress={() => {
           locale === 'en' ? setLocale('ar') : setLocale('en');
         }}
       />
+
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
+        <ExProductCycleList />
+      </View>
+
       {/* Banner */}
       <View style={{ marginVertical: 5 }}>
         <BannerScrollView />
@@ -156,18 +177,6 @@ export default function HomeScreen({ navigation }) {
               Sell All
             </Text>
           </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}
-        >
-          <ExProductCycleItem />
-          <ExProductCycleItem />
-          <ExProductCycleItem />
         </View>
       </View>
     </ScrollView>

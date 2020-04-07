@@ -40,7 +40,7 @@ export const BannerScrollView = (props) => {
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode="cover"
+          resizeMode='cover'
           source={require('../../assets/images/Stores/1.jpeg')}
         />
         <View style={styles.itemTwoOverlay} />
@@ -48,7 +48,7 @@ export const BannerScrollView = (props) => {
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode="cover"
+          resizeMode='cover'
           source={require('../../assets/images/Stores/2.jpg')}
         />
         <View style={styles.itemTwoOverlay} />
@@ -56,7 +56,7 @@ export const BannerScrollView = (props) => {
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode="cover"
+          resizeMode='cover'
           source={require('../../assets/images/Stores/3.jpeg')}
         />
         <View style={styles.itemTwoOverlay} />

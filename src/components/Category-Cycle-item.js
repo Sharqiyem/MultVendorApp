@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
 
   itemTwoTitle: {
     color: Colors.black,
-    // fontFamily: Fonts.primaryBold,
     fontSize: 15,
     width: width,
     textAlign: 'center',

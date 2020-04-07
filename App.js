@@ -8,23 +8,23 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
   StoreProvider,
-  StoreContext,
   LocalizationContext,
-} from './src/context/provider';
+} from './src/context/cartContext/provider';
 
 import { registerForPushNotificationsAsync } from './src/services';
 
 import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import useLinking from './src/navigation/useLinking';
-import Colors from './src/constants/Colors';
 
 import I18n from './src/i18n/i18n';
+import ProfileScreen from './src/screens/ProfileScreen';
 
 if (__DEV__) {
   import('./ReactotronConfig');
 }
 
 export default function App(props) {
+  const { skipLoadingScreen } = props;
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -91,38 +91,31 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoadingComplete && !skipLoadingScreen) {
     return null;
-  } else {
-    return (
-      <>
-        {Platform.OS === 'ios' && (
-          <StatusBar
-            translucent
-            backgroundColor="#F2A458"
-            barStyle="light-content"
-          />
-        )}
-        <StoreProvider>
-          <SafeAreaProvider>
-            <LocalizationContext.Provider value={localizationContext}>
-              <NavigationContainer
-                ref={containerRef}
-                initialState={initialNavigationState}
-              >
-                <BottomTabNavigator />
-              </NavigationContainer>
-            </LocalizationContext.Provider>
-          </SafeAreaProvider>
-        </StoreProvider>
-      </>
-    );
   }
+  return (
+    <>
+      {Platform.OS === 'ios' && (
+        <StatusBar
+          translucent
+          backgroundColor='#F2A458'
+          barStyle='light-content'
+        />
+      )}
+      <StoreProvider>
+        <SafeAreaProvider>
+          <LocalizationContext.Provider value={localizationContext}>
+            <NavigationContainer
+              ref={containerRef}
+              initialState={initialNavigationState}
+            >
+              <BottomTabNavigator />
+              {/* <ProfileScreen /> */}
+            </NavigationContainer>
+          </LocalizationContext.Provider>
+        </SafeAreaProvider>
+      </StoreProvider>
+    </>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F2A458',
-  },
-});

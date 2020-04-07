@@ -11,8 +11,8 @@ import { FlatGrid } from 'react-native-super-grid';
 import * as Icon from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 
-import { StoreContext } from '../context/provider';
-import types from '../context/types';
+import { StoreContext } from '../context/cartContext/provider';
+import types from '../context/cartContext/types';
 import Colors from '../constants/Colors';
 
 const CartScreen = ({ navigation }) => {
@@ -20,9 +20,9 @@ const CartScreen = ({ navigation }) => {
 
   const title = route.params.name || route.name;
   //   console.log({ route });
-  navigation.setOptions({
-    title,
-  });
+  // navigation.setOptions({
+  //   title,
+  // });
   const { state, dispatch } = useContext(StoreContext);
 
   const removeItem = (item) => {
@@ -65,7 +65,7 @@ const CartScreen = ({ navigation }) => {
                   }}
                 >
                   <Text style={{ fontSize: 16 }} numberOfLines={2}>
-                    NAME {item.item.name}
+                    {item.item.name}
                   </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
@@ -75,11 +75,11 @@ const CartScreen = ({ navigation }) => {
                       flexDirection: 'row',
                     }}
                   >
-                    {item.item.images && item.item.images[0].src ? (
+                    {item.item.images && item.item.images[0] ? (
                       <Image
                         style={{ width: 70, height: 70, margin: 5 }}
-                        resizeMode="stretch"
-                        source={{ uri: item.item.images[0].src }}
+                        resizeMode='stretch'
+                        source={{ uri: item.item.images[0] }}
                       />
                     ) : (
                       <Image
@@ -106,7 +106,7 @@ const CartScreen = ({ navigation }) => {
                         }}
                       >
                         <View style={{ flex: 1 }}>
-                          <Text numberOfLines={1}>price</Text>
+                          <Text numberOfLines={1}>Price</Text>
                         </View>
                         <View
                           style={{
@@ -142,7 +142,7 @@ const CartScreen = ({ navigation }) => {
                             }}
                           >
                             <Icon.Feather
-                              name="minus-circle"
+                              name='minus-circle'
                               size={20}
                               color={Colors.primary}
                               style={{ marginHorizontal: 5 }}
@@ -157,7 +157,7 @@ const CartScreen = ({ navigation }) => {
                             }}
                           >
                             <Icon.Feather
-                              name="plus-circle"
+                              name='plus-circle'
                               size={20}
                               color={Colors.primary}
                               style={{ marginHorizontal: 5 }}
@@ -175,9 +175,9 @@ const CartScreen = ({ navigation }) => {
                   }}
                 >
                   <Icon.MaterialIcons
-                    name="delete"
+                    name='delete'
                     size={26}
-                    color="gray"
+                    color='gray'
                     style={{ marginHorizontal: 5 }}
                   />
                 </TouchableOpacity>
@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
   contentContainer: {
     paddingTop: 30,
   },
@@ -263,8 +264,8 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     justifyContent: 'center',
-    borderRadius: 10,
-    // borderColor: 'gray',
+    borderRadius: 20,
+    borderColor: Colors.primary,
     borderWidth: 0.3,
 
     shadowColor: 'gray',
