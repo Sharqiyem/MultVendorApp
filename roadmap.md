@@ -3,8 +3,13 @@
 ## 1.1 Customer App Section
 
 Setup Push notification
-[In Progress] Localization
-[In Progress] Global Styling and Theming
+
+[Done] Setup Localization
+
+[Done] Setup Global Styling
+
+Theming
+
 UI design account screens (register, login and etc..)
 
 Setup firebase

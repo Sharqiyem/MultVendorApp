@@ -6,6 +6,7 @@ import { LocalizationContext } from '../context/provider';
 
 const { width } = Dimensions.get('window');
 
+const inputTextHeight = 40;
 export const globalStyles = StyleSheet.create({
   logoImage: {
     width: 120,
@@ -126,6 +127,16 @@ const getStyle = () => {
       fontSize: isRTL ? 18 : 16,
       color: 'red',
       paddingHorizontal: 5,
+    },
+
+    //Forms
+    textInput: {
+      height: inputTextHeight,
+      borderColor: Colors.primary,
+      borderWidth: 1,
+      textAlign: 'center',
+      borderRadius: inputTextHeight / 2,
+      marginVertical: 5,
     },
   };
 };

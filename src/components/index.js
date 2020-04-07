@@ -6,6 +6,8 @@ import { StoreScrollView } from './StoreScrollView';
 import { StoreListItem } from './StoreListItem';
 import { ExStoreDetailHeader } from './StoreDetailHeader';
 import { CategoryListItem } from './CategoryListItem';
+import { Logo } from './Logo';
+import { LoginForm } from './LoginForm';
 
 export {
   ExListCardItem,
@@ -16,4 +18,6 @@ export {
   StoreListItem,
   ExStoreDetailHeader,
   CategoryListItem,
+  Logo,
+  LoginForm,
 };

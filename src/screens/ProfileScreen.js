@@ -1,43 +1,50 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import Colors from '../constants/Colors';
+import { Logo } from '../components';
+import LoginForm from '../components/LoginForm';
 
 export default function ProfileScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.welcomeContainer}>
-        <Text style={styles.tabBarInfoText}>Hello</Text>
-        <Button
-          title="Detils"
-          onPress={() => {
-            navigation.navigate('Details');
-          }}
-        />
+    <>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: Colors.primary,
+          height: 80,
+        }}
+      >
+        <Text style={{ color: Colors.white, fontSize: 20, marginTop: 30 }}>
+          Profile
+        </Text>
       </View>
-    </SafeAreaView>
+      <View style={styles.container}>
+        <View style={{ flex: 1, marginTop: 40 }}>
+          <Logo />
+
+          <LoginForm />
+        </View>
+      </View>
+    </>
   );
 }
 
 ProfileScreen.navigationOptions = {
-  // header: null,
-  // headerShown: false,
-  title: 'sda',
+  title: '',
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    backgroundColor: Colors.headerBG,
-  },
-
-  welcomeContainer: {
-    alignItems: 'center',
-  },
-
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    backgroundColor: Colors.white,
   },
 });
