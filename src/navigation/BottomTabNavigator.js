@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -23,6 +23,8 @@ import CategoryScreen from '../screens/CategoryScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import { AuthContext } from '../context/authContext/provider';
+import LoadingScreen from '../screens/LoadingScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -43,9 +45,18 @@ function HomeStack({ navigation }) {
           shadowColor: 'transparent',
           elevation: 0,
         },
+        headerTitleStyle: {
+          textAlign: 'center',
+          alignSelf: 'center',
+          flex: 1,
+          width: '100%',
+          backgroundColor: 'red',
+        },
         //Header text color
         headerTintColor: '#fff',
-        headerRight: (props) => (
+        // headerLeft: (props) => <View />,
+
+        headerRight: () => (
           <CartButton
             navigation={navigation}
             state={state}
@@ -55,7 +66,9 @@ function HomeStack({ navigation }) {
       }}
     >
       <Stack.Screen
-        options={{ title: t('Home') }}
+        options={{
+          title: t('Home'),
+        }}
         name='Home'
         component={HomeScreen}
       />
@@ -161,6 +174,39 @@ function ProfileStack({ navigation }) {
 
   return (
     <Stack.Navigator
+      // initialRouteName='Register'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
+          elevation: 0,
+        },
+        // Header text color
+        headerTintColor: '#fff',
+        // headerRight: (props) => (
+        //   <CartButton
+        //     navigation={navigation}
+        //     state={state}
+        //     sourceScreen='CartCat'
+        //   />
+        // ),
+      }}
+    >
+      <Stack.Screen
+        name='Profile'
+        options={{ title: 'Profile' }}
+        component={ProfileScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function AuthStack({ navigation }) {
+  const { state } = React.useContext(StoreContext);
+
+  return (
+    <Stack.Navigator
+      // initialRouteName='Register'
       screenOptions={{
         headerStyle: {
           backgroundColor: Colors.headerBG,
@@ -180,7 +226,7 @@ function ProfileStack({ navigation }) {
     >
       <Stack.Screen
         name='Login'
-        options={{ title: 'Login' }}
+        options={{ title: 'Login', headerShown: false }}
         component={LoginScreen}
       />
       <Stack.Screen
@@ -193,30 +239,12 @@ function ProfileStack({ navigation }) {
         options={{ title: 'Forgot password' }}
         component={ForgotPasswordScreen}
       />
-      <Stack.Screen
-        name='Profile'
-        options={{ title: 'Profile' }}
-        component={ProfileScreen}
-      />
     </Stack.Navigator>
   );
 }
 
 export default function BottomTabNavigator() {
   const { state, dispatch } = React.useContext(StoreContext);
-  // console.log({ state });
-  // const { lang, isRTL } = state;
-  // const [locale, setLocale] = React.useState(lang);
-
-  // const t = (scope, options) => {
-  //   return getString(scope, options);
-  // };
-
-  // const screenProps = {
-  //   t,
-  //   isRTL,
-  //   locale: lang,
-  // };
 
   return (
     <BottomTab.Navigator
@@ -288,3 +316,19 @@ export default function BottomTabNavigator() {
     </BottomTab.Navigator>
   );
 }
+
+export const RootNavigator = () => {
+  const { state } = React.useContext(AuthContext);
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {state.isLoading ? (
+        <Stack.Screen name='Loading' component={LoadingScreen} />
+      ) : state.userToken ? (
+        <Stack.Screen name='Home' component={BottomTabNavigator} />
+      ) : (
+        <Stack.Screen name='Auth' component={AuthStack} />
+      )}
+    </Stack.Navigator>
+  );
+};

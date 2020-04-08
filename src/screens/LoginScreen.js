@@ -18,20 +18,43 @@ import getStyle from '../constants/styles';
 
 import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
+import firebase from '../config/firebase.config';
+import { AuthContext } from '../context/authContext/provider';
 
 export default function LoginScreen({ navigation }) {
-  const [userName, setUserName] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('b@b.com');
+  const [password, setPassword] = React.useState('123456');
+  const [error, setError] = React.useState('');
+
+  const { state, signIn } = React.useContext(AuthContext);
+  console.log('auth STATE', state);
+
+  React.useEffect(() => {});
+
+  const handleLogin = () => {
+    console.log('handleLogin');
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log(user.user.id);
+        signIn(user.user.uid);
+
+        // navigation.navigate('Home');
+      })
+      .catch((err) => setError(err));
+  };
+
   return (
     <View style={styles.container}>
       <Logo style={{ marginVertical: 100 }} />
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
           style={getStyle().textInput}
-          placeholder='User name'
+          placeholder='Email'
           placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setUserName(text)}
-          value={userName}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
           autoCorrect={false}
           autoCapitalize='none'
         />
@@ -46,15 +69,15 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry
         />
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Profile');
-          }}
+          onPress={handleLogin}
           style={getStyle().buttonPrimary}
         >
           <Text style={{ textAlign: 'center', color: Colors.white }}>
             LOGIN
           </Text>
         </TouchableOpacity>
+        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+
         {/* Social media login */}
         <View
           style={[

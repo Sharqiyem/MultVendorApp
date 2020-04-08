@@ -7,7 +7,7 @@ import { LocalizationContext } from '../context/cartContext/provider';
 
 export default function StoresScreen({ navigation }) {
   const [data, isLoading] = productHooks.useGetDataByCollection('stores');
-  const { t, setLocale2 } = React.useContext(LocalizationContext);
+  const { t, changeLang } = React.useContext(LocalizationContext);
 
   return (
     <SafeAreaView style={styles.container}>

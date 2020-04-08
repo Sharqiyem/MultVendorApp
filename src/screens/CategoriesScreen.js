@@ -15,7 +15,7 @@ import {
 } from '../components/index';
 import { LocalizationContext } from '../context/cartContext/provider';
 export default function CategoriesScreen({ navigation }) {
-  const { t, setLocale2 } = React.useContext(LocalizationContext);
+  const { t, changeLang } = React.useContext(LocalizationContext);
 
   return (
     <SafeAreaView style={styles.container}>

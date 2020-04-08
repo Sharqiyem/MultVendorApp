@@ -28,13 +28,25 @@ export const ExProductCycleList = () => {
 
   if (isLoading) return <Text> Loading </Text>;
 
-  // return <ProductCycleItem item={data[0]} />;
+  // const getHeader = () => {
+  //   return <Text>{'My Title'}</Text>;
+  // };
+
+  // const getFooter = () => {
+  //   if (isLoading) {
+  //     return null;
+  //   }
+  //   return <Text>{'Loading...'}</Text>;
+  // };
+
   return (
     <FlatList
       numColumns={3}
       data={data}
       renderItem={({ item }) => <ProductCycleItem item={item} />}
       keyExtractor={(item) => item.id}
+      // ListHeaderComponent={getHeader}
+      // ListFooterComponent={getFooter}
     />
   );
 };

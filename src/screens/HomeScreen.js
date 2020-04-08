@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Platform,
 } from 'react-native';
 import types from '../context/cartContext/types';
 import {
@@ -26,15 +27,26 @@ import firebase from '../config/firebase.config';
 export default function HomeScreen({ navigation }) {
   //Test firebase
 
-  const { t, setLocale2 } = React.useContext(LocalizationContext);
+  const { t, changeLang } = React.useContext(LocalizationContext);
   const [data, isLoading] = productHooks.useGetDataByCollection('products');
 
+  React.useEffect(() => {
+    //hack android header center text
+    if (Platform.OS === 'android') {
+      navigation.setOptions({
+        headerTitleStyle: {
+          textAlign: 'center',
+          width: 380,
+        },
+      });
+    }
+  }, []);
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Button
         title='Lang'
         onPress={() => {
-          setLocale2();
+          changeLang();
         }}
       />
 
@@ -165,9 +177,11 @@ export default function HomeScreen({ navigation }) {
 }
 
 HomeScreen.navigationOptions = {
-  header: null,
-  // headerShown: false,
-  title: 'sda',
+  title: 'TITLE',
+  headerTitleStyle: { textAlign: 'center', alignSelf: 'center' },
+  headerStyle: {
+    backgroundColor: 'red',
+  },
 };
 
 const styles = StyleSheet.create({

@@ -33,13 +33,12 @@ export const BannerScrollView = () => {
     } else {
       setImages(initImagesState);
     }
-    console.log('IMages', images);
   }, [isRTL]);
 
   const carousel = React.useRef(null);
   const scrollToEnd = () => {
     if (isRTL) {
-      console.log('scrollToEnd');
+      // console.log('scrollToEnd');
       carousel.current.scrollToEnd({ animated: false });
     }
   };

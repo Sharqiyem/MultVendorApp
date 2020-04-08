@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import firebase from './src/config/firebase.config';
 
+import { RootNavigator } from './src/navigation/BottomTabNavigator';
 import {
   StoreProvider,
   LocalizationContext,
@@ -13,11 +15,11 @@ import {
 
 import { registerForPushNotificationsAsync } from './src/services';
 
-import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import useLinking from './src/navigation/useLinking';
 
 import I18n from './src/i18n/i18n';
-import ProfileScreen from './src/screens/ProfileScreen';
+import LoadingScreen from './src/screens/LoadingScreen';
+import { AuthProvider } from './src/context/authContext/provider';
 
 if (__DEV__) {
   import('./ReactotronConfig');
@@ -26,21 +28,22 @@ if (__DEV__) {
 export default function App(props) {
   const { skipLoadingScreen } = props;
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [isFirebaseInit, setIsFirebaseInit] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
 
   const [locale, setLocale] = React.useState(I18n.locale);
-  const setLocale2 = () => {
-    setLocale(locale === 'en' ? 'ar' : 'en');
+  const changeLang = () => {
     I18n.changDefLanguage();
+    setLocale(I18n.locale);
   };
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => I18n.t(scope, { locale, ...options }),
       locale,
       setLocale,
-      setLocale2,
+      changeLang,
       isRTL: I18n.isRTL,
     }),
     [locale]
@@ -97,8 +100,18 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
-  if (!isLoadingComplete && !skipLoadingScreen) {
-    return null;
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // console.log('user changed..', user);
+        setIsFirebaseInit(true);
+      }
+    });
+    setIsFirebaseInit(true);
+  });
+
+  if (!isLoadingComplete && !skipLoadingScreen && !isFirebaseInit) {
+    return <LoadingScreen />;
   }
   return (
     <>
@@ -109,19 +122,21 @@ export default function App(props) {
           barStyle='light-content'
         />
       )}
-      <StoreProvider>
-        <SafeAreaProvider>
-          <LocalizationContext.Provider value={localizationContext}>
-            <NavigationContainer
-              ref={containerRef}
-              initialState={initialNavigationState}
-            >
-              <BottomTabNavigator />
-              {/* <ProfileScreen /> */}
-            </NavigationContainer>
-          </LocalizationContext.Provider>
-        </SafeAreaProvider>
-      </StoreProvider>
+      <LocalizationContext.Provider value={localizationContext}>
+        <AuthProvider>
+          <StoreProvider>
+            <SafeAreaProvider>
+              <NavigationContainer
+                ref={containerRef}
+                initialState={initialNavigationState}
+              >
+                {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
+                {/* <ProfileScreen /> */}
+              </NavigationContainer>
+            </SafeAreaProvider>
+          </StoreProvider>
+        </AuthProvider>
+      </LocalizationContext.Provider>
     </>
   );
 }

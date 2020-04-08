@@ -18,21 +18,33 @@ import getStyle from '../constants/styles';
 
 import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
+import firebase from '../config/firebase.config';
 
 export default function RegisterScreen({ navigation }) {
-  const [userName, setUserName] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [email, setEmail] = React.useState('a@a.com');
+  const [password, setPassword] = React.useState('123456');
+  const [confirmPassword, setConfirmPassword] = React.useState('123456');
+  const [error, setError] = React.useState('');
+
+  const handleRegister = () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate('Profile');
+      })
+      .catch((err) => setError(err));
+  };
   return (
     <View style={styles.container}>
       <Logo style={{ marginVertical: 100 }} />
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
           style={getStyle().textInput}
-          placeholder='User name'
+          placeholder='Email'
           placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setUserName(text)}
-          value={userName}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
           autoCorrect={false}
           autoCapitalize='none'
         />
@@ -56,11 +68,16 @@ export default function RegisterScreen({ navigation }) {
           autoCapitalize='none'
           secureTextEntry
         />
-        <TouchableOpacity onPress={() => {}} style={getStyle().buttonPrimary}>
+        <TouchableOpacity
+          onPress={handleRegister}
+          style={getStyle().buttonPrimary}
+        >
           <Text style={{ textAlign: 'center', color: Colors.white }}>
             REGISTER
           </Text>
         </TouchableOpacity>
+        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+
         {/* Social media login */}
         <View
           style={[
@@ -110,7 +127,9 @@ export default function RegisterScreen({ navigation }) {
             ]}
           >
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
               style={[
                 {
                   borderBottomColor: Colors.primary,

@@ -28,7 +28,7 @@ const StoreScrollView = ({ navigation }) => {
         getStyle().row,
         getStyle().flexDir,
       ]}
-      style={[styles.scrollView, getStyle().transform]}
+      style={[styles.scrollViews]}
       horizontal
       showsHorizontalScrollIndicator={false}
       pagingEnabled
