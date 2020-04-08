@@ -1,30 +1,32 @@
 import * as React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, FlatList } from 'react-native';
 import Colors from '../constants/Colors';
-import Fonts from '../constants/Fonts';
 import Layout from '../constants/Layout';
+import productHooks from '../hooks/useGetDataByCollection';
 
 export const ExCategoryCycleItem = () => {
-  const item = {
-    id: 1,
-    brand: 'Citizen',
-    title: 'Vegtables',
-    subtitle: 'Limited Edition',
-    price: '$129.99',
-    badge: 'NEW',
-    badgeColor: '#3cd39f',
-    image:
-      'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
-  };
+  const [data, isLoading] = productHooks.useGetDataByCollection('categories');
 
-  return <CategoryCycleItem item={item} />;
+  if (isLoading) return <Text> Loading </Text>;
+
+  // return <ProductCycleItem item={data[0]} />;
+  return (
+    <FlatList
+      numColumns={3}
+      data={data}
+      renderItem={({ item }) => <CategoryCycleItem item={item} />}
+      keyExtractor={(item) => item.id}
+    />
+  );
+
+  // return <CategoryCycleItem item={item} />;
 };
 export const CategoryCycleItem = ({ item }) => (
   <View style={styles.container} key={item.id}>
     <View style={styles.itemTwoContainer}>
       <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
     </View>
-    <Text style={styles.itemTwoTitle}>{item.title}</Text>
+    <Text style={styles.itemTwoTitle}>{item.name}</Text>
   </View>
 );
 

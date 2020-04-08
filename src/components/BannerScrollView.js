@@ -12,19 +12,50 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
+import { LocalizationContext } from '../context/cartContext/provider';
+
+const image1 = require('../../assets/images/Stores/1.jpeg');
+const image2 = require('../../assets/images/Stores/2.jpg');
+const image3 = require('../../assets/images/Stores/3.jpeg');
 
 const { width } = Dimensions.get('window');
 
-export const BannerScrollView = (props) => {
+export const BannerScrollView = () => {
+  const { isRTL } = React.useContext(LocalizationContext);
+  const initImagesState = [image1, image2, image3];
+  const [images, setImages] = React.useState(initImagesState);
+
+  React.useEffect(() => {
+    if (isRTL) {
+      const cloneImages = [...images];
+
+      setImages(cloneImages.reverse());
+    } else {
+      setImages(initImagesState);
+    }
+    console.log('IMages', images);
+  }, [isRTL]);
+
+  const carousel = React.useRef(null);
+  const scrollToEnd = () => {
+    if (isRTL) {
+      console.log('scrollToEnd');
+      carousel.current.scrollToEnd({ animated: false });
+    }
+  };
+
   return (
     <ScrollView
-      horizontal={true}
+      key={isRTL}
+      ref={carousel}
+      horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
         // backgroundColor: 'red',
         flexWrap: 'wrap',
         height: 200,
       }}
+      onContentSizeChange={scrollToEnd}
       pagingEnabled
       // ref={this.myRef}
       // ref={scrollView => {
@@ -37,30 +68,14 @@ export const BannerScrollView = (props) => {
         // this.setState({ scrollX: e.nativeEvent.contentOffset.x / 414 });
       }}
     >
-      <View style={styles.imageContiner}>
-        <Image
-          style={styles.image}
-          resizeMode='cover'
-          source={require('../../assets/images/Stores/1.jpeg')}
-        />
-        <View style={styles.itemTwoOverlay} />
-      </View>
-      <View style={styles.imageContiner}>
-        <Image
-          style={styles.image}
-          resizeMode='cover'
-          source={require('../../assets/images/Stores/2.jpg')}
-        />
-        <View style={styles.itemTwoOverlay} />
-      </View>
-      <View style={styles.imageContiner}>
-        <Image
-          style={styles.image}
-          resizeMode='cover'
-          source={require('../../assets/images/Stores/3.jpeg')}
-        />
-        <View style={styles.itemTwoOverlay} />
-      </View>
+      {images.map((image, index) => {
+        return (
+          <View style={styles.imageContiner} key={`img-${index}`}>
+            <Image style={styles.image} resizeMode='cover' source={image} />
+            <View style={styles.itemTwoOverlay} />
+          </View>
+        );
+      })}
     </ScrollView>
   );
 };

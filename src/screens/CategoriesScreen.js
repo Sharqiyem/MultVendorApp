@@ -8,8 +8,15 @@ import {
   ScrollView,
 } from 'react-native';
 import Colors from '../constants/Colors';
-import { StoreListItem, CategoryListItem } from '../components/index';
+import {
+  StoreListItem,
+  CategoryListItem,
+  CategoryList,
+} from '../components/index';
+import { LocalizationContext } from '../context/cartContext/provider';
 export default function CategoriesScreen({ navigation }) {
+  const { t, setLocale2 } = React.useContext(LocalizationContext);
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -34,9 +41,7 @@ export default function CategoriesScreen({ navigation }) {
         </View>
       </View>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <CategoryListItem navigation={navigation} />
-        <CategoryListItem navigation={navigation} />
-        <CategoryListItem navigation={navigation} />
+        <CategoryList navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   );

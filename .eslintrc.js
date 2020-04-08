@@ -6,6 +6,7 @@ module.exports = {
     'no-var': 'off',
     'no-use-before-define': 'off',
     'react/jsx-filename-extension': 'off',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     'import/resolver': {

@@ -12,88 +12,71 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
+import productHooks from '../hooks/useGetDataByCollection';
+import getStyle from '../constants/styles';
 
 const { width } = Dimensions.get('window');
 
-export const StoreScrollView = ({ navigation }) => {
+const StoreScrollView = ({ navigation }) => {
+  const [data, isLoading] = productHooks.useGetDataByCollection('stores');
+
+  const shopSubTitle = [getStyle().text, styles.shopTitle];
   return (
     <ScrollView
-      horizontal={true}
+      contentContainerStyle={[
+        styles.scrollViewContentContainer,
+        getStyle().row,
+        getStyle().flexDir,
+      ]}
+      style={[styles.scrollView, getStyle().transform]}
+      horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{
-        // backgroundColor: 'red',
-        flexWrap: 'wrap',
-        height: 200,
-      }}
       pagingEnabled
-      // ref={this.myRef}
-      // ref={scrollView => {
-      //   this._scrollView = scrollView;
-      // }}
-      onMomentumScrollEnd={(e) => {
-        // scroll animation ended
-        // console.log(e.nativeEvent.contentOffset.x);
-        // console.log(e.nativeEvent.contentOffset.y);
-        // this.setState({ scrollX: e.nativeEvent.contentOffset.x / 414 });
-      }}
     >
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('Store', {
-            name: 'Shop 1',
-          })
-        }
-      >
-        <View style={styles.imageContiner}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={require('../../assets/images/Stores/1.jpeg')}
-          />
-        </View>
-        <Text style={styles.shopTitle}>Shop 1</Text>
-        <Text style={styles.shopSubTitle}>Vegitables and fruits</Text>
-      </TouchableOpacity>
+      {/* Item */}
+      {isLoading ? (
+        <Text>Loading</Text>
+      ) : (
+        data.map((item) => {
+          const { id, name, image, description } = item;
 
-      <View>
-        <View style={styles.imageContiner}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={require('../../assets/images/Stores/2.jpg')}
-          />
-        </View>
-        <Text style={styles.shopTitle}>Shop 2</Text>
-        <Text style={styles.shopSubTitle}>Sweets</Text>
-      </View>
-
-      <View>
-        <View style={styles.imageContiner}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={require('../../assets/images/Stores/3.jpeg')}
-          />
-        </View>
-        <Text style={styles.shopTitle}>Shop 3</Text>
-        <Text style={styles.shopSubTitle}>Sweets</Text>
-      </View>
-      <View>
-        <View style={styles.imageContiner}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            source={require('../../assets/images/Stores/4.jpg')}
-          />
-        </View>
-        <Text style={styles.shopTitle}>Shop 4</Text>
-        <Text style={styles.shopSubTitle}>Vegitables and fruits</Text>
-      </View>
+          return (
+            <TouchableOpacity
+              key={id}
+              onPress={() =>
+                navigation.navigate('Store', {
+                  item,
+                })
+              }
+            >
+              <View style={styles.imageContiner}>
+                <Image
+                  style={styles.image}
+                  resizeMode='cover'
+                  // eslint-disable-next-line global-require
+                  source={{ uri: image }}
+                />
+              </View>
+              <Text style={[getStyle().text, styles.shopTitle]}>{name}</Text>
+              <Text style={shopSubTitle}>{description}</Text>
+            </TouchableOpacity>
+          );
+        })
+      )}
     </ScrollView>
   );
 };
 
+export default StoreScrollView;
 const styles = StyleSheet.create({
+  scrollView: {
+    marginRight: 10,
+    // backgroundColor: 'red',
+
+    // transform: [{ scaleX: -1 }],
+  },
+  scrollViewContentContainer: {},
+
   imageContiner: {
     flex: 1,
     height: 180,

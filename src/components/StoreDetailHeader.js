@@ -4,22 +4,22 @@ import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 import { Ionicons } from '@expo/vector-icons';
 
-export const ExStoreDetailHeader = () => {
-  const item = {
-    id: 1,
-    brand: 'Citizen',
-    title: 'CITIZEN ECO-DRIVE',
-    subtitle: 'Limited Edition',
-    price: '$129.99',
-    products: '12',
-    reviews: '12',
-    orders: '12',
+export const ExStoreDetailHeader = ({ item }) => {
+  // const item = {
+  //   id: 1,
+  //   brand: 'Citizen',
+  //   title: 'CITIZEN ECO-DRIVE',
+  //   subtitle: 'Limited Edition',
+  //   price: '$129.99',
+  //   products: '12',
+  //   reviews: '12',
+  //   orders: '12',
 
-    badge: 'NEW',
-    badgeColor: '#3cd39f',
-    image:
-      'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
-  };
+  //   badge: 'NEW',
+  //   badgeColor: '#3cd39f',
+  //   image:
+  //     'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
+  // };
 
   return <StoreDetailHeader item={item} />;
 };
@@ -32,8 +32,8 @@ export const StoreDetailHeader = ({ item }) => (
     <View style={styles.itemTwoContent}>
       <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
       <View style={styles.itemTwoOverlay} />
-      <Text style={styles.itemTwoTitle}>{item.title}</Text>
-      <Text style={styles.itemTwoSubTitle}>{item.subtitle}</Text>
+      <Text style={styles.itemTwoTitle}>{item.name}</Text>
+      <Text style={styles.itemTwoSubTitle}>{item.description}</Text>
       {/* <Text style={styles.itemTwoPrice}>{item.price}</Text> */}
       <View
         style={{

@@ -26,29 +26,17 @@ import firebase from '../config/firebase.config';
 export default function HomeScreen({ navigation }) {
   //Test firebase
 
-  const { dispatch } = React.useContext(StoreContext);
-  const { t, locale, setLocale } = React.useContext(LocalizationContext);
+  const { t, setLocale2 } = React.useContext(LocalizationContext);
   const [data, isLoading] = productHooks.useGetDataByCollection('products');
-  console.log('data', data);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Button
         title='Lang'
         onPress={() => {
-          locale === 'en' ? setLocale('ar') : setLocale('en');
+          setLocale2();
         }}
       />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}
-      >
-        <ExProductCycleList />
-      </View>
 
       {/* Banner */}
       <View style={{ marginVertical: 5 }}>
@@ -136,17 +124,8 @@ export default function HomeScreen({ navigation }) {
           }}
         >
           <ExCategoryCycleItem />
-          <ExCategoryCycleItem />
-          <ExCategoryCycleItem />
-          <ExCategoryCycleItem />
-          <ExCategoryCycleItem />
-          <ExCategoryCycleItem />
         </View>
       </View>
-
-      {/* <ExListCardItem /> */}
-      {/* <ExListCardItem /> */}
-      {/* <ExListCardItem /> */}
 
       <View style={{ margin: 5, marginVertical: 15 }}>
         <View
@@ -178,6 +157,8 @@ export default function HomeScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        <ExProductCycleList />
       </View>
     </ScrollView>
   );

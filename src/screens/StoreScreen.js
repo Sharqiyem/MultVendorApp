@@ -9,11 +9,13 @@ import {
 import { ExStoreDetailHeader, ExProductCycleList } from '../components';
 import Colors from '../constants/Colors';
 
-export default function StoreScreen() {
+export default function StoreScreen({ route }) {
   const [activeTab, setActiveTab] = React.useState('products');
+  const { item } = route.params;
+
   return (
     <View style={styles.container}>
-      <ExStoreDetailHeader />
+      <ExStoreDetailHeader item={item} />
 
       {/* BUTTONS */}
       <View
@@ -96,8 +98,8 @@ export default function StoreScreen() {
         </View>
       )}
       {activeTab === 'about' && (
-        <View style={{ margin: 5, marginVertical: 15 }}>
-          <Text>About</Text>
+        <View style={{ margin: 10, marginVertical: 15 }}>
+          <Text>{item.description}</Text>
         </View>
       )}
     </View>

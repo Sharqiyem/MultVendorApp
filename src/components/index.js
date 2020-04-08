@@ -2,10 +2,10 @@ import { ExListCardItem } from './List-Card-Item';
 import { ExProductCycleList } from './Product-Cycle-item';
 import { ExCategoryCycleItem } from './Category-Cycle-item';
 import { BannerScrollView } from './BannerScrollView';
-import { StoreScrollView } from './StoreScrollView';
+import StoreScrollView from './StoreScrollView';
 import { StoreListItem } from './StoreListItem';
 import { ExStoreDetailHeader } from './StoreDetailHeader';
-import { CategoryListItem } from './CategoryListItem';
+import { CategoryListItem, CategoryList } from './CategoryListItem';
 import Logo from './Logo';
 import LoginForm from './LoginForm';
 
@@ -20,4 +20,5 @@ export {
   CategoryListItem,
   Logo,
   LoginForm,
+  CategoryList,
 };

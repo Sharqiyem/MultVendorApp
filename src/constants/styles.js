@@ -77,9 +77,9 @@ export const globalStyles = StyleSheet.create({
 });
 
 const getStyle = () => {
-  const { t, locale, setLocale } = React.useContext(LocalizationContext);
+  // const { t, locale, setLocale } = React.useContext(LocalizationContext);
 
-  const isRTL = locale === 'ar';
+  const isRTL = I18n.isRTL;
   return {
     container: {
       flex: 1,
@@ -107,9 +107,10 @@ const getStyle = () => {
       flexDirection: isRTL ? 'row-reverse' : 'row',
     },
     flexDir: { alignItems: isRTL ? 'flex-start' : 'flex-end' },
+    transform: [{ scaleX: isRTL ? -1 : 1 }],
     text: {
       textAlign: isRTL ? 'right' : 'left',
-      fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
+      // fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
       fontSize: 14,
     },
     boldText: {

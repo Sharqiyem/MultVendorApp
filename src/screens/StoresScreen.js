@@ -1,15 +1,14 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
 import Colors from '../constants/Colors';
 import { StoreListItem } from '../components/index';
+import productHooks from '../hooks/useGetDataByCollection';
+import { LocalizationContext } from '../context/cartContext/provider';
+
 export default function StoresScreen({ navigation }) {
+  const [data, isLoading] = productHooks.useGetDataByCollection('stores');
+  const { t, setLocale2 } = React.useContext(LocalizationContext);
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -33,12 +32,17 @@ export default function StoresScreen({ navigation }) {
           <Text style={{ color: Colors.white }}>Search your store</Text>
         </View>
       </View>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <StoreListItem navigation={navigation} />
-        <StoreListItem navigation={navigation} />
-
-        <StoreListItem navigation={navigation} />
-      </ScrollView>
+      {isLoading ? (
+        <Text> Loading </Text>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={({ item }) => (
+            <StoreListItem navigation={navigation} item={item} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      )}
     </SafeAreaView>
   );
 }

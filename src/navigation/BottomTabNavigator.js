@@ -31,9 +31,9 @@ const Stack = createStackNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
 function HomeStack({ navigation }) {
-  const { t, locale, setLocale } = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
 
-  const { state, dispatch } = React.useContext(StoreContext);
+  const { state } = React.useContext(StoreContext);
   // console.log('STATE', { screenProps });
   return (
     <Stack.Navigator
@@ -203,8 +203,6 @@ function ProfileStack({ navigation }) {
 }
 
 export default function BottomTabNavigator() {
-  console.log('os', Platform.OS);
-
   const { state, dispatch } = React.useContext(StoreContext);
   // console.log({ state });
   // const { lang, isRTL } = state;

@@ -31,11 +31,17 @@ export default function App(props) {
   const { getInitialState } = useLinking(containerRef);
 
   const [locale, setLocale] = React.useState(I18n.locale);
+  const setLocale2 = () => {
+    setLocale(locale === 'en' ? 'ar' : 'en');
+    I18n.changDefLanguage();
+  };
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => I18n.t(scope, { locale, ...options }),
       locale,
       setLocale,
+      setLocale2,
+      isRTL: I18n.isRTL,
     }),
     [locale]
   );

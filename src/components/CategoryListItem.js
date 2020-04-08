@@ -2,23 +2,41 @@ import * as React from 'react';
 import {
   Text,
   View,
-  ScrollView,
   Image,
   StyleSheet,
   Dimensions,
-  Button,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
-import Colors from '../constants/Colors';
+import productHooks from '../hooks/useGetDataByCollection';
+import getStyle from '../constants/styles';
 
 const widowWidth = Dimensions.get('window').width;
 
-export const CategoryListItem = ({ navigation }) => {
+export const CategoryList = ({ navigation }) => {
+  const [data, isLoading] = productHooks.useGetDataByCollection('categories');
+
+  if (isLoading) return <Text> Loading </Text>;
+
+  // return <ProductCycleItem item={data[0]} />;
+  return (
+    <FlatList
+      data={data}
+      renderItem={({ item }) => (
+        <CategoryListItem item={item} navigation={navigation} />
+      )}
+      keyExtractor={(item) => item.id}
+    />
+  );
+
+  // return <CategoryCycleItem item={item} />;
+};
+
+export const CategoryListItem = ({ item, navigation }) => {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, getStyle().row]}
       onPress={() => {
         navigation.navigate('Category', { name: 'Category 1' });
       }}
@@ -26,22 +44,18 @@ export const CategoryListItem = ({ navigation }) => {
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode="cover"
-          source={require('../../assets/images/Stores/1.jpeg')}
+          resizeMode='cover'
+          source={{ uri: item.image }}
         />
       </View>
       <View style={styles.textContiner}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>Category 1</Text>
-          </View>
+        <View styles={{}}>
+          <Text style={[getStyle().text, { fontSize: 20 }]}>{item.name}</Text>
         </View>
-        <Text style={styles.shopSubTitle}>(35) products</Text>
+
+        <Text style={[getStyle().text, styles.shopSubTitle]}>
+          (35) products
+        </Text>
         {/* <Text style={styles.timeText}>07:00AM:08PM</Text>  */}
       </View>
     </TouchableOpacity>
