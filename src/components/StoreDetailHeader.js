@@ -38,7 +38,7 @@ export const StoreDetailHeader = ({ item }) => (
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-arround',
+          // justifyContent: 'space-arround',
           alignItems: 'center',
           alignSelf: 'center',
           marginHorizontal: 5,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   itemTwoSubTitle: {
     color: Colors.white,
-    fontFamily: Fonts.primaryRegular,
+    // fontFamily: Fonts.primaryRegular,
     fontSize: 15,
     marginVertical: 10,
     marginHorizontal: 5,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   addressTitle: {
     color: Colors.white,
-    fontFamily: Fonts.primaryRegular,
+    // fontFamily: Fonts.primaryRegular,
     fontSize: 15,
     marginVertical: 5,
 

@@ -8,8 +8,11 @@ import {
 } from 'react-native';
 import { ExStoreDetailHeader, ExProductCycleList } from '../components';
 import Colors from '../constants/Colors';
+import { centerHeaderTitleAndroid } from '../core/functions';
 
-export default function CategoryScreen() {
+export default function CategoryScreen({ navigation }) {
+  centerHeaderTitleAndroid(navigation);
+
   return (
     <View style={styles.container}>
       <ExProductCycleList />

@@ -35,13 +35,13 @@ Theming
 ### Categories management
 
 1. [Done] Get all categories
-2. Get products by cat id
+2. [In] Get products by cat id (1h)
 
 ### Stores management
 
 1. [Done] Get all stores
-2. Get categories by store id
-3. Get products by store id
+2. [In] Get categories by store id(0.5)
+3. [In] Get products by store id(0.5)
 
 ### Firebase Auth
 
@@ -49,22 +49,27 @@ Theming
 2. [V2.0] login by facebook
 3. [V2.0] login by google
 
-### Orders management
-
-1. UI - Orders management (place order, re order, order details, order history)
-
-2. Logic - Orders management
-
 ### Checkout
 
-UI design Checkout screens (delivery address and payment)
+UI design Checkout screens
 
-### Notifications
+1. [Done]delivery address screen
+2. [In] add new address screen and edit screen (2h)
+3. [Done] payment screen
 
-Notifications (Push notification and save them to FB and list them)
-Notification {id, text, created date, is readed, sender id }
+### Orders management
 
-# 2 REALESE V2.0 (10 April)
+1. Orders management
+
+1.1. [In] place order, re order functionality (2h)
+
+1.2. [Done] order details screen
+
+1.3 [In] order history screen (1h)
+
+2. [In] Logic - Orders management (2h)
+
+# 2 REALESE V2.0 (11 April)
 
 List orders from manager, start delivery order, chat with customer
 Delivery Live Tracking
@@ -76,3 +81,8 @@ Delivery Live Tracking
 ## 2.3 Sorting and Filtering
 
 ## 2.4 Ratings and reviews
+
+## Notifications
+
+Notifications (Push notification and save them to FB and list them)
+Notification {id, text, created date, is readed, sender id }

@@ -11,3 +11,7 @@ emulator -list-avds
 
 //NEXUS
 /Users/sharqi/Library/Android/sdk/emulator/emulator -avd Nexus_6_API_27 -netdelay none -netspeed full
+
+yarn cache clean &&
+yarn install &&
+yarn start -- --reset-cache

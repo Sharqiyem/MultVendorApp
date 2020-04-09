@@ -8,10 +8,13 @@ import {
 } from 'react-native';
 import { ExStoreDetailHeader, ExProductCycleList } from '../components';
 import Colors from '../constants/Colors';
+import { centerHeaderTitleAndroid } from '../core/functions';
 
-export default function StoreScreen({ route }) {
+export default function StoreScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = React.useState('products');
   const { item } = route.params;
+
+  centerHeaderTitleAndroid(navigation, route);
 
   return (
     <View style={styles.container}>

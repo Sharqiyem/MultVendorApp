@@ -38,13 +38,142 @@ const CartScreen = ({ navigation }) => {
   };
 
   const data = state.cartItems;
-  console.log('cartItems', data);
+  // console.log('cartItems', data);
 
   const total = state.cartItems.reduce(
     (sum, item) => sum + item.quantity * item.item.price,
     0
   );
 
+  const RenderItem = ({ name, price, images, quantity, item }) => {
+    return (
+      <View style={styles.itemContainer}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignSelf: 'flex-start',
+            margin: 5,
+          }}
+        >
+          <Text style={{ fontSize: 16 }} numberOfLines={2}>
+            {name}
+          </Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+            }}
+          >
+            {images && images[0] ? (
+              <Image
+                style={{ width: 70, height: 70, margin: 5 }}
+                resizeMode='stretch'
+                source={{ uri: images[0] }}
+              />
+            ) : (
+              <Image
+                style={{ width: 70, height: 70, margin: 5 }}
+                source={{
+                  uri:
+                    'https://facebook.github.io/react-native/img/tiny_logo.png',
+                }}
+              />
+            )}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+              }}
+            >
+              <View
+                style={{
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text numberOfLines={1}>Price</Text>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-end',
+                    marginHorizontal: 5,
+                  }}
+                >
+                  <Text numberOfLines={1}>{price} $</Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  alignItems: 'space-between',
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Text numberOfLines={2}>Quantity</Text>
+                </View>
+                <View
+                  style={{
+                    // flex: 1,
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      decItem(item.item);
+                    }}
+                  >
+                    <Icon.Feather
+                      name='minus-circle'
+                      size={20}
+                      color={Colors.primary}
+                      style={{ marginHorizontal: 5 }}
+                    />
+                  </TouchableOpacity>
+                  <Text style={{ marginHorizontal: 3 }}>{quantity}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      incItem(item.item);
+                    }}
+                  >
+                    <Icon.Feather
+                      name='plus-circle'
+                      size={20}
+                      color={Colors.primary}
+                      style={{ marginHorizontal: 5 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={{ alignSelf: 'flex-end' }}
+          onPress={() => {
+            removeItem(item.item);
+          }}
+        >
+          <Icon.MaterialIcons
+            name='delete'
+            size={26}
+            color='gray'
+            style={{ marginHorizontal: 5 }}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
   return (
     <>
       <View style={{ flex: 1, paddingTop: 10 }}>
@@ -53,135 +182,19 @@ const CartScreen = ({ navigation }) => {
           itemDimension={200}
           items={data}
           renderItem={({ item }) => {
-            console.log('Cart ', item);
+            // console.log('Cart ', item);
+            const {
+              item: { name, price, images, quantity },
+            } = item;
+            name, price, images, quantity, item;
             return (
-              <View style={styles.itemContainer}>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    alignSelf: 'flex-start',
-                    margin: 5,
-                  }}
-                >
-                  <Text style={{ fontSize: 16 }} numberOfLines={2}>
-                    {item.item.name}
-                  </Text>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                    }}
-                  >
-                    {item.item.images && item.item.images[0] ? (
-                      <Image
-                        style={{ width: 70, height: 70, margin: 5 }}
-                        resizeMode='stretch'
-                        source={{ uri: item.item.images[0] }}
-                      />
-                    ) : (
-                      <Image
-                        style={{ width: 70, height: 70, margin: 5 }}
-                        source={{
-                          uri:
-                            'https://facebook.github.io/react-native/img/tiny_logo.png',
-                        }}
-                      />
-                    )}
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                      }}
-                    >
-                      <View
-                        style={{
-                          marginVertical: 5,
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <View style={{ flex: 1 }}>
-                          <Text numberOfLines={1}>Price</Text>
-                        </View>
-                        <View
-                          style={{
-                            flex: 1,
-                            alignItems: 'flex-end',
-                            marginHorizontal: 5,
-                          }}
-                        >
-                          <Text numberOfLines={1}>{item.item.price} $</Text>
-                        </View>
-                      </View>
-
-                      <View
-                        style={{
-                          marginVertical: 5,
-                          flexDirection: 'row',
-                          alignItems: 'space-between',
-                        }}
-                      >
-                        <View style={{ flex: 1 }}>
-                          <Text numberOfLines={2}>Quantity</Text>
-                        </View>
-                        <View
-                          style={{
-                            // flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'flex-end',
-                          }}
-                        >
-                          <TouchableOpacity
-                            onPress={() => {
-                              decItem(item.item);
-                            }}
-                          >
-                            <Icon.Feather
-                              name='minus-circle'
-                              size={20}
-                              color={Colors.primary}
-                              style={{ marginHorizontal: 5 }}
-                            />
-                          </TouchableOpacity>
-                          <Text style={{ marginHorizontal: 3 }}>
-                            {item.quantity}
-                          </Text>
-                          <TouchableOpacity
-                            onPress={() => {
-                              incItem(item.item);
-                            }}
-                          >
-                            <Icon.Feather
-                              name='plus-circle'
-                              size={20}
-                              color={Colors.primary}
-                              style={{ marginHorizontal: 5 }}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  style={{ alignSelf: 'flex-end' }}
-                  onPress={() => {
-                    removeItem(item.item);
-                  }}
-                >
-                  <Icon.MaterialIcons
-                    name='delete'
-                    size={26}
-                    color='gray'
-                    style={{ marginHorizontal: 5 }}
-                  />
-                </TouchableOpacity>
-              </View>
+              <RenderItem
+                name={name}
+                price={price}
+                images={images}
+                quantity={quantity}
+                item={item}
+              />
             );
           }}
         />
@@ -202,19 +215,19 @@ const CartScreen = ({ navigation }) => {
           <TouchableOpacity
             style={{
               backgroundColor: Colors.white,
-              padding: 10,
               margin: 10,
               borderRadius: 100,
               borderWidth: 1,
               borderColor: Colors.primary,
               flex: 1,
-              alignSelf: 'stretch',
+              height: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Text
               style={{
                 color: Colors.primary,
-                fontSize: 18,
                 textAlign: 'center',
                 marginHorizontal: 20,
               }}
@@ -225,17 +238,21 @@ const CartScreen = ({ navigation }) => {
           <TouchableOpacity
             style={{
               backgroundColor: Colors.primary,
-              padding: 10,
               margin: 10,
-              borderRadius: 115,
-              alignSelf: 'stretch',
+              borderRadius: 100,
               flex: 1,
+              height: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              navigation.navigate('CheckOutStack');
             }}
           >
             <Text
               style={{
                 color: '#fff',
-                fontSize: 18,
+                // fontSize: 18,
                 textAlign: 'center',
                 marginHorizontal: 20,
               }}
@@ -249,6 +266,9 @@ const CartScreen = ({ navigation }) => {
   );
 };
 
+CartScreen.navigationOptions = ({ navigation }) => {
+  // return { tabBarVisible: false };
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

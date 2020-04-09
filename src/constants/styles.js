@@ -77,9 +77,13 @@ export const globalStyles = StyleSheet.create({
 });
 
 const getStyle = () => {
-  // const { t, locale, setLocale } = React.useContext(LocalizationContext);
+  const {
+    // isRTL,
 
-  const isRTL = I18n.isRTL;
+    locale,
+  } = React.useContext(LocalizationContext);
+
+  const isRTL = locale === 'ar';
   return {
     container: {
       flex: 1,
@@ -113,8 +117,12 @@ const getStyle = () => {
       // fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
       fontSize: 14,
     },
+    textHeader: {
+      textAlign: isRTL ? 'right' : 'left',
+      fontSize: 20,
+    },
     boldText: {
-      fontFamily: isRTL ? 'DroidKufi-Bold' : 'DroidKufi-Bold', //'space-mono-Bold'
+      // fontFamily: isRTL ? 'DroidKufi-Bold' : 'DroidKufi-Bold', //'space-mono-Bold'
     },
     screenTitle: {
       textAlign: 'center',
@@ -151,7 +159,6 @@ const getStyle = () => {
     },
     buttonOutline: {
       height: inputTextHeight,
-
       backgroundColor: Colors.white,
       borderColor: Colors.primaryLight,
       borderWidth: 1,

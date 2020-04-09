@@ -1,7 +1,11 @@
 {
   "Home": "الرئيسية",
-  "Shop by Stores": "تسوق حسب الماركت",
+  "Shop by Stores": "تسوق حسب المتاجر",
+  "Shop by Categories": "تسوق حسب الاقسام",
+  "Past orders": "الطلبات السابقة",
+  "Stores": "المتاجر",
   "See All": "عرض الكل",
+  "Sign out": "خروج",
   "Errors": {
     "user with tel no not exist": "لا يوجد مستخدم بهذا الرقم",
     "Authentication Faild": "فشلت عملية الدخول. كلمة المرور غير صحيحة",

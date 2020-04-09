@@ -14,9 +14,10 @@ import {
   CategoryList,
 } from '../components/index';
 import { LocalizationContext } from '../context/cartContext/provider';
+import { centerHeaderTitleAndroid } from '../core/functions';
 export default function CategoriesScreen({ navigation }) {
   const { t, changeLang } = React.useContext(LocalizationContext);
-
+  centerHeaderTitleAndroid(navigation);
   return (
     <SafeAreaView style={styles.container}>
       <View

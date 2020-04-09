@@ -1,7 +1,7 @@
 import types from './types';
 import initialState from './state';
 const reducer = (state = initialState, action) => {
-  console.log({ oldState: state, type: action.type, payload: action.payload });
+  // console.log({ oldState: state, type: action.type, payload: action.payload });
   switch (action.type) {
     case types.CART_ADD:
       const newItem = action.payload;

@@ -1,7 +1,11 @@
 {
   "Home": "Home",
+  "Stores": "Stores",
   "Shop by Stores": "Shop by Stores",
+  "Shop by Categories": "Shop by Categories",
+  "Past orders": "Past orders",
   "See All": "See All",
+  "Sign out": "Sign out",
   "Errors": {
     "user with tel no not exist": "User with this tel No. not exist",
     "Authentication Faild": "Authentication failed",

@@ -1,4 +1,4 @@
-import { I18nManager } from 'react-native';
+import { I18nManager, AsyncStorage } from 'react-native';
 // import * as Localization from 'expo-localization';
 import I18n from 'i18n-js';
 
@@ -30,6 +30,21 @@ I18n.changLanguage = (lang) => {
   moment.locale(I18n.isRTL ? 'ar' : 'en');
 };
 
+I18n.LoadSavedLanguage = () => {
+  AsyncStorage.getItem('lang')
+    .then((lang) => {
+      console.log('AsyncStorage.getItem lang', lang);
+      if (lang) {
+        I18n.locale = lang;
+        I18n.isRTL = I18n.locale === 'ar';
+      }
+    })
+    .catch((err) => {
+      // const newLang = I18n.locale === 'ar' ? 'en' : 'ar';
+      // I18n.changLanguage(newLang);
+      console.log('err loading lang', err);
+    });
+};
 I18n.changDefLanguage = () => {
   const newLang = I18n.locale === 'ar' ? 'en' : 'ar';
   I18n.changLanguage(newLang);

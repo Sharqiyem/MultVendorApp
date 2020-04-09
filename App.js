@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar, AsyncStorage } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,6 +20,8 @@ import useLinking from './src/navigation/useLinking';
 import I18n from './src/i18n/i18n';
 import LoadingScreen from './src/screens/LoadingScreen';
 import { AuthProvider } from './src/context/authContext/provider';
+import ProfileScreen from './src/screens/ProfileScreen';
+import AddressesScreen from './src/screens/AddressesScreen';
 
 if (__DEV__) {
   import('./ReactotronConfig');
@@ -34,9 +36,22 @@ export default function App(props) {
   const { getInitialState } = useLinking(containerRef);
 
   const [locale, setLocale] = React.useState(I18n.locale);
+  const [isRTL, setIsRTL] = React.useState(I18n.isRTL);
   const changeLang = () => {
-    I18n.changDefLanguage();
-    setLocale(I18n.locale);
+    try {
+      I18n.changDefLanguage(locale);
+
+      setLocale(I18n.locale);
+      setIsRTL(I18n.isRTL);
+      console.log('I18n.isRTL', I18n.isRTL);
+      AsyncStorage.setItem('lang', I18n.locale)
+        .then((lang) => {
+          console.log('AsyncStorage.setItem', lang);
+        })
+        .catch((err) => console.log('AsyncStorage.setItem', err));
+    } catch (err) {
+      console.log(err);
+    }
   };
   const localizationContext = React.useMemo(
     () => ({
@@ -44,7 +59,6 @@ export default function App(props) {
       locale,
       setLocale,
       changeLang,
-      isRTL: I18n.isRTL,
     }),
     [locale]
   );
@@ -80,13 +94,32 @@ export default function App(props) {
         //     }
         //   });
 
+        // Restore language from storage
+        try {
+          const lang = await AsyncStorage.getItem('lang');
+          I18n.changLanguage(lang);
+
+          // await I18n.LoadSavedLanguage();
+          if (lang) {
+            setLocale(I18n.locale);
+            setIsRTL(I18n.isRTL);
+          }
+        } catch (e) {
+          console.log('Restoring lang failed', e);
+        }
+
         // Register PushNotifications
-        const token = await registerForPushNotificationsAsync();
-        console.log('Push token', token);
+        try {
+          const token = await registerForPushNotificationsAsync();
+          console.log('Push token', token);
+        } catch (err) {
+          console.log('registerForPushNotificationsAsync faild ');
+        }
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+          'DroidKufi-Regular': require('./assets/fonts/DroidKufi-Regular.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -122,7 +155,7 @@ export default function App(props) {
           barStyle='light-content'
         />
       )}
-      <LocalizationContext.Provider value={localizationContext}>
+      <LocalizationContext.Provider value={{ ...localizationContext, isRTL }}>
         <AuthProvider>
           <StoreProvider>
             <SafeAreaProvider>
@@ -131,7 +164,7 @@ export default function App(props) {
                 initialState={initialNavigationState}
               >
                 {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
-                {/* <ProfileScreen /> */}
+                {/* <AddressesScreen /> */}
               </NavigationContainer>
             </SafeAreaProvider>
           </StoreProvider>

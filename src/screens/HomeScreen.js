@@ -23,32 +23,35 @@ import Colors from '../constants/Colors';
 import getStyle from '../constants/styles.js';
 import productHooks from '../hooks/useGetDataByCollection';
 import firebase from '../config/firebase.config';
+import { centerHeaderTitleAndroid } from '../core/functions';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
   //Test firebase
 
   const { t, changeLang } = React.useContext(LocalizationContext);
   const [data, isLoading] = productHooks.useGetDataByCollection('products');
 
-  React.useEffect(() => {
-    //hack android header center text
-    if (Platform.OS === 'android') {
-      navigation.setOptions({
-        headerTitleStyle: {
-          textAlign: 'center',
-          width: 380,
-        },
-      });
-    }
-  }, []);
+  centerHeaderTitleAndroid(navigation, route);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Button
-        title='Lang'
+      <TouchableOpacity
+        style={{ height: 30 }}
         onPress={() => {
           changeLang();
         }}
-      />
+      >
+        <Text
+          style={{
+            // fontFamily: 'DroidKufi-Regular',
+            color: 'red',
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
+          اللغه
+        </Text>
+      </TouchableOpacity>
 
       {/* Banner */}
       <View style={{ marginVertical: 5 }}>
@@ -97,14 +100,16 @@ export default function HomeScreen({ navigation }) {
       {/* Shop By categories */}
       <View style={{ margin: 5, marginVertical: 15 }}>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 15,
-          }}
+          style={[
+            getStyle().row,
+            {
+              justifyContent: 'space-between',
+              marginVertical: 15,
+            },
+          ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>Shop by Categories</Text>
+            <Text style={{ fontSize: 20 }}>{t('Shop by Categories')}</Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -124,7 +129,7 @@ export default function HomeScreen({ navigation }) {
                 color: Colors.white,
               }}
             >
-              Sell All
+              {t('See All')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -141,14 +146,16 @@ export default function HomeScreen({ navigation }) {
 
       <View style={{ margin: 5, marginVertical: 15 }}>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginVertical: 10,
-          }}
+          style={[
+            getStyle().row,
+            {
+              justifyContent: 'space-between',
+              marginVertical: 15,
+            },
+          ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>Past orders</Text>
+            <Text style={{ fontSize: 20 }}>{t('Past orders')}</Text>
           </View>
           <TouchableOpacity
             style={{
@@ -165,7 +172,7 @@ export default function HomeScreen({ navigation }) {
                 color: Colors.white,
               }}
             >
-              Sell All
+              {t('See All')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -180,7 +187,7 @@ HomeScreen.navigationOptions = {
   title: 'TITLE',
   headerTitleStyle: { textAlign: 'center', alignSelf: 'center' },
   headerStyle: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
 };
 

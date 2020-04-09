@@ -6,6 +6,7 @@ import StoreScrollView from './StoreScrollView';
 import { StoreListItem } from './StoreListItem';
 import { ExStoreDetailHeader } from './StoreDetailHeader';
 import { CategoryListItem, CategoryList } from './CategoryListItem';
+import { RadioButtons } from './RadioButtons';
 import Logo from './Logo';
 import LoginForm from './LoginForm';
 
@@ -21,4 +22,5 @@ export {
   Logo,
   LoginForm,
   CategoryList,
+  RadioButtons,
 };
