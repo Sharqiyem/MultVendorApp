@@ -15,29 +15,10 @@ import types from '../context/cartContext/types';
 import PropTypes from 'prop-types';
 import productHooks from '../hooks/useGetDataByCollection';
 
-function Item({ title }) {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
-
 export const ExProductCycleList = () => {
   const [data, isLoading] = productHooks.useGetDataByCollection('products');
 
   if (isLoading) return <Text> Loading </Text>;
-
-  // const getHeader = () => {
-  //   return <Text>{'My Title'}</Text>;
-  // };
-
-  // const getFooter = () => {
-  //   if (isLoading) {
-  //     return null;
-  //   }
-  //   return <Text>{'Loading...'}</Text>;
-  // };
 
   return (
     <FlatList
@@ -45,8 +26,6 @@ export const ExProductCycleList = () => {
       data={data}
       renderItem={({ item }) => <ProductCycleItem item={item} />}
       keyExtractor={(item) => item.id}
-      // ListHeaderComponent={getHeader}
-      // ListFooterComponent={getFooter}
     />
   );
 };

@@ -5,17 +5,40 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { ExStoreDetailHeader, ExProductCycleList } from '../components';
+import {
+  ExStoreDetailHeader,
+  ExProductCycleList,
+  ProductCycleItem,
+} from '../components';
 import Colors from '../constants/Colors';
 import { centerHeaderTitleAndroid } from '../core/functions';
+import productHooks from '../hooks/useGetDataByCollection';
 
-export default function CategoryScreen({ navigation }) {
+export default function CategoryScreen({ navigation, route }) {
   centerHeaderTitleAndroid(navigation);
+
+  const { item } = route.params;
+
+  const [data, isLoading] = productHooks.useGetProductsByCatId(item.id);
+
+  if (isLoading) return <Text> Loading </Text>;
+
+  if (isLoading) return <Text> Loading </Text>;
 
   return (
     <View style={styles.container}>
-      <ExProductCycleList />
+      {/* <ExProductCycleList /> */}
+
+      <FlatList
+        numColumns={3}
+        data={data}
+        renderItem={({ item }) => <ProductCycleItem item={item} />}
+        keyExtractor={(item) => item.id}
+        // ListHeaderComponent={getHeader}
+        // ListFooterComponent={getFooter}
+      />
     </View>
   );
 }

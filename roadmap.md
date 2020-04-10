@@ -35,13 +35,13 @@ Theming
 ### Categories management
 
 1. [Done] Get all categories
-2. [In] Get products by cat id (1h)
+2. [Done] Get products by cat id (1h)
 
 ### Stores management
 
 1. [Done] Get all stores
-2. [In] Get categories by store id(0.5)
-3. [In] Get products by store id(0.5)
+2. [Fix] Get categories by store id(0.5)
+3. [Done] Get products by store id(0.5)
 
 ### Firebase Auth
 
@@ -86,3 +86,7 @@ Delivery Live Tracking
 
 Notifications (Push notification and save them to FB and list them)
 Notification {id, text, created date, is readed, sender id }
+
+# Issues
+
+set tabBarVisible for some screens

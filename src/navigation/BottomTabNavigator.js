@@ -87,7 +87,7 @@ function HomeStack({ navigation, route }) {
       />
       <Stack.Screen
         name='Store'
-        options={({ route }) => ({ title: route.params.name })}
+        options={({ route }) => ({ title: route.params.item.name })}
         component={StoreScreen}
       />
     </Stack.Navigator>
@@ -124,7 +124,7 @@ function CategoriesStack({ navigation }) {
       />
       <Stack.Screen
         name='Category'
-        options={({ route }) => ({ title: route.params.name })}
+        options={({ route }) => ({ title: route.params.item.name })}
         component={CategoryScreen}
       />
       <Stack.Screen
@@ -215,7 +215,7 @@ function StoresStack({ navigation, route }) {
       />
       <Stack.Screen
         name='Store'
-        options={({ route }) => ({ title: route.params.name })}
+        options={({ route }) => ({ title: route.params.item.name })}
         component={StoreScreen}
       />
       <Stack.Screen

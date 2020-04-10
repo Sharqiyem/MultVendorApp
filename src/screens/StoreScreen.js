@@ -6,13 +6,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { ExStoreDetailHeader, ExProductCycleList } from '../components';
+import {
+  ExStoreDetailHeader,
+  ExProductCycleList,
+  StoreProducts,
+} from '../components';
 import Colors from '../constants/Colors';
 import { centerHeaderTitleAndroid } from '../core/functions';
 
 export default function StoreScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = React.useState('products');
   const { item } = route.params;
+  console.log('Store item', item);
 
   centerHeaderTitleAndroid(navigation, route);
 
@@ -91,7 +96,7 @@ export default function StoreScreen({ navigation, route }) {
               justifyContent: 'center',
             }}
           >
-            <ExProductCycleList />
+            <StoreProducts storeId={item.id} />
           </View>
         </View>
       )}
@@ -109,10 +114,10 @@ export default function StoreScreen({ navigation, route }) {
   );
 }
 
-StoreScreen.navigationOptions = {
-  // header: null,
-  title: 's',
-};
+// StoreScreen.navigationOptions = {
+//   // header: null,
+//   title: 's',
+// };
 
 const styles = StyleSheet.create({
   container: {

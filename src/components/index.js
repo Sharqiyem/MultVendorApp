@@ -1,5 +1,5 @@
 import { ExListCardItem } from './List-Card-Item';
-import { ExProductCycleList } from './Product-Cycle-item';
+import { ExProductCycleList, ProductCycleItem } from './Product-Cycle-item';
 import { ExCategoryCycleItem } from './Category-Cycle-item';
 import { BannerScrollView } from './BannerScrollView';
 import StoreScrollView from './StoreScrollView';
@@ -9,10 +9,12 @@ import { CategoryListItem, CategoryList } from './CategoryListItem';
 import { RadioButtons } from './RadioButtons';
 import Logo from './Logo';
 import LoginForm from './LoginForm';
+import { StoreProducts } from './StoreProducts';
 
 export {
   ExListCardItem,
   ExProductCycleList,
+  ProductCycleItem,
   BannerScrollView,
   StoreScrollView,
   ExCategoryCycleItem,
@@ -23,4 +25,5 @@ export {
   LoginForm,
   CategoryList,
   RadioButtons,
+  StoreProducts,
 };

@@ -3,8 +3,9 @@ import { Text, StyleSheet, View, Image, FlatList } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import productHooks from '../hooks/useGetDataByCollection';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const ExCategoryCycleItem = () => {
+export const ExCategoryCycleItem = ({ navigation }) => {
   const [data, isLoading] = productHooks.useGetDataByCollection('categories');
 
   if (isLoading) return <Text> Loading </Text>;
@@ -14,20 +15,28 @@ export const ExCategoryCycleItem = () => {
     <FlatList
       numColumns={3}
       data={data}
-      renderItem={({ item }) => <CategoryCycleItem item={item} />}
+      renderItem={({ item }) => (
+        <CategoryCycleItem item={item} navigation={navigation} />
+      )}
       keyExtractor={(item) => item.id}
     />
   );
 
   // return <CategoryCycleItem item={item} />;
 };
-export const CategoryCycleItem = ({ item }) => (
-  <View style={styles.container} key={item.id}>
+export const CategoryCycleItem = ({ item, navigation }) => (
+  <TouchableOpacity
+    style={styles.container}
+    key={item.id}
+    onPress={() => {
+      navigation.navigate('Category', { item });
+    }}
+  >
     <View style={styles.itemTwoContainer}>
       <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
     </View>
     <Text style={styles.itemTwoTitle}>{item.name}</Text>
-  </View>
+  </TouchableOpacity>
 );
 
 const itemsPerRow = 3;

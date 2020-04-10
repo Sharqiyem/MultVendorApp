@@ -38,7 +38,7 @@ export const CategoryListItem = ({ item, navigation }) => {
     <TouchableOpacity
       style={[styles.container, getStyle().row]}
       onPress={() => {
-        navigation.navigate('Category', { name: 'Category 1' });
+        navigation.navigate('Category', { item });
       }}
     >
       <View style={styles.imageContiner}>

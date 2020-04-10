@@ -140,7 +140,7 @@ export default function HomeScreen({ navigation, route }) {
             justifyContent: 'center',
           }}
         >
-          <ExCategoryCycleItem />
+          <ExCategoryCycleItem navigation={navigation} />
         </View>
       </View>
 
