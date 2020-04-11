@@ -6,6 +6,7 @@
   "Stores": "المتاجر",
   "See All": "عرض الكل",
   "Sign out": "خروج",
+  "Save": "حفظ",
   "Errors": {
     "user with tel no not exist": "لا يوجد مستخدم بهذا الرقم",
     "Authentication Faild": "فشلت عملية الدخول. كلمة المرور غير صحيحة",

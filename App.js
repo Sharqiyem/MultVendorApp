@@ -22,6 +22,7 @@ import LoadingScreen from './src/screens/LoadingScreen';
 import { AuthProvider } from './src/context/authContext/provider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AddressesScreen from './src/screens/AddressesScreen';
+import ManageAddressScreen from './src/screens/ManageAddressScreen';
 
 if (__DEV__) {
   import('./ReactotronConfig');
@@ -163,8 +164,8 @@ export default function App(props) {
                 ref={containerRef}
                 initialState={initialNavigationState}
               >
-                {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
-                {/* <AddressesScreen /> */}
+                {/* {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />} */}
+                <ManageAddressScreen />
               </NavigationContainer>
             </SafeAreaProvider>
           </StoreProvider>

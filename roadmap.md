@@ -54,8 +54,10 @@ Theming
 UI design Checkout screens
 
 1. [Done]delivery address screen
-2. [In] add new address screen and edit screen (2h)
-3. [Done] payment screen
+2. [Done] UI - add new address screen and edit screen (2h)
+3. [In] logic location service (3h)
+4. [In] get and save user addresses (2h)
+5. [Done] payment screen
 
 ### Orders management
 

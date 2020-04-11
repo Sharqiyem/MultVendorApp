@@ -10,11 +10,11 @@ import Layout from '../constants/Layout';
 export default function AddressesScreen({ navigation }) {
   const _addresses = [
     {
-      value: 'Home-address1',
+      value: 'Home-address',
       label: 'Home address',
       selected: true,
       color: Colors.primary,
-      address: '213, jalan Tun razak',
+      address: '213, jalan Tun razak ',
     },
     {
       value: 'Home-address3',
@@ -32,24 +32,61 @@ export default function AddressesScreen({ navigation }) {
     },
   ];
 
-  const [addresses, setAddresses] = React.useState(_addresses);
+  const [addresses, setAddresses] = React.useState([]);
 
+  React.useEffect(() => {
+    setAddresses(_addresses);
+  }, []);
   const onRadioButtonPress = (address) => setAddresses(address);
 
-  const textComponent = (data) => {
+  const textComponent = (item) => {
     return (
       <View style={{ padding: 10 }}>
-        <Text style={[getStyle().text, { marginVertical: 2, fontSize: 18 }]}>
-          {data.label}
-        </Text>
-        <Text style={[getStyle().text, { marginTop: 5 }]}>{data.address}</Text>
+        <View
+          style={[
+            getStyle().row,
+            {
+              justifyContent: 'space-between',
+              // backgroundColor: 'red',
+              alignItems: 'streach',
+              // flex: 1,
+              width: Layout.window.width - 100,
+            },
+          ]}
+        >
+          <Text
+            style={[
+              getStyle().text,
+              { marginVertical: 2, fontSize: 18, flex: 1 },
+            ]}
+          >
+            {item.label}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ManageAddress', { item });
+            }}
+            style={{ flex: 1 }}
+          >
+            <Feather
+              name='edit'
+              size={20}
+              style={{ marginHorizontal: 10 }}
+              color={Colors.primaryLight}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={[getStyle().text, { marginTop: 5 }]}>{item.address}</Text>
       </View>
     );
   };
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate('ManageAddress');
+        }}
         style={[
           getStyle().row,
           getStyle().buttonOutline,
@@ -84,13 +121,15 @@ export default function AddressesScreen({ navigation }) {
           Select your address
         </Text>
 
-        <RadioButtons
-          direction='column'
-          data={addresses}
-          radioButtons={addresses}
-          onPress={onRadioButtonPress}
-          textComponent={textComponent}
-        />
+        {addresses && addresses.length > 0 && (
+          <RadioButtons
+            direction='column'
+            data={addresses}
+            radioButtons={addresses}
+            onPress={onRadioButtonPress}
+            textComponent={textComponent}
+          />
+        )}
       </View>
       <View style={styles.tabBarInfoContainer}>
         <TouchableOpacity

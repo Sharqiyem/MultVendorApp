@@ -28,6 +28,7 @@ import LoadingScreen from '../screens/LoadingScreen';
 import AddressesScreen from '../screens/AddressesScreen';
 import PaymentScreen from '../screens/PaymentScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
+import ManageAddressScreen from '../screens/ManageAddressScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -165,6 +166,11 @@ function CheckOutStack({ navigation }) {
         name='Address'
         options={{ title: 'Select address', headerRight: null }}
         component={AddressesScreen}
+      />
+      <Stack.Screen
+        name='ManageAddress'
+        options={{ title: 'Manage address', headerRight: null }}
+        component={ManageAddressScreen}
       />
       <Stack.Screen
         name='Payment'
