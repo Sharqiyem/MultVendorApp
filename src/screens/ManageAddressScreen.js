@@ -9,10 +9,12 @@ import {
   AppState,
   Linking,
   Button,
+  Keyboard,
 } from 'react-native';
-import { Constants, IntentLauncherAndroid } from 'expo';
+import { IntentLauncherAndroid } from 'expo';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
+import * as Constants from 'expo-constants';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
@@ -23,17 +25,25 @@ import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { LocalizationContext } from '../context/cartContext/provider';
 import { saveUserToDb } from '../core/firebaseHelper';
+import { GooglePlacesInput } from '../components/GooglePlacesInput';
+import { MapConfig } from '../config/googlemap.config';
 
 const { Marker } = MapView;
 
 export default function ManageAddressScreen({ navigation, route }) {
   const { t } = React.useContext(LocalizationContext);
 
+  Location.setApiKey(MapConfig.key);
   const initialRegion = {
-    latitude: 3.169135,
-    longitude: 101.710714,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    // latitude: 3.169135,
+    // longitude: 101.710714,
+    // latitudeDelta: 1.1,
+    // longitudeDelta: 0.0421,
+
+    latitude: 3.169779640459751,
+    longitude: 101.71059670239424,
+    latitudeDelta: 0.004267829316017435,
+    longitudeDelta: 0.003553391019823948,
   };
 
   const item = route?.params?.item || null;
@@ -42,6 +52,8 @@ export default function ManageAddressScreen({ navigation, route }) {
   const [name, setName] = React.useState(item && item.label);
   const [tel, setTel] = React.useState(item && item.tel);
   const [address, setAddress] = React.useState(item && item.address);
+  const [selectedAddress, setSelectedAddress] = React.useState('');
+
   const [region, setRegion] = React.useState(initialRegion);
   const [markerCoord, setMarkerCoord] = React.useState(initialRegion);
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -52,7 +64,9 @@ export default function ManageAddressScreen({ navigation, route }) {
   );
   const [openSetting, setOpenSetting] = React.useState(false);
   const [pickedLocation, setPickedLocation] = React.useState({});
+  const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
+  const mapRef = React.useRef(null);
   const onRegionChange = (newRegion) => {
     console.log('onRegionChange', newRegion);
     // setRegion(newRegion);
@@ -60,6 +74,58 @@ export default function ManageAddressScreen({ navigation, route }) {
 
   const onUserPinDragEnd = async (e) => {
     const pinLocation = e.nativeEvent.coordinate;
+    console.log('onUserPinDragEnd pinLocation', pinLocation);
+    const newRegion = { ...initialRegion, ...pinLocation };
+    setRegion(newRegion);
+    mapRef.current.animateToRegion(newRegion, 500);
+
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${pinLocation.latitude},${pickedLocation.longitude}&key=${MapConfig.key}`
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('fetch res', JSON.stringify(responseJson));
+        if (
+          responseJson &&
+          responseJson.results &&
+          responseJson.results.length > 0
+        ) {
+          setAddress(responseJson.results[0].formatted_address);
+          setSelectedAddress(responseJson.results[0].name);
+          console.log(
+            `ADDRESS GEOCODE is BACK!! => ${JSON.stringify(
+              responseJson.results[0],
+              null,
+              2
+            )}`
+          );
+        }
+      });
+
+    console.log('onUserPinDragEnd', pinLocation);
+    setMarkerCoord(pinLocation);
+    setPickedLocation(pinLocation);
+
+    const res = await Location.reverseGeocodeAsync(pinLocation);
+    const address = {
+      ...res[0],
+      ...pinLocation,
+    };
+    console.log('reverseGeocodeAsync', address);
+  };
+
+  const onSelectLocation = async (data) => {
+    console.log('onSelectLocation data', data);
+    const { location } = data.geometry;
+    const pinLocation = { latitude: location.lat, longitude: location.lng };
+
+    setAddress(data.formatted_address);
+    setSelectedAddress(data.name);
+    const newRegion = { ...initialRegion, ...pinLocation };
+    setRegion(newRegion);
+
+    // Animated to region
+    mapRef.current.animateCamera(pinLocation, 500);
 
     console.log('onUserPinDragEnd', pinLocation);
     setMarkerCoord(pinLocation);
@@ -87,8 +153,25 @@ export default function ManageAddressScreen({ navigation, route }) {
     };
     fetchLocation();
 
+    // Keyboard
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
+
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
     };
   }, []);
 
@@ -166,7 +249,23 @@ export default function ManageAddressScreen({ navigation, route }) {
       {errorMessage ? (
         <Text style={getStyle().error}>{errorMessage}</Text>
       ) : null}
-      <Text>{text}</Text>
+      {/* <Text>{text}</Text> */}
+      <View
+        style={[
+          // styles.textAddress,
+          {
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            left: 0,
+            // height: 100,
+            zindex: 100,
+          },
+        ]}
+      >
+        <GooglePlacesInput onSelectLocation={onSelectLocation} />
+      </View>
+
       <Modal
         onModalHide={openSetting ? openSettings : undefined}
         isVisible={isLocationModalVisible}
@@ -192,29 +291,44 @@ export default function ManageAddressScreen({ navigation, route }) {
       </Modal>
 
       <MapView
+        onPress={(e) => {
+          // setMarkerCoord(e.nativeEvent.coordinate);
+          onUserPinDragEnd(e);
+          console.log('clicked', e.nativeEvent.coordinate);
+        }}
+        ref={mapRef}
         style={styles.mapStyle}
-        initialRegion={region}
+        region={region}
         onRegionChange={onRegionChange}
         rotateEnabled={false}
+        showsUserLocation
+        showsMyLocationButton
       >
         <Marker
-          title='Your address'
+          onPress={() => {
+            console.log('marker press');
+          }}
+          pinColor={Colors.primary}
+          // title={selectedAddress || 'your address'}
+          // hideCallout={false}
           draggable
           onDragEnd={onUserPinDragEnd}
           coordinate={markerCoord}
         />
       </MapView>
 
+      {/* {!isKeyboardVisible ? ( */}
       <View style={styles.tabBarInfoContainer}>
-        <View style={{ margin: 20 }}>
+        <View style={{ marginHorizontal: 20 }}>
           <TextInput
             style={getStyle().textInput}
             placeholder='Your address'
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setAddress(text)}
             value={address}
+            // multiline
+            numberOfLines={1}
             autoCorrect={false}
-            // autoCapitalize='none'
           />
           <TextInput
             style={getStyle().textInput}
@@ -223,7 +337,6 @@ export default function ManageAddressScreen({ navigation, route }) {
             onChangeText={(text) => setName(text)}
             value={name}
             autoCorrect={false}
-            // autoCapitalize='none'
           />
           <TextInput
             style={getStyle().textInput}
@@ -232,7 +345,6 @@ export default function ManageAddressScreen({ navigation, route }) {
             onChangeText={(text) => setTel(text)}
             value={tel}
             autoCorrect={false}
-            // autoCapitalize='none'
           />
         </View>
 
@@ -287,11 +399,34 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
 
+  textAddress: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    // alignItems: 'center',
+    backgroundColor: '#fbfbfb',
+    paddingVertical: 20,
+  },
+
   mapStyle: {
     // borderColor: 'red',
+    // ...StyleSheet.absoluteFillObject,
     // borderWidth: 1,
     // flex: 1,
+    zIndex: -1,
     width: Layout.window.width,
-    height: Layout.window.height / 2 + 10,
+    height: Layout.window.height / 2 + 50,
   },
 });

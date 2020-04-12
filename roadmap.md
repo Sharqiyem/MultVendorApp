@@ -46,8 +46,8 @@ Theming
 ### Firebase Auth
 
 1. [Done] register and login by email and pass
-2. [V2.0] login by facebook
-3. [V2.0] login by google
+2. [V3.0] login by facebook
+3. [V3.0] login by google
 
 ### Checkout
 
@@ -55,13 +55,16 @@ UI design Checkout screens
 
 1. [Done]delivery address screen
 2. [Done] UI - add new address screen and edit screen (2h)
-3. [In] logic location service (3h)
-4. [In] get and save user addresses (2h)
+3. [V2.0] logic location service (3h) (It took 2 days for map, auto complete address and config location)
+4. [V2.0] get and save user addresses (2h)
 5. [Done] payment screen
 
-### Orders management
+# 2 REALESE V2.0 (12 April)
 
-1. Orders management
+3. [In] logic location service (3h) (It took 2 days for map, auto complete address and config location)
+4. [In] get and save user addresses (2h)
+
+### Orders management
 
 1.1. [In] place order, re order functionality (2h)
 
@@ -71,18 +74,18 @@ UI design Checkout screens
 
 2. [In] Logic - Orders management (2h)
 
-# 2 REALESE V2.0 (11 April)
+# 3 REALESE V3.0 (20 April)
 
 List orders from manager, start delivery order, chat with customer
 Delivery Live Tracking
 
-## 2.1 Delivery App Section
+## 3.1 Delivery App Section
 
-## 2.2 Chats and contact
+## 3.2 Chats and contact
 
-## 2.3 Sorting and Filtering
+## 3.3 Sorting and Filtering
 
-## 2.4 Ratings and reviews
+## 3.4 Ratings and reviews
 
 ## Notifications
 

@@ -22,7 +22,7 @@ moment.locale(I18n.isRTL ? 'ar' : 'en');
 
 I18n.changLanguage = (lang) => {
   I18n.locale = lang;
-  I18n.isRTL = I18n.locale === 'ar';
+  I18n.isRTL = I18n.locale === 'en';
 
   // Allow RTL alignment in RTL languages
   I18nManager.allowRTL(false);

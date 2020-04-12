@@ -6,7 +6,7 @@ import { LocalizationContext } from '../context/cartContext/provider';
 
 const { width } = Dimensions.get('window');
 
-const inputTextHeight = 40;
+const inputTextHeight = 35;
 export const globalStyles = StyleSheet.create({
   logoImage: {
     width: 120,
@@ -146,6 +146,8 @@ const getStyle = () => {
       textAlign: 'center',
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
+      padding: 5,
+      // padding: 5,
     },
     buttonPrimary: {
       height: inputTextHeight,
