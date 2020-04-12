@@ -8,7 +8,9 @@ import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 
 export default function AddressesScreen({ navigation }) {
-  const _addresses = [
+  const { row, text, textHeader, buttonOutline } = getStyle();
+
+  const tempAddresses = [
     {
       value: 'Home-address',
       label: 'Home address',
@@ -35,7 +37,7 @@ export default function AddressesScreen({ navigation }) {
   const [addresses, setAddresses] = React.useState([]);
 
   React.useEffect(() => {
-    setAddresses(_addresses);
+    setAddresses(tempAddresses);
   }, []);
   const onRadioButtonPress = (address) => setAddresses(address);
 
@@ -44,22 +46,17 @@ export default function AddressesScreen({ navigation }) {
       <View style={{ padding: 10 }}>
         <View
           style={[
-            getStyle().row,
+            row,
             {
               justifyContent: 'space-between',
               // backgroundColor: 'red',
-              alignItems: 'streach',
+              // alignItems: 'streach',
               // flex: 1,
               width: Layout.window.width - 100,
             },
           ]}
         >
-          <Text
-            style={[
-              getStyle().text,
-              { marginVertical: 2, fontSize: 18, flex: 1 },
-            ]}
-          >
+          <Text style={[text, { marginVertical: 2, fontSize: 18, flex: 1 }]}>
             {item.label}
           </Text>
           <TouchableOpacity
@@ -77,7 +74,7 @@ export default function AddressesScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={[getStyle().text, { marginTop: 5 }]}>{item.address}</Text>
+        <Text style={[text, { marginTop: 5 }]}>{item.address}</Text>
       </View>
     );
   };
@@ -88,8 +85,8 @@ export default function AddressesScreen({ navigation }) {
           navigation.navigate('ManageAddress');
         }}
         style={[
-          getStyle().row,
-          getStyle().buttonOutline,
+          row,
+          buttonOutline,
           {
             height: 30,
             width: '80%',
@@ -113,10 +110,7 @@ export default function AddressesScreen({ navigation }) {
       </TouchableOpacity>
       <View style={{ flex: 1, margin: 20 }}>
         <Text
-          style={[
-            getStyle().textHeader,
-            { marginHorizontal: 20, marginVertical: 10 },
-          ]}
+          style={[textHeader, { marginHorizontal: 20, marginVertical: 10 }]}
         >
           Select your address
         </Text>
@@ -127,6 +121,7 @@ export default function AddressesScreen({ navigation }) {
             data={addresses}
             radioButtons={addresses}
             onPress={onRadioButtonPress}
+            // Fix in android
             textComponent={textComponent}
           />
         )}

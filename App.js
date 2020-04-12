@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar, AsyncStorage } from 'react-native';
+import { Platform, StatusBar, AsyncStorage, YellowBox } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,6 +23,10 @@ import { AuthProvider } from './src/context/authContext/provider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AddressesScreen from './src/screens/AddressesScreen';
 import ManageAddressScreen from './src/screens/ManageAddressScreen';
+
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+]);
 
 if (__DEV__) {
   import('./ReactotronConfig');
@@ -164,8 +168,8 @@ export default function App(props) {
                 ref={containerRef}
                 initialState={initialNavigationState}
               >
-                {/* {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />} */}
-                <ManageAddressScreen />
+                {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
+                {/* <ManageAddressScreen /> */}
               </NavigationContainer>
             </SafeAreaProvider>
           </StoreProvider>

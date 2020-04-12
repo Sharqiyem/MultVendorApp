@@ -18,15 +18,17 @@ import getStyle from '../constants/styles';
 const { width } = Dimensions.get('window');
 
 const StoreScrollView = ({ navigation }) => {
+  const { row, flexDir, text } = getStyle();
+  const shopSubTitle = [text, styles.shopTitle];
   const [data, isLoading] = productHooks.useGetDataByCollection('stores');
 
-  const shopSubTitle = [getStyle().text, styles.shopTitle];
   return (
     <ScrollView
       contentContainerStyle={[
         styles.scrollViewContentContainer,
-        getStyle().row,
-        getStyle().flexDir,
+        row,
+        flexDir,
+        text,
       ]}
       style={[styles.scrollViews]}
       horizontal
@@ -57,7 +59,7 @@ const StoreScrollView = ({ navigation }) => {
                   source={{ uri: image }}
                 />
               </View>
-              <Text style={[getStyle().text, styles.shopTitle]}>{name}</Text>
+              <Text style={[text, styles.shopTitle]}>{name}</Text>
               <Text style={shopSubTitle}>{description}</Text>
             </TouchableOpacity>
           );
