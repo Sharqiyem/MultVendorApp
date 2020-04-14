@@ -41,8 +41,20 @@ function HomeStack({ navigation, route }) {
 
   const { state } = React.useContext(StoreContext);
 
+  // console.log('route.state', route.state);
+  let routeName = route.state?.routeNames[route.state.index] || '';
+  // console.log('routeName', routeName);
+
+  let tabBarVisible = false;
+  if (routeName === 'Home') {
+    tabBarVisible = true;
+  }
+
+  // console.log('tabBarVisible', tabBarVisible);
   navigation.setOptions({
-    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
+    // title: 'asdddad ',
+
+    tabBarVisible, //route.state ? (route.state.index > 0 ? false : true) : null,
   });
 
   // console.log('STATE', { screenProps });
@@ -83,7 +95,11 @@ function HomeStack({ navigation, route }) {
       />
       <Stack.Screen
         name='CartHome'
-        options={{ title: 'Your cart', headerRight: null }}
+        options={{
+          title: 'Your cart',
+          headerRight: null,
+          tabBarVisible: false,
+        }}
         component={CartScreen}
       />
       <Stack.Screen
@@ -339,6 +355,8 @@ export default function BottomTabNavigator() {
         activeTintColor: Colors.tabIconSelected,
         inactiveTintColor: Colors.primaryLight,
         showIcon: true,
+        keyboardHidesTabBar: true,
+        // tabBarVisible: false,
       }}
     >
       <BottomTab.Screen
@@ -346,7 +364,7 @@ export default function BottomTabNavigator() {
         component={HomeStack}
         options={{
           title: 'Home',
-          tabBarVisible: true,
+          // tabBarVisible: true,
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-home' />
           ),
