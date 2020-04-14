@@ -61,10 +61,10 @@ export class RadioGroup extends Component {
     return data;
   }
 
-  onPress = (label) => {
+  onPress = (value) => {
     const radioButtons = this.state.radioButtons;
-    const selectedIndex = radioButtons.findIndex((e) => e.selected == true);
-    const selectIndex = radioButtons.findIndex((e) => e.label == label);
+    const selectedIndex = radioButtons.findIndex((e) => e.selected === true);
+    const selectIndex = radioButtons.findIndex((e) => e.value === value);
     if (selectedIndex != selectIndex) {
       radioButtons[selectedIndex].selected = false;
       radioButtons[selectIndex].selected = true;
@@ -83,7 +83,7 @@ export class RadioGroup extends Component {
             <RadioButton
               textStyle={textStyle}
               buttonContainer={buttonContainer}
-              key={data.label}
+              key={data.value}
               data={data}
               onPress={this.onPress}
               textComponent={this.props.textComponent}
@@ -118,7 +118,7 @@ const RadioButton = (props) => {
         buttonContainer,
       ]}
       onPress={() => {
-        data.disabled ? null : onPress(data.label);
+        data.disabled ? null : onPress(data.value);
       }}
     >
       <View
