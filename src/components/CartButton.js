@@ -18,12 +18,12 @@ export default CartButton = ({ state, navigation, sourceScreen }) => {
         alignItems: 'center',
         marginHorizontal: 10,
       }}
-      onPress={() => navigation.navigate(sourceScreen, '')}
+      onPress={() => navigation.navigate('Cart')}
     >
       <Icon.Feather
-        name="shopping-cart"
+        name='shopping-cart'
         size={26}
-        color="#fff"
+        color='#fff'
         style={{ marginHorizontal: 15 }}
       />
       <View

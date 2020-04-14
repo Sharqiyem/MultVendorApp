@@ -29,19 +29,24 @@ const reducer = (state = initialState, action) => {
         (item) => item.item.id === itemToRemove.id
       );
       if (itemExist1) {
-        itemExist1.quantity -= 1;
-        const cartItems = state.cartItems.filter(
-          (item) => item.item.id !== itemExist1.item.id
-        );
-        if (itemExist1.quantity === 0) {
+        // itemExist1.quantity -= 1;
+
+        if (itemExist1.quantity === 1) {
+          const cartItems = state.cartItems.filter(
+            (item) => item.item.id !== itemExist1.item.id
+          );
           return {
             ...state,
             cartItems: [...cartItems],
           };
         }
+        const cartItemIndex = state.cartItems.findIndex(
+          (item) => item.item.id === itemExist1.item.id
+        );
+        state.cartItems[cartItemIndex].quantity -= 1;
         return {
           ...state,
-          cartItems: [...cartItems, itemExist1],
+          cartItems: [...state.cartItems],
         };
       }
 
