@@ -1,8 +1,17 @@
 import * as React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  // Image
+} from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
+
+import { Ionicons } from '@expo/vector-icons';
+
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
-import { Ionicons } from '@expo/vector-icons';
 
 export const ExStoreDetailHeader = ({ item }) => {
   // const item = {
@@ -30,7 +39,11 @@ export const StoreDetailHeader = ({ item }) => (
     // onPress={() => console.log({ item })}
   >
     <View style={styles.itemTwoContent}>
-      <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
+      <Image
+        style={styles.itemTwoImage}
+        // source={{ uri: item.image }}
+        {...{ uri: item.image }}
+      />
       <View style={styles.itemTwoOverlay} />
       <Text style={styles.itemTwoTitle}>{item.name}</Text>
       <Text style={styles.itemTwoSubTitle}>{item.description}</Text>

@@ -61,12 +61,15 @@ UI design Checkout screens
 
 # 2 REALESE V2.0 (12 April)
 
-3. [In] logic location service (3h) (It took 2 days for map, auto complete address and config location)
-4. [In] get and save user addresses (2h)
+3. [Done] logic location service (3h) (It took 2 days for map, auto complete address and config location)
+4. [Done] save user addresses (2h)
+5. [Done] get user saved addresses (2h)
+6. [Done] edit user address (2h)
 
 ### Orders management
 
-1.1. [In] place order, re order functionality (2h)
+1.1. [In] place order,
+1.1.1 [In] re order functionality (2h)
 
 1.2. [Done] order details screen
 

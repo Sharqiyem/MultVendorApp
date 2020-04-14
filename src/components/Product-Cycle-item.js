@@ -4,9 +4,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Image,
+  // Image,
   FlatList,
 } from 'react-native';
+import { Image } from 'react-native-expo-image-cache';
+
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
 import Layout from '../constants/Layout';
@@ -39,7 +41,11 @@ export const ProductCycleItem = ({ item }) => {
   return (
     <View style={styles.container} key={item.id}>
       <View style={styles.itemTwoContainer}>
-        <Image style={styles.itemTwoImage} source={{ uri: item.images[0] }} />
+        <Image
+          style={styles.itemTwoImage}
+          // source={{ uri: item.images[0] }}
+          {...{ uri: item.images[0] }}
+        />
       </View>
       <Text style={styles.itemTwoTitle}>{item.name}</Text>
 

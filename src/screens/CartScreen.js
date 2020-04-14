@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import {
   View,
   Text,
-  Image,
+  // Image,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
+import { Image } from 'react-native-expo-image-cache';
+
 import * as Icon from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 
@@ -15,14 +17,14 @@ import { StoreContext } from '../context/cartContext/provider';
 import types from '../context/cartContext/types';
 import Colors from '../constants/Colors';
 
+const preview = {
+  uri:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+};
+
 const CartScreen = ({ navigation }) => {
   const route = useRoute();
 
-  const title = route.params.name || route.name;
-  //   console.log({ route });
-  // navigation.setOptions({
-  //   title,
-  // });
   const { state, dispatch } = useContext(StoreContext);
 
   const removeItem = (item) => {
@@ -46,6 +48,7 @@ const CartScreen = ({ navigation }) => {
   );
 
   const RenderItem = ({ name, price, images, quantity, item }) => {
+    const uri = images[0];
     return (
       <View style={styles.itemContainer}>
         <View
@@ -70,10 +73,21 @@ const CartScreen = ({ navigation }) => {
             {images && images[0] ? (
               <Image
                 style={{ width: 70, height: 70, margin: 5 }}
-                resizeMode='stretch'
-                source={{ uri: images[0] }}
+                // isBackground
+                // source={{ uri }}
+                {...{ uri }}
               />
             ) : (
+              // <Image
+              //   style={{ width: 70, height: 70, margin: 5 }}
+              //   resizeMode='stretch'
+              //   source={{ uri: images[0] }}
+              // />
+              // <Image
+              //   style={{ width: 70, height: 70, margin: 5 }}
+              //   resizeMode='stretch'
+              //   source={{ uri: images[0] }}
+              // />
               <Image
                 style={{ width: 70, height: 70, margin: 5 }}
                 source={{
@@ -184,15 +198,15 @@ const CartScreen = ({ navigation }) => {
           renderItem={({ item }) => {
             // console.log('Cart ', item);
             const {
-              item: { name, price, images, quantity },
+              item: { name, price, images },
             } = item;
-            name, price, images, quantity, item;
+
             return (
               <RenderItem
                 name={name}
                 price={price}
                 images={images}
-                quantity={quantity}
+                quantity={item.quantity}
                 item={item}
               />
             );
@@ -224,6 +238,9 @@ const CartScreen = ({ navigation }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}
+            onPress={() => {
+              navigation.goBack();
+            }}
           >
             <Text
               style={{
@@ -232,12 +249,15 @@ const CartScreen = ({ navigation }) => {
                 marginHorizontal: 20,
               }}
             >
-              Buy
+              Continue Shopping
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={data.length === 0}
+            activeOpacity={data.length === 0 ? 1 : 0.5}
             style={{
-              backgroundColor: Colors.primary,
+              backgroundColor:
+                data.length === 0 ? Colors.primaryLight : Colors.primary,
               margin: 10,
               borderRadius: 100,
               flex: 1,
@@ -246,7 +266,7 @@ const CartScreen = ({ navigation }) => {
               alignItems: 'center',
             }}
             onPress={() => {
-              navigation.navigate('CheckOutStack');
+              navigation.navigate('Address');
             }}
           >
             <Text
@@ -266,9 +286,6 @@ const CartScreen = ({ navigation }) => {
   );
 };
 
-CartScreen.navigationOptions = ({ navigation }) => {
-  // return { tabBarVisible: false };
-};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

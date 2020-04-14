@@ -1,47 +1,39 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+
 import Colors from '../constants/Colors';
 import { RadioButtons } from '../components/index';
 import getStyle from '../constants/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
+
 import Layout from '../constants/Layout';
+import { UserContext } from '../context/userContext/provider';
 
 export default function AddressesScreen({ navigation }) {
   const { row, text, textHeader, buttonOutline } = getStyle();
 
-  const tempAddresses = [
-    {
-      value: 'Home-address',
-      label: 'Home address',
-      selected: true,
-      color: Colors.primary,
-      address: '213, jalan Tun razak ',
-    },
-    {
-      value: 'Home-address3',
-      label: 'Office address',
-      selected: false,
-      color: Colors.primary,
-      address: '21, jalan Tun razak',
-    },
-    {
-      value: 'Home-address2',
-      label: 'Dad address',
-      selected: false,
-      color: Colors.primary,
-      address: '24, jalan Tun razak',
-    },
-  ];
+  const { state } = React.useContext(UserContext);
 
   const [addresses, setAddresses] = React.useState([]);
+  const [refresh, setRefresh] = React.useState(false);
+  // console.log('user state', addresses);
 
   React.useEffect(() => {
-    setAddresses(tempAddresses);
-  }, []);
+    setAddresses(state.addresses);
+    setRefresh(!refresh);
+  }, [state]);
   const onRadioButtonPress = (address) => setAddresses(address);
 
   const textComponent = (item) => {
+    // console.log('textComponent', item);
     return (
       <View style={{ padding: 10 }}>
         <View
@@ -49,9 +41,6 @@ export default function AddressesScreen({ navigation }) {
             row,
             {
               justifyContent: 'space-between',
-              // backgroundColor: 'red',
-              // alignItems: 'streach',
-              // flex: 1,
               width: Layout.window.width - 100,
             },
           ]}
@@ -63,7 +52,7 @@ export default function AddressesScreen({ navigation }) {
             onPress={() => {
               navigation.navigate('ManageAddress', { item });
             }}
-            style={{ flex: 1 }}
+            style={{}}
           >
             <Feather
               name='edit'
@@ -74,7 +63,11 @@ export default function AddressesScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={[text, { marginTop: 5 }]}>{item.address}</Text>
+        <Text
+          style={[text, { marginTop: 5, width: Layout.window.width - 150 }]}
+        >
+          {item.address}
+        </Text>
       </View>
     );
   };
@@ -98,15 +91,15 @@ export default function AddressesScreen({ navigation }) {
           },
         ]}
       >
-        <Text style={{ textAlign: 'center', color: Colors.primary }}>
-          Add new address
-        </Text>
         <Feather
           name='plus'
           size={20}
           style={{ marginHorizontal: 10 }}
           color={Colors.primaryLight}
         />
+        <Text style={{ textAlign: 'center', color: Colors.primary }}>
+          Add new address
+        </Text>
       </TouchableOpacity>
       <View style={{ flex: 1, margin: 20 }}>
         <Text
@@ -115,15 +108,22 @@ export default function AddressesScreen({ navigation }) {
           Select your address
         </Text>
 
+        {/* {isLoading ? <Text>Loading</Text> : null} */}
         {addresses && addresses.length > 0 && (
-          <RadioButtons
-            direction='column'
-            data={addresses}
-            radioButtons={addresses}
-            onPress={onRadioButtonPress}
-            // Fix in android
-            textComponent={textComponent}
-          />
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ flex: 1, marginBottom: 100 }}
+          >
+            <RadioButtons
+              key={refresh}
+              direction='column'
+              data={addresses}
+              radioButtons={addresses}
+              onPress={onRadioButtonPress}
+              // Fix in android
+              textComponent={textComponent}
+            />
+          </ScrollView>
         )}
       </View>
       <View style={styles.tabBarInfoContainer}>

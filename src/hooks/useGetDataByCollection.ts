@@ -8,12 +8,12 @@ const useGetDataByCollection = (collectionName = 'products') => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    console.log('useGetDataByCollection useEffect');
+    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
       .collection(collectionName)
       .onSnapshot((snapShot) => {
-        console.log('useGetDataByCollection onSnapshot');
+        // console.log('useGetDataByCollection onSnapshot');
         const newData = snapShot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -39,13 +39,13 @@ const useGetProductsByCatId = (catId) => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    console.log('useGetDataByCollection useEffect');
+    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
       .collection('products')
       .where('catId', '==', catId)
       .onSnapshot((snapShot) => {
-        console.log('useGetDataByCollection onSnapshot');
+        // console.log('useGetDataByCollection onSnapshot');
         const newData = snapShot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -71,13 +71,13 @@ const useGetProductsByStoreId = (storeId) => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    console.log('useGetDataByCollection useEffect');
+    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
       .collection('products')
       .where('storeId', '==', storeId)
       .onSnapshot((snapShot) => {
-        console.log('useGetDataByCollection onSnapshot');
+        // console.log('useGetDataByCollection onSnapshot');
         const newData = snapShot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

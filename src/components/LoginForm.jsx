@@ -7,10 +7,11 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 
 import getStyle from '../constants/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';

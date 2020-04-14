@@ -462,20 +462,22 @@ export default function BottomTabNavigator() {
 }
 
 export const RootNavigator = () => {
-  const { state } = React.useContext(AuthContext);
+  const {
+    state: { isLoading, userToken },
+  } = React.useContext(AuthContext);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {state.isLoading ? (
+      {isLoading ? (
         <Stack.Screen name='Loading' component={LoadingScreen} />
-      ) : state.userToken ? (
+      ) : userToken ? (
         <Stack.Screen name='Home' component={BottomTabNavigator} />
       ) : (
         <Stack.Screen name='Auth' component={AuthStack} />
       )}
       <Stack.Screen
         name='Cart'
-        options={{ title: 'YCart', headerRight: null }}
+        options={{ headerRight: null }}
         component={CartStack}
       />
     </Stack.Navigator>

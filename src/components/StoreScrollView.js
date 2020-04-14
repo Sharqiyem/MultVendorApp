@@ -3,13 +3,14 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
+  // Image,
   StyleSheet,
   Dimensions,
   Button,
   TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'react-native-expo-image-cache';
 
 import Colors from '../constants/Colors';
 import productHooks from '../hooks/useGetDataByCollection';
@@ -56,7 +57,8 @@ const StoreScrollView = ({ navigation }) => {
                   style={styles.image}
                   resizeMode='cover'
                   // eslint-disable-next-line global-require
-                  source={{ uri: image }}
+                  // source={{ uri: image }}
+                  {...{ uri: image }}
                 />
               </View>
               <Text style={[text, styles.shopTitle]}>{name}</Text>

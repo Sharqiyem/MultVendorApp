@@ -146,8 +146,8 @@ const getStyle = () => {
       textAlign: 'center',
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
-      padding: 5,
-      // padding: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
     },
     buttonPrimary: {
       height: inputTextHeight,

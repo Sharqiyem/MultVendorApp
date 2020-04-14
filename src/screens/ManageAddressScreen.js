@@ -10,13 +10,13 @@ import {
   Linking,
   Button,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native';
 import { IntentLauncherAndroid } from 'expo';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import * as Constants from 'expo-constants';
 
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
 import Modal from 'react-native-modal';
 
@@ -47,12 +47,13 @@ export default function ManageAddressScreen({ navigation, route }) {
   };
 
   const item = route?.params?.item || null;
+  // console.log('manage address', item);
 
   // const [editAddress, setEditAddress] = React.useState(_address);
   const [name, setName] = React.useState(item && item.label);
   const [tel, setTel] = React.useState(item && item.tel);
   const [address, setAddress] = React.useState(item && item.address);
-  const [selectedAddress, setSelectedAddress] = React.useState('');
+  const [, setSelectedAddress] = React.useState('');
 
   const [region, setRegion] = React.useState(initialRegion);
   const [markerCoord, setMarkerCoord] = React.useState(initialRegion);
@@ -64,17 +65,17 @@ export default function ManageAddressScreen({ navigation, route }) {
   );
   const [openSetting, setOpenSetting] = React.useState(false);
   const [pickedLocation, setPickedLocation] = React.useState({});
-  const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
+  const [, setKeyboardVisible] = React.useState(false);
 
   const mapRef = React.useRef(null);
   const onRegionChange = (newRegion) => {
-    console.log('onRegionChange', newRegion);
+    // console.log('onRegionChange', newRegion);
     // setRegion(newRegion);
   };
 
   const onUserPinDragEnd = async (e) => {
     const pinLocation = e.nativeEvent.coordinate;
-    console.log('onUserPinDragEnd pinLocation', pinLocation);
+    // console.log('onUserPinDragEnd pinLocation', pinLocation);
     const newRegion = { ...initialRegion, ...pinLocation };
     setRegion(newRegion);
     mapRef.current.animateToRegion(newRegion, 500);
@@ -84,7 +85,7 @@ export default function ManageAddressScreen({ navigation, route }) {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log('fetch res', JSON.stringify(responseJson));
+        // console.log('fetch res', JSON.stringify(responseJson));
         if (
           responseJson &&
           responseJson.results &&
@@ -92,17 +93,17 @@ export default function ManageAddressScreen({ navigation, route }) {
         ) {
           setAddress(responseJson.results[0].formatted_address);
           setSelectedAddress(responseJson.results[0].name);
-          console.log(
-            `ADDRESS GEOCODE is BACK!! => ${JSON.stringify(
-              responseJson.results[0],
-              null,
-              2
-            )}`
-          );
+          // console.log(
+          //   `ADDRESS GEOCODE is BACK!! => ${JSON.stringify(
+          //     responseJson.results[0],
+          //     null,
+          //     2
+          //   )}`
+          // );
         }
       });
 
-    console.log('onUserPinDragEnd', pinLocation);
+    // console.log('onUserPinDragEnd', pinLocation);
     setMarkerCoord(pinLocation);
     setPickedLocation(pinLocation);
 
@@ -111,11 +112,11 @@ export default function ManageAddressScreen({ navigation, route }) {
       ...res[0],
       ...pinLocation,
     };
-    console.log('reverseGeocodeAsync', address);
+    // console.log('reverseGeocodeAsync', address);
   };
 
   const onSelectLocation = async (data) => {
-    console.log('onSelectLocation data', data);
+    // console.log('onSelectLocation data', data);
     const { location } = data.geometry;
     const pinLocation = { latitude: location.lat, longitude: location.lng };
 
@@ -127,7 +128,7 @@ export default function ManageAddressScreen({ navigation, route }) {
     // Animated to region
     mapRef.current.animateCamera(pinLocation, 500);
 
-    console.log('onUserPinDragEnd', pinLocation);
+    // console.log('onUserPinDragEnd', pinLocation);
     setMarkerCoord(pinLocation);
     setPickedLocation(pinLocation);
 
@@ -136,7 +137,7 @@ export default function ManageAddressScreen({ navigation, route }) {
       ...res[0],
       ...pinLocation,
     };
-    console.log('reverseGeocodeAsync', address);
+    // console.log('reverseGeocodeAsync', address);
   };
 
   React.useEffect(() => {
@@ -147,11 +148,19 @@ export default function ManageAddressScreen({ navigation, route }) {
         setErrorMessage(
           'Oops, this will not work on Sketch in an Android emulator. Try it on your device!'
         );
-      } else {
+      } else if (!item) {
         getLocationAsync();
       }
     };
     fetchLocation();
+
+    if (item) {
+      const newRegion = { ...initialRegion, ...item.location };
+      setRegion(newRegion);
+      // console.log('item mange', newRegion);
+      setMarkerCoord(newRegion);
+      mapRef.current.animateToRegion(newRegion, 500);
+    }
 
     // Keyboard
     const keyboardDidShowListener = Keyboard.addListener(
@@ -177,7 +186,7 @@ export default function ManageAddressScreen({ navigation, route }) {
 
   const handleAppStateChange = (nextAppState) => {
     if (appState.match(/inactive|background/) && nextAppState === 'active') {
-      console.log('App has come to the foreground!');
+      // console.log('App has come to the foreground!');
       getLocationAsync();
     }
     setAppState(nextAppState);
@@ -193,16 +202,16 @@ export default function ManageAddressScreen({ navigation, route }) {
 
       const curLocation = await Location.getCurrentPositionAsync({});
       setLocation(curLocation);
-      console.log('cur location', curLocation);
-      console.log('initialRegion', initialRegion);
+      // console.log('cur location', curLocation);
+      // console.log('initialRegion', initialRegion);
 
       const newRegion = { ...initialRegion, ...curLocation.coords };
 
       setRegion(newRegion);
       setMarkerCoord(newRegion);
-      console.log('newRegion', newRegion);
+      // console.log('newRegion', newRegion);
     } catch (error) {
-      console.log('getLocationAsync error', error);
+      // console.log('getLocationAsync error', error);
       const status = Location.getProviderStatusAsync();
       if (!status.locationServicesEnabled) {
         setIsLocationModalVisible(true);
@@ -228,20 +237,23 @@ export default function ManageAddressScreen({ navigation, route }) {
     text = JSON.stringify(location);
   }
 
-  const saveAddress = () => {
-    console.log({
-      name,
-      tel,
-      address,
-    });
-
-    saveUserToDb({
+  const saveAddress = async () => {
+    const newAddress = {
       name,
       tel,
       address,
       location: pickedLocation,
-    });
-    // navigation.goBack();
+    };
+    // if edit
+    if (item) {
+      newAddress.id = item.id;
+      await saveUserToDb(newAddress, true);
+    } else {
+      await saveUserToDb(newAddress);
+    }
+    // dispatch({ type: types.ADD_ADDRESS, payload: newAddress });
+
+    navigation.goBack();
   };
 
   return (
@@ -294,7 +306,7 @@ export default function ManageAddressScreen({ navigation, route }) {
         onPress={(e) => {
           // setMarkerCoord(e.nativeEvent.coordinate);
           onUserPinDragEnd(e);
-          console.log('clicked', e.nativeEvent.coordinate);
+          // console.log('clicked', e.nativeEvent.coordinate);
         }}
         ref={mapRef}
         style={styles.mapStyle}
@@ -306,7 +318,7 @@ export default function ManageAddressScreen({ navigation, route }) {
       >
         <Marker
           onPress={() => {
-            console.log('marker press');
+            // console.log('marker press');
           }}
           pinColor={Colors.primary}
           // title={selectedAddress || 'your address'}
@@ -346,27 +358,18 @@ export default function ManageAddressScreen({ navigation, route }) {
             value={tel}
             autoCorrect={false}
           />
+          <TouchableOpacity
+            style={[
+              getStyle().textInput,
+              { justifyContent: 'center', backgroundColor: Colors.primary },
+            ]}
+            onPress={saveAddress}
+          >
+            <Text style={{ textAlign: 'center', color: Colors.white }}>
+              {t('Save')}
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: Colors.white,
-            // padding: 10,
-            marginHorizontal: 20,
-            borderRadius: 100,
-            borderWidth: 1,
-            borderColor: Colors.primary,
-            flex: 1,
-            height: 30,
-            // width: Layout.window.width * 0.8,
-            justifyContent: 'center',
-          }}
-          onPress={saveAddress}
-        >
-          <Text style={{ textAlign: 'center', color: Colors.primary }}>
-            {t('Save')}
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -397,6 +400,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     backgroundColor: '#fbfbfb',
     paddingVertical: 20,
+    height: Layout.window.height * 0.33 - 50,
   },
 
   textAddress: {
@@ -427,6 +431,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     zIndex: -1,
     width: Layout.window.width,
-    height: Layout.window.height / 2 + 50,
+    height: Layout.window.height * 0.75 + 50,
   },
 });

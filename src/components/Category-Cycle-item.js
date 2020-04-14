@@ -1,9 +1,15 @@
 import * as React from 'react';
-import { Text, StyleSheet, View, Image, FlatList } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import productHooks from '../hooks/useGetDataByCollection';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const ExCategoryCycleItem = ({ navigation }) => {
   const [data, isLoading] = productHooks.useGetDataByCollection('categories');

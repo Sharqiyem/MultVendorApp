@@ -1,9 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 import Colors from '../constants/Colors';
 import { RadioButtons } from '../components/index';
 import getStyle from '../constants/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 

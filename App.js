@@ -23,6 +23,7 @@ import { AuthProvider } from './src/context/authContext/provider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AddressesScreen from './src/screens/AddressesScreen';
 import ManageAddressScreen from './src/screens/ManageAddressScreen';
+import { UserProvider } from './src/context/userContext/provider';
 
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -163,15 +164,17 @@ export default function App(props) {
       <LocalizationContext.Provider value={{ ...localizationContext, isRTL }}>
         <AuthProvider>
           <StoreProvider>
-            <SafeAreaProvider>
-              <NavigationContainer
-                ref={containerRef}
-                initialState={initialNavigationState}
-              >
-                {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
-                {/* <ManageAddressScreen /> */}
-              </NavigationContainer>
-            </SafeAreaProvider>
+            <UserProvider>
+              <SafeAreaProvider>
+                <NavigationContainer
+                  ref={containerRef}
+                  initialState={initialNavigationState}
+                >
+                  {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
+                  {/* <AddressesScreen /> */}
+                </NavigationContainer>
+              </SafeAreaProvider>
+            </UserProvider>
           </StoreProvider>
         </AuthProvider>
       </LocalizationContext.Provider>

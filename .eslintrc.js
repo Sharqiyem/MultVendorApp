@@ -8,6 +8,8 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'import/prefer-default-export': 'off',
     'no-console': 'off',
+    'no-nested-ternary': 'off',
+    'react/prop-types': 'ignore',
   },
   settings: {
     'import/resolver': {
