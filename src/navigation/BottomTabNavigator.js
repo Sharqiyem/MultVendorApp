@@ -93,7 +93,7 @@ function HomeStack({ navigation, route }) {
         name='Home'
         component={HomeScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name='CartHome'
         options={{
           title: 'Your cart',
@@ -101,7 +101,7 @@ function HomeStack({ navigation, route }) {
           tabBarVisible: false,
         }}
         component={CartScreen}
-      />
+      /> */}
       <Stack.Screen
         name='Store'
         options={({ route }) => ({ title: route.params.item.name })}
@@ -144,63 +144,63 @@ function CategoriesStack({ navigation }) {
         options={({ route }) => ({ title: route.params.item.name })}
         component={CategoryScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name='CartCat'
         options={{ title: 'Your cart', headerRight: null }}
         component={CartScreen}
-      />
+      /> */}
     </Stack.Navigator>
   );
 }
 
-function CheckOutStack({ navigation }) {
-  const { state, dispatch } = React.useContext(StoreContext);
-  const { t } = React.useContext(LocalizationContext);
+// function CheckOutStack({ navigation }) {
+//   const { state, dispatch } = React.useContext(StoreContext);
+//   const { t } = React.useContext(LocalizationContext);
 
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: Colors.headerBG,
-          shadowColor: 'transparent',
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-        //Header text color
-        headerTintColor: '#fff',
-        headerRight: (props) => (
-          <CartButton
-            navigation={navigation}
-            state={state}
-            sourceScreen='CartStores'
-          />
-        ),
-        tabBarVisible: false,
-      }}
-    >
-      <Stack.Screen
-        name='Address'
-        options={{ title: 'Select address', headerRight: null }}
-        component={AddressesScreen}
-      />
-      <Stack.Screen
-        name='ManageAddress'
-        options={{ title: 'Manage address', headerRight: null }}
-        component={ManageAddressScreen}
-      />
-      <Stack.Screen
-        name='Payment'
-        options={{ title: 'Payment', headerRight: null }}
-        component={PaymentScreen}
-      />
-      <Stack.Screen
-        name='OrderDetails'
-        options={{ title: 'Order details', headerRight: null }}
-        component={OrderDetailsScreen}
-      />
-    </Stack.Navigator>
-  );
-}
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{
+//         headerStyle: {
+//           backgroundColor: Colors.headerBG,
+//           shadowColor: 'transparent',
+//           borderBottomWidth: 0,
+//           elevation: 0,
+//         },
+//         //Header text color
+//         headerTintColor: '#fff',
+//         headerRight: (props) => (
+//           <CartButton
+//             navigation={navigation}
+//             state={state}
+//             sourceScreen='CartStores'
+//           />
+//         ),
+//         tabBarVisible: false,
+//       }}
+//     >
+//       <Stack.Screen
+//         name='Address'
+//         options={{ title: 'Select address', headerRight: null }}
+//         component={AddressesScreen}
+//       />
+//       <Stack.Screen
+//         name='ManageAddress'
+//         options={{ title: 'Manage address', headerRight: null }}
+//         component={ManageAddressScreen}
+//       />
+//       <Stack.Screen
+//         name='Payment'
+//         options={{ title: 'Payment', headerRight: null }}
+//         component={PaymentScreen}
+//       />
+//       <Stack.Screen
+//         name='OrderDetails'
+//         options={{ title: 'Order details', headerRight: null }}
+//         component={OrderDetailsScreen}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function StoresStack({ navigation, route }) {
   const { state, dispatch } = React.useContext(StoreContext);
@@ -240,19 +240,14 @@ function StoresStack({ navigation, route }) {
         options={({ route }) => ({ title: route.params.item.name })}
         component={StoreScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name='CartStores'
         options={{
           title: 'Your cart',
           headerRight: null,
         }}
         component={CartScreen}
-      />
-      <Stack.Screen
-        name='CheckOutStack'
-        options={{ title: 'Your cart', headerRight: null, headerShown: false }}
-        component={CheckOutStack}
-      />
+      /> */}
     </Stack.Navigator>
   );
 }
@@ -326,6 +321,64 @@ export function AuthStack({ navigation }) {
         name='ForgotPassword'
         options={{ title: 'Forgot password' }}
         component={ForgotPasswordScreen}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function CartStack({ navigation }) {
+  const { state, dispatch } = React.useContext(StoreContext);
+  const { t } = React.useContext(LocalizationContext);
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors.headerBG,
+          shadowColor: 'transparent',
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+        //Header text color
+        headerTintColor: '#fff',
+        headerRight: (props) => (
+          <CartButton
+            navigation={navigation}
+            state={state}
+            sourceScreen='CartStores'
+          />
+        ),
+        tabBarVisible: false,
+      }}
+    >
+      <Stack.Screen
+        name='Cart'
+        options={{
+          title: 'Your cart',
+          headerRight: null,
+        }}
+        component={CartScreen}
+      />
+
+      <Stack.Screen
+        name='Address'
+        options={{ title: 'Select address', headerRight: null }}
+        component={AddressesScreen}
+      />
+      <Stack.Screen
+        name='ManageAddress'
+        options={{ title: 'Manage address', headerRight: null }}
+        component={ManageAddressScreen}
+      />
+      <Stack.Screen
+        name='Payment'
+        options={{ title: 'Payment', headerRight: null }}
+        component={PaymentScreen}
+      />
+      <Stack.Screen
+        name='OrderDetails'
+        options={{ title: 'Order details', headerRight: null }}
+        component={OrderDetailsScreen}
       />
     </Stack.Navigator>
   );
@@ -420,6 +473,11 @@ export const RootNavigator = () => {
       ) : (
         <Stack.Screen name='Auth' component={AuthStack} />
       )}
+      <Stack.Screen
+        name='Cart'
+        options={{ title: 'YCart', headerRight: null }}
+        component={CartStack}
+      />
     </Stack.Navigator>
   );
 };
