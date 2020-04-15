@@ -2,21 +2,23 @@ import * as React from 'react';
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Ionicons } from '@expo/vector-icons';
 
 //Custome
 import TabBarIcon from '../components/TabBarIcon';
 import Colors from '../constants/Colors';
 import CartButton from '../components/CartButton';
-//Screens
-import HomeScreen from '../screens/HomeScreen';
 
-import CartScreen from '../screens/CartScreen';
-import StoresScreen from '../screens/StoresScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import {
   StoreContext,
   LocalizationContext,
 } from '../context/cartContext/provider';
+
+//Screens
+import HomeScreen from '../screens/HomeScreen';
+import CartScreen from '../screens/CartScreen';
+import StoresScreen from '../screens/StoresScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import StoreScreen from '../screens/StoreScreen';
 import CategoryScreen from '../screens/CategoryScreen';
@@ -45,17 +47,7 @@ function HomeStack({ navigation, route }) {
   let routeName = route.state?.routeNames[route.state.index] || '';
   // console.log('routeName', routeName);
 
-  let tabBarVisible = false;
-  if (routeName === 'Home') {
-    tabBarVisible = true;
-  }
-
-  // console.log('tabBarVisible', tabBarVisible);
-  navigation.setOptions({
-    // title: 'asdddad ',
-
-    tabBarVisible, //route.state ? (route.state.index > 0 ? false : true) : null,
-  });
+  navigation.setOptions({});
 
   // console.log('STATE', { screenProps });
   return (
@@ -93,15 +85,7 @@ function HomeStack({ navigation, route }) {
         name='Home'
         component={HomeScreen}
       />
-      {/* <Stack.Screen
-        name='CartHome'
-        options={{
-          title: 'Your cart',
-          headerRight: null,
-          tabBarVisible: false,
-        }}
-        component={CartScreen}
-      /> */}
+
       <Stack.Screen
         name='Store'
         options={({ route }) => ({ title: route.params.item.name })}
@@ -153,62 +137,9 @@ function CategoriesStack({ navigation }) {
   );
 }
 
-// function CheckOutStack({ navigation }) {
-//   const { state, dispatch } = React.useContext(StoreContext);
-//   const { t } = React.useContext(LocalizationContext);
-
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerStyle: {
-//           backgroundColor: Colors.headerBG,
-//           shadowColor: 'transparent',
-//           borderBottomWidth: 0,
-//           elevation: 0,
-//         },
-//         //Header text color
-//         headerTintColor: '#fff',
-//         headerRight: (props) => (
-//           <CartButton
-//             navigation={navigation}
-//             state={state}
-//             sourceScreen='CartStores'
-//           />
-//         ),
-//         tabBarVisible: false,
-//       }}
-//     >
-//       <Stack.Screen
-//         name='Address'
-//         options={{ title: 'Select address', headerRight: null }}
-//         component={AddressesScreen}
-//       />
-//       <Stack.Screen
-//         name='ManageAddress'
-//         options={{ title: 'Manage address', headerRight: null }}
-//         component={ManageAddressScreen}
-//       />
-//       <Stack.Screen
-//         name='Payment'
-//         options={{ title: 'Payment', headerRight: null }}
-//         component={PaymentScreen}
-//       />
-//       <Stack.Screen
-//         name='OrderDetails'
-//         options={{ title: 'Order details', headerRight: null }}
-//         component={OrderDetailsScreen}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
-
 function StoresStack({ navigation, route }) {
   const { state, dispatch } = React.useContext(StoreContext);
   const { t } = React.useContext(LocalizationContext);
-
-  navigation.setOptions({
-    tabBarVisible: route.state ? (route.state.index > 0 ? false : true) : null,
-  });
 
   return (
     <Stack.Navigator
@@ -333,6 +264,7 @@ function CartStack({ navigation }) {
   return (
     <Stack.Navigator
       screenOptions={{
+        // headerShown: false,
         headerStyle: {
           backgroundColor: Colors.headerBG,
           shadowColor: 'transparent',
@@ -342,42 +274,47 @@ function CartStack({ navigation }) {
         //Header text color
         headerTintColor: '#fff',
         headerRight: (props) => (
-          <CartButton
-            navigation={navigation}
-            state={state}
-            sourceScreen='CartStores'
+          <Ionicons
+            name='md-close'
+            size={26}
+            color='#fff'
+            style={{ marginHorizontal: 15 }}
+            onPress={() => {
+              navigation.navigate('Home');
+            }}
           />
         ),
-        tabBarVisible: false,
       }}
     >
       <Stack.Screen
         name='Cart'
         options={{
           title: 'Your cart',
-          headerRight: null,
+          // headerRight: null,
         }}
         component={CartScreen}
       />
 
       <Stack.Screen
         name='Address'
-        options={{ title: 'Select address', headerRight: null }}
+        options={{
+          title: 'Select address',
+        }}
         component={AddressesScreen}
       />
       <Stack.Screen
         name='ManageAddress'
-        options={{ title: 'Manage address', headerRight: null }}
+        options={{ title: 'Manage address' }}
         component={ManageAddressScreen}
       />
       <Stack.Screen
         name='Payment'
-        options={{ title: 'Payment', headerRight: null }}
+        options={{ title: 'Payment' }}
         component={PaymentScreen}
       />
       <Stack.Screen
         name='OrderDetails'
-        options={{ title: 'Order details', headerRight: null }}
+        options={{ title: 'Order details' }}
         component={OrderDetailsScreen}
       />
     </Stack.Navigator>
@@ -409,7 +346,6 @@ export default function BottomTabNavigator() {
         inactiveTintColor: Colors.primaryLight,
         showIcon: true,
         keyboardHidesTabBar: true,
-        // tabBarVisible: false,
       }}
     >
       <BottomTab.Screen
@@ -417,7 +353,7 @@ export default function BottomTabNavigator() {
         component={HomeStack}
         options={{
           title: 'Home',
-          // tabBarVisible: true,
+
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-home' />
           ),
