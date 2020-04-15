@@ -8,6 +8,7 @@ import {
   Dimensions,
   Button,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native-expo-image-cache';
@@ -15,6 +16,7 @@ import { Image } from 'react-native-expo-image-cache';
 import Colors from '../constants/Colors';
 import productHooks from '../hooks/useGetDataByCollection';
 import getStyle from '../constants/styles';
+import Layout from '../constants/Layout';
 
 const { width } = Dimensions.get('window');
 
@@ -36,9 +38,15 @@ const StoreScrollView = ({ navigation }) => {
       showsHorizontalScrollIndicator={false}
       pagingEnabled
     >
-      {/* Item */}
       {isLoading ? (
-        <Text>Loading</Text>
+        <ActivityIndicator
+          style={{
+            alignSelf: 'center',
+            width: Layout.window.width,
+          }}
+          size={'large'}
+          color={Colors.primary}
+        />
       ) : (
         data.map((item) => {
           const { id, name, image, description } = item;

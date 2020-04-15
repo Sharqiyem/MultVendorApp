@@ -6,6 +6,7 @@ import {
   // Image,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
 import { Image } from 'react-native-expo-image-cache';
@@ -16,7 +17,17 @@ import productHooks from '../hooks/useGetDataByCollection';
 export const ExCategoryCycleItem = ({ navigation }) => {
   const [data, isLoading] = productHooks.useGetDataByCollection('categories');
 
-  if (isLoading) return <Text> Loading </Text>;
+  if (isLoading)
+    return (
+      <ActivityIndicator
+        style={{
+          alignSelf: 'center',
+          width: Layout.window.width,
+        }}
+        size={'large'}
+        color={Colors.primary}
+      />
+    );
 
   return (
     <FlatList

@@ -7,17 +7,30 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 
 import productHooks from '../hooks/useGetDataByCollection';
 import getStyle from '../constants/styles';
+import Layout from '../constants/Layout';
+import Colors from '../constants/Colors';
 
 const widowWidth = Dimensions.get('window').width;
 
 export const CategoryList = ({ navigation }) => {
   const [data, isLoading] = productHooks.useGetDataByCollection('categories');
 
-  if (isLoading) return <Text> Loading </Text>;
+  if (isLoading)
+    return (
+      <ActivityIndicator
+        style={{
+          alignSelf: 'center',
+          width: Layout.window.width,
+        }}
+        size={'large'}
+        color={Colors.primary}
+      />
+    );
 
   return (
     <FlatList

@@ -6,6 +6,7 @@ import {
   View,
   Image,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Fonts from '../constants/Fonts';
@@ -20,7 +21,17 @@ import { ProductCycleItem } from './Product-Cycle-item';
 export const StoreProducts = ({ storeId }) => {
   const [data, isLoading] = productHooks.useGetProductsByStoreId(storeId);
 
-  if (isLoading) return <Text> Loading </Text>;
+  if (isLoading)
+    return (
+      <ActivityIndicator
+        style={{
+          alignSelf: 'center',
+          width: Layout.window.width,
+        }}
+        size={'large'}
+        color={Colors.primary}
+      />
+    );
 
   return (
     <FlatList
