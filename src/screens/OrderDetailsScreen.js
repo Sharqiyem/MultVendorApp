@@ -1,35 +1,94 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import Colors from '../constants/Colors';
-import { RadioButtons, ExProductCycleList } from '../components/index';
+import {
+  RadioButtons,
+  ExProductCycleList,
+  OrderProductCycleList,
+} from '../components/index';
 import getStyle from '../constants/styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
-
+import { StoreContext } from '../context/cartContext/provider';
+import { UserContext } from '../context/userContext/provider';
+import productHooks from '../hooks/useGetDataByCollection';
 export default function OrderDetailsScreen({ navigation }) {
+  const { state } = React.useContext(StoreContext);
+  const { state: userState } = React.useContext(UserContext);
+  const { cartItems } = state;
+
+  const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
+
+  const [selectedStore, setSelectedStore] = React.useState(null);
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.quantity * item.item.price,
+    0
+  );
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      const storeId = cartItems[0].item.storeId;
+      const selectedStore = stores.find((item) => item.id === storeId);
+      setSelectedStore(selectedStore);
+    }
+  }, [isLoading]);
+
+  console.log('stores', stores);
+  const { selectedDeliveryAddress, selectedPaymentMethod } = userState;
+
+  console.log({ selectedDeliveryAddress, selectedPaymentMethod, cartItems });
   return (
     <SafeAreaView style={styles.container}>
       <Text style={[getStyle().textHeader, { margin: 20 }]}>Order details</Text>
 
       <View style={{}}>
-        <ExProductCycleList />
+        <OrderProductCycleList data={cartItems} />
       </View>
-      <View style={{ flex: 1, margin: 20 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ padding: 20 }}
+      >
         <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
           <Text>Order ID</Text>
-          <Text>#65656</Text>
+          <Text style={{ backgroundColor: 'red' }}>#65656</Text>
         </View>
 
         <View style={styles.orderDetailContainer}>
           <Text style={getStyle().textHeader}>Delivery</Text>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Address name:</Text>
-            <Text>Home</Text>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                textAlign: 'right',
+                // backgroundColor: 'red',
+              }}
+            >
+              {selectedDeliveryAddress.label}
+            </Text>
           </View>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Address:</Text>
-            <Text>23, jalan Tun Razak</Text>
+            <Text
+              style={{
+                flex: 1,
+                paddingHorizontal: 10,
+                textAlign: 'right',
+                // backgroundColor: 'red',
+              }}
+            >
+              {selectedDeliveryAddress.address}
+            </Text>
           </View>
         </View>
 
@@ -37,19 +96,19 @@ export default function OrderDetailsScreen({ navigation }) {
           <Text style={getStyle().textHeader}>Details</Text>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Store name:</Text>
-            <Text>Green Market</Text>
+            {selectedStore && <Text>{selectedStore.name}</Text>}
           </View>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Order date</Text>
-            <Text>20-03-2020 19:00</Text>
+            <Text style={{ backgroundColor: 'red' }}>20-03-2020 19:00</Text>
           </View>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Total amount</Text>
-            <Text>290$</Text>
+            <Text>{total}$</Text>
           </View>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Status</Text>
-            <Text>Completed</Text>
+            <Text style={{ backgroundColor: 'red' }}>Completed</Text>
           </View>
         </View>
 
@@ -61,17 +120,17 @@ export default function OrderDetailsScreen({ navigation }) {
           </View>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Tel:</Text>
-            <Text>23123123132</Text>
+            <Text>{selectedDeliveryAddress.tel}</Text>
           </View>
         </View>
 
         <View style={styles.orderDetailContainer}>
           <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
             <Text>Payment method:</Text>
-            <Text>Cash on delivery</Text>
+            <Text>{selectedPaymentMethod.label}</Text>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

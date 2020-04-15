@@ -16,24 +16,26 @@ import getStyle from '../constants/styles';
 
 import Layout from '../constants/Layout';
 import { UserContext } from '../context/userContext/provider';
+import types from '../context/userContext/types';
 
 export default function AddressesScreen({ navigation }) {
   const { row, text, textHeader, buttonOutline } = getStyle();
 
-  const { state } = React.useContext(UserContext);
+  const { state, dispatch } = React.useContext(UserContext);
 
   const [addresses, setAddresses] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
-  // console.log('user state', addresses);
 
   React.useEffect(() => {
     setAddresses(state.addresses);
     setRefresh(!refresh);
   }, [state]);
-  const onRadioButtonPress = (address) => setAddresses(address);
 
-  const textComponent = (item) => {
-    // console.log('textComponent', item);
+  const onRadioButtonPress = (address) => {
+    setAddresses(address);
+  };
+
+  const TextComponent = ({ item }) => {
     return (
       <View style={{ padding: 10 }}>
         <View
@@ -71,6 +73,21 @@ export default function AddressesScreen({ navigation }) {
       </View>
     );
   };
+
+  const continueHandler = () => {
+    const selectedAddress = addresses.filter(
+      (addressItem) => addressItem.selected === true
+    );
+    console.log('selectedAddress', selectedAddress);
+    dispatch({
+      type: types.SET_SELECTED_DELIVERY_ADDRESS,
+      payload: selectedAddress[0],
+    });
+
+    console.log(state.selectedDeliveryAddress);
+    navigation.navigate('Payment');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -121,13 +138,15 @@ export default function AddressesScreen({ navigation }) {
               radioButtons={addresses}
               onPress={onRadioButtonPress}
               // Fix in android
-              textComponent={textComponent}
+              // textComponent={TextComponent}
+              TextComponent={({ item }) => <TextComponent item={item} />}
             />
           </ScrollView>
         )}
       </View>
       <View style={styles.tabBarInfoContainer}>
         <TouchableOpacity
+          disabled={addresses.length === 0}
           style={{
             backgroundColor: Colors.white,
             // padding: 10,
@@ -140,9 +159,7 @@ export default function AddressesScreen({ navigation }) {
             width: Layout.window.width * 0.8,
             justifyContent: 'center',
           }}
-          onPress={() => {
-            navigation.navigate('Payment');
-          }}
+          onPress={continueHandler}
         >
           <Text style={{ textAlign: 'center', color: Colors.primary }}>
             Continue

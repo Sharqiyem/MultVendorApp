@@ -13,18 +13,22 @@ import getStyle from '../constants/styles';
 
 import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
+import { UserContext } from '../context/userContext/provider';
+import types from '../context/userContext/types';
 
 export default function PaymentScreen({ navigation }) {
+  const { state, dispatch } = React.useContext(UserContext);
+
   const _paymentMethod = [
     {
-      value: 'paypal',
-      label: 'Paypal',
+      value: 'cashondelivery',
+      label: 'Cash on delivery',
       selected: true,
       color: Colors.primary,
     },
     {
-      value: 'cashondelivery',
-      label: 'Cash on delivery',
+      value: 'paypal',
+      label: 'Paypal',
       selected: false,
       color: Colors.primary,
     },
@@ -32,6 +36,21 @@ export default function PaymentScreen({ navigation }) {
   const [paymentMethod, setPaymentMethod] = React.useState(_paymentMethod);
 
   const onRadioButtonPress = (address) => setPaymentMethod(address);
+
+  const continueHandler = () => {
+    console.log('paymentMethods', paymentMethod);
+    const selectedPaymentMethod = paymentMethod.filter(
+      (item) => item.selected === true
+    );
+    console.log('selectedPaymentMethod', selectedPaymentMethod[0]);
+    dispatch({
+      type: types.SET_SELECTED_PAYMENT_METHOD,
+      payload: selectedPaymentMethod[0],
+    });
+
+    console.log(state.selectedPaymentMethod);
+    navigation.navigate('OrderDetails');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,6 +68,18 @@ export default function PaymentScreen({ navigation }) {
           direction='column'
           data={paymentMethod}
           onPress={onRadioButtonPress}
+          TextComponent={({ item }) => (
+            <View
+              style={{
+                padding: 15,
+                // backgroundColor: 'red',
+                flex: 1,
+                justifyContent: 'center',
+              }}
+            >
+              <Text style={{}}> {item.label}</Text>
+            </View>
+          )}
         />
       </View>
       <View style={styles.tabBarInfoContainer}>
@@ -65,9 +96,7 @@ export default function PaymentScreen({ navigation }) {
             width: Layout.window.width * 0.8,
             justifyContent: 'center',
           }}
-          onPress={() => {
-            navigation.navigate('OrderDetails');
-          }}
+          onPress={continueHandler}
         >
           <Text style={{ textAlign: 'center', color: Colors.primary }}>
             Continue

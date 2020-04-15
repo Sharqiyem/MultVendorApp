@@ -23,9 +23,10 @@ const preview = {
 };
 
 const CartScreen = ({ navigation }) => {
-  const route = useRoute();
-
   const { state, dispatch } = useContext(StoreContext);
+  const data = state.cartItems;
+
+  console.log('cartItems', data);
 
   const removeItem = (item) => {
     dispatch({ type: types.CART_REMOVE_ITEM, payload: item });
@@ -38,9 +39,6 @@ const CartScreen = ({ navigation }) => {
   const decItem = (item) => {
     dispatch({ type: types.CART_REMOVE, payload: item });
   };
-
-  const data = state.cartItems;
-  // console.log('cartItems', data);
 
   const total = state.cartItems.reduce(
     (sum, item) => sum + item.quantity * item.item.price,
