@@ -31,6 +31,7 @@ export const ExProductCycleList = () => {
     />
   );
 };
+
 export const ProductCycleItem = ({ item }) => {
   const { dispatch } = React.useContext(StoreContext);
 

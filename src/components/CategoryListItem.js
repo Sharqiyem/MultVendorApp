@@ -19,7 +19,6 @@ export const CategoryList = ({ navigation }) => {
 
   if (isLoading) return <Text> Loading </Text>;
 
-  // return <ProductCycleItem item={data[0]} />;
   return (
     <FlatList
       data={data}

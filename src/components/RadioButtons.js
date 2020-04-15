@@ -9,7 +9,7 @@ import I18n from '../i18n/i18n';
 import getStyle from '../constants/styles';
 
 export const RadioButtons = (props) => {
-  let { data, onPress, textStyle, color, direction, textComponent } = props;
+  let { data, onPress, textStyle, color, direction, TextComponent } = props;
 
   color = color || Colors.primary;
   if (!direction) direction = I18n.isRTL ? 'row-reverse' : 'row';
@@ -23,7 +23,7 @@ export const RadioButtons = (props) => {
       flexDirection={direction}
       textStyle={[getStyle().text, { marginHorizontal: 20 }, textStyle]}
       buttonContainer={getStyle().row}
-      textComponent={textComponent}
+      TextComponent={TextComponent}
     />
   );
 };
@@ -86,7 +86,7 @@ export class RadioGroup extends Component {
               key={data.value}
               data={data}
               onPress={this.onPress}
-              textComponent={this.props.textComponent}
+              TextComponent={this.props.TextComponent}
             />
           ))}
           {/* <Text>sadad</Text> */}
@@ -97,7 +97,7 @@ export class RadioGroup extends Component {
 }
 
 const RadioButton = (props) => {
-  const { textStyle, buttonContainer, data, onPress, textComponent } = props;
+  const { textStyle, buttonContainer, data, onPress, TextComponent } = props;
 
   const opacity = data.disabled ? 0.2 : 1;
   let layout = { flexDirection: 'row' };
@@ -144,8 +144,8 @@ const RadioButton = (props) => {
           />
         )}
       </View>
-      {textComponent ? (
-        textComponent(data)
+      {TextComponent ? (
+        <TextComponent item={data} />
       ) : (
         <Text style={[{ alignSelf: 'center' }, margin, textStyle]}>
           {data.label}

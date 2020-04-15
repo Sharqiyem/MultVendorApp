@@ -3,10 +3,12 @@ import {
   Text,
   StyleSheet,
   View,
-  Image,
+  // Image,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
+
+import { Image } from 'react-native-expo-image-cache';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import productHooks from '../hooks/useGetDataByCollection';
@@ -16,7 +18,6 @@ export const ExCategoryCycleItem = ({ navigation }) => {
 
   if (isLoading) return <Text> Loading </Text>;
 
-  // return <ProductCycleItem item={data[0]} />;
   return (
     <FlatList
       numColumns={3}
@@ -39,7 +40,11 @@ export const CategoryCycleItem = ({ item, navigation }) => (
     }}
   >
     <View style={styles.itemTwoContainer}>
-      <Image style={styles.itemTwoImage} source={{ uri: item.image }} />
+      <Image
+        style={styles.itemTwoImage}
+        // source={{ uri: item.image }}
+        {...{ uri: item.image }}
+      />
     </View>
     <Text style={styles.itemTwoTitle}>{item.name}</Text>
   </TouchableOpacity>
