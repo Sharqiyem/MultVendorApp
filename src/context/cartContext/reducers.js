@@ -14,15 +14,20 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           cartItems: [...state.cartItems],
+          totalAmount: calcTotalAmount(state.cartItems),
         };
-      } else
+      } else {
+        const newCartItems = [
+          ...state.cartItems,
+          { item: action.payload, quantity: 1 },
+        ];
         return {
           ...state,
-          cartItems: [
-            ...state.cartItems,
-            { item: action.payload, quantity: 1 },
-          ],
+          cartItems: newCartItems,
+          totalAmount: calcTotalAmount(newCartItems),
         };
+      }
+
     case types.CART_REMOVE:
       const itemToRemove = action.payload;
       const itemExist1 = state.cartItems.find(
@@ -38,6 +43,7 @@ const reducer = (state = initialState, action) => {
           return {
             ...state,
             cartItems: [...cartItems],
+            totalAmount: calcTotalAmount(cartItems),
           };
         }
         const cartItemIndex = state.cartItems.findIndex(
@@ -47,6 +53,7 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           cartItems: [...state.cartItems],
+          totalAmount: calcTotalAmount(state.cartItems),
         };
       }
 
@@ -62,12 +69,22 @@ const reducer = (state = initialState, action) => {
         return {
           ...state,
           cartItems: [...cartItems2],
+          totalAmount: calcTotalAmount(cartItems2),
         };
       }
-      return state;
+      return { ...state, totalAmount: calcTotalAmount(state.cartItems) };
 
     default:
       throw new Error('Unexpected action');
   }
+};
+
+const calcTotalAmount = (cartItems) => {
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.quantity * item.item.price,
+    0
+  );
+  console.log('calcTotalAmount', total);
+  return total;
 };
 export default reducer;
