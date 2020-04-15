@@ -17,30 +17,49 @@ import {
 import getStyle from '../constants/styles';
 import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
-import { StoreContext } from '../context/cartContext/provider';
+import {
+  StoreContext,
+  LocalizationContext,
+} from '../context/cartContext/provider';
 import { UserContext } from '../context/userContext/provider';
 import productHooks from '../hooks/useGetDataByCollection';
-export default function OrderDetailsScreen({ navigation }) {
+import { useGetOrders } from '../hooks/useGetUserAddresses';
+import moment from 'moment';
+
+export default function OrderDetailsScreen({ navigation, route }) {
+  const { textHeader, row } = getStyle();
+  const { t } = React.useContext(LocalizationContext);
+
+  const orderId = route.params.id;
   const { state } = React.useContext(StoreContext);
   const { state: userState } = React.useContext(UserContext);
-  const { cartItems } = state;
+  const { cartItems, totalAmount } = state;
 
   const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
 
+  const [orders, isLoadingOrders] = useGetOrders();
+
+  const [currentOrder, setCurrentOrder] = React.useState(null);
   const [selectedStore, setSelectedStore] = React.useState(null);
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.quantity * item.item.price,
-    0
-  );
+  React.useEffect(() => {
+    if (!isLoadingOrders) {
+      const filterdOrders = orders.filter((order) => order.id === orderId);
+      if (filterdOrders.length > 0) {
+        setCurrentOrder(filterdOrders[0]);
+        console.log('currentOrder', currentOrder);
+      }
+    }
+  }, [isLoadingOrders]);
 
   React.useEffect(() => {
-    if (!isLoading) {
-      const storeId = cartItems[0].item.storeId;
+    if (!isLoading && currentOrder) {
+      const storeId = currentOrder.products[0].item.storeId;
       const selectedStore = stores.find((item) => item.id === storeId);
+      console.log('selectedStore', selectedStore);
       setSelectedStore(selectedStore);
     }
-  }, [isLoading]);
+  }, [isLoading, currentOrder]);
 
   console.log('stores', stores);
   const { selectedDeliveryAddress, selectedPaymentMethod } = userState;
@@ -48,7 +67,7 @@ export default function OrderDetailsScreen({ navigation }) {
   console.log({ selectedDeliveryAddress, selectedPaymentMethod, cartItems });
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={[getStyle().textHeader, { margin: 20 }]}>Order details</Text>
+      <Text style={[textHeader, { margin: 20 }]}>{t('Order details')}</Text>
 
       <View style={{}}>
         <OrderProductCycleList data={cartItems} />
@@ -58,76 +77,84 @@ export default function OrderDetailsScreen({ navigation }) {
         style={{ flex: 1 }}
         contentContainerStyle={{ padding: 20 }}
       >
-        <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+        <View style={[row, { justifyContent: 'space-between' }]}>
           <Text>Order ID</Text>
-          <Text style={{ backgroundColor: 'red' }}>#65656</Text>
+          {currentOrder && <Text style={{}}>{currentOrder.id}</Text>}
         </View>
 
-        <View style={styles.orderDetailContainer}>
-          <Text style={getStyle().textHeader}>Delivery</Text>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
-            <Text>Address name:</Text>
-            <Text
-              style={{
-                paddingHorizontal: 10,
-                textAlign: 'right',
-                // backgroundColor: 'red',
-              }}
-            >
-              {selectedDeliveryAddress.label}
-            </Text>
+        {currentOrder && (
+          <View style={styles.orderDetailContainer}>
+            <Text style={textHeader}>Delivery</Text>
+            <View style={[row, { justifyContent: 'space-between' }]}>
+              <Text>Address name:</Text>
+              <Text
+                style={{
+                  paddingHorizontal: 10,
+                  textAlign: 'right',
+                  // backgroundColor: 'red',
+                }}
+              >
+                {currentOrder.selectedDeliveryAddress.label}
+              </Text>
+            </View>
+            <View style={[row, { justifyContent: 'space-between' }]}>
+              <Text>Address:</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  paddingHorizontal: 10,
+                  textAlign: 'right',
+                  // backgroundColor: 'red',
+                }}
+              >
+                {currentOrder.selectedDeliveryAddress.address}
+              </Text>
+            </View>
           </View>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
-            <Text>Address:</Text>
-            <Text
-              style={{
-                flex: 1,
-                paddingHorizontal: 10,
-                textAlign: 'right',
-                // backgroundColor: 'red',
-              }}
-            >
-              {selectedDeliveryAddress.address}
-            </Text>
-          </View>
-        </View>
+        )}
 
         <View style={styles.orderDetailContainer}>
-          <Text style={getStyle().textHeader}>Details</Text>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <Text style={textHeader}>Details</Text>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Store name:</Text>
             {selectedStore && <Text>{selectedStore.name}</Text>}
           </View>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Order date</Text>
-            <Text style={{ backgroundColor: 'red' }}>20-03-2020 19:00</Text>
+            {currentOrder ? (
+              <Text style={{}}>
+                {moment(currentOrder.createdAt).format('YY-MM-DD hh:mm')}
+              </Text>
+            ) : null}
           </View>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Total amount</Text>
-            <Text>{total}$</Text>
+            <Text>{totalAmount}$</Text>
           </View>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Status</Text>
-            <Text style={{ backgroundColor: 'red' }}>Completed</Text>
+            {currentOrder && <Text style={{}}>{currentOrder.status}</Text>}
           </View>
         </View>
 
         <View style={styles.orderDetailContainer}>
-          <Text style={getStyle().textHeader}>Customer</Text>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <Text style={textHeader}>Customer</Text>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Customer name:</Text>
             <Text>Home</Text>
           </View>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Tel:</Text>
             <Text>{selectedDeliveryAddress.tel}</Text>
           </View>
         </View>
 
         <View style={styles.orderDetailContainer}>
-          <View style={[getStyle().row, { justifyContent: 'space-between' }]}>
+          <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Payment method:</Text>
-            <Text>{selectedPaymentMethod.label}</Text>
+            {currentOrder && (
+              <Text>{currentOrder.selectedPaymentMethod.label}</Text>
+            )}
           </View>
         </View>
       </ScrollView>

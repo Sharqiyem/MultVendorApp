@@ -11,13 +11,19 @@ import Colors from '../constants/Colors';
 import { RadioButtons } from '../components/index';
 import getStyle from '../constants/styles';
 
-import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 import { UserContext } from '../context/userContext/provider';
 import types from '../context/userContext/types';
+import { addOrder } from '../core/firebaseHelper';
+import { StoreContext } from '../context/cartContext/provider';
+import { orderUUID } from '../core/stringHelper';
 
 export default function PaymentScreen({ navigation }) {
-  const { state, dispatch } = React.useContext(UserContext);
+  const { state } = React.useContext(StoreContext);
+  const { cartItems, totalAmount } = state;
+
+  const { state: userState, dispatch } = React.useContext(UserContext);
+  const { selectedDeliveryAddress } = userState;
 
   const _paymentMethod = [
     {
@@ -48,8 +54,27 @@ export default function PaymentScreen({ navigation }) {
       payload: selectedPaymentMethod[0],
     });
 
-    console.log(state.selectedPaymentMethod);
-    navigation.navigate('OrderDetails');
+    placeOrder(selectedPaymentMethod[0]);
+  };
+
+  const placeOrder = async (selectedPaymentMethod) => {
+    const date = Date.now(); //firebase.firestore.FieldValue.serverTimestamp(); //
+    console.log('firebase.database.ServerValue.TIMESTAMP', date);
+    const id = orderUUID();
+    const order = {
+      id,
+      selectedDeliveryAddress,
+      selectedPaymentMethod,
+      totalAmount,
+      createdAt: date,
+      updatedAt: date,
+      products: cartItems,
+      status: 'In progress',
+    };
+
+    await addOrder(order);
+
+    navigation.navigate('OrderDetails', { id });
   };
 
   return (
