@@ -1,21 +1,14 @@
 import firebase from '../config/firebase.config';
+import { uuidv4, orderUUID } from './stringHelper';
 
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-
-export const saveUserToDb = async (address, edit = false) => {
+export const manageUserAddresses = async (address, edit = false) => {
   // return firebase.firestore().collection(collName).add(object);
   try {
     const db = firebase.firestore();
     const userId = firebase.auth().currentUser.uid;
     const userDoc = db.collection('users').doc(userId);
 
-    console.log('saveUserToDb', userDoc);
+    console.log('manageUserAddresses', userDoc);
     // if (userDoc)
 
     // userDoc.update({
@@ -25,7 +18,7 @@ export const saveUserToDb = async (address, edit = false) => {
     // else
     // await userDoc.set({ addresses: [] }, { merge: true });
 
-    db.runTransaction((transaction) => {
+    await db.runTransaction((transaction) => {
       return transaction.get(userDoc).then(async (snapshot) => {
         const addressesArray = snapshot.get('addresses');
         console.log('addressesArray', addressesArray);
@@ -47,35 +40,30 @@ export const saveUserToDb = async (address, edit = false) => {
       });
     });
   } catch (err) {
-    console.log('saveUserToDb', err);
+    console.log('manageUserAddresses', err);
   }
 };
 
-export const updateUserToDb = async (object) => {
-  // return firebase.firestore().collection(collName).add(object);
+export const addOrder = async (order) => {
   try {
     const db = firebase.firestore();
     const userId = firebase.auth().currentUser.uid;
     const userDoc = db.collection('users').doc(userId);
-    console.log(userDoc);
-    // if (userDoc)
-    userDoc.update({
-      addresses: firebase.firestore.FieldValue.arrayUnion(object),
-    });
-    // else
-    // await userDoc.set({ addresses: [] }, { merge: true });
 
-    //   db.runTransaction((transaction) => {
-    //     return transaction.get(userDoc).then(async (snapshot) => {
-    //       const largerArray = snapshot.get('addresses');
-    //       console.log('largerArray', largerArray);
-    //       if (largerArray.length === 0)
-    //         await userDoc.set({ addresses: [] }, { merge: true });
-    //       largerArray.push(object);
-    //       transaction.update(userDoc, 'addresses', largerArray);
-    //     });
-    //   });
+    await db.runTransaction((transaction) => {
+      return transaction.get(userDoc).then(async (snapshot) => {
+        const ordersArray = snapshot.get('orders');
+        console.log('orders', ordersArray);
+
+        // TODO: Fix if addressesArray doesn't exist
+        if (ordersArray) {
+          ordersArray.push(order);
+
+          transaction.update(userDoc, 'orders', ordersArray);
+        }
+      });
+    });
   } catch (err) {
-    console.log('saveUserToDb', err);
+    console.log('manageUserAddresses', err);
   }
 };
