@@ -17,7 +17,7 @@ import { centerHeaderTitleAndroid } from '../core/functions';
 export default function StoreScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = React.useState('products');
   const { item } = route.params;
-  console.log('Store item', item);
+  // console.log('Store item', item);
 
   centerHeaderTitleAndroid(navigation, route);
 

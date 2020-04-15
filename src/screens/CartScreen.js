@@ -6,6 +6,7 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import { Image } from 'react-native-expo-image-cache';
@@ -25,8 +26,9 @@ const preview = {
 const CartScreen = ({ navigation }) => {
   const { state, dispatch } = useContext(StoreContext);
   const data = state.cartItems;
+  const total = state.totalAmount;
 
-  console.log('cartItems', data);
+  // console.log('cartItems', data);
 
   const removeItem = (item) => {
     dispatch({ type: types.CART_REMOVE_ITEM, payload: item });
@@ -40,15 +42,11 @@ const CartScreen = ({ navigation }) => {
     dispatch({ type: types.CART_REMOVE, payload: item });
   };
 
-  const total = state.cartItems.reduce(
-    (sum, item) => sum + item.quantity * item.item.price,
-    0
-  );
-
   const RenderItem = ({ name, price, images, quantity, item }) => {
     const uri = images[0];
     return (
       <View style={styles.itemContainer}>
+        {/* <StatusBar backgroundColor='red' barStyle='dark-content' /> */}
         <View
           style={{
             flex: 1,

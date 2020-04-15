@@ -8,6 +8,7 @@
   "Sign out": "خروج",
   "Save": "حفظ",
   "Enter address": "ادخل العنوان",
+  "Order details": "تفاصيل الطلب",
   "Errors": {
     "user with tel no not exist": "لا يوجد مستخدم بهذا الرقم",
     "Authentication Faild": "فشلت عملية الدخول. كلمة المرور غير صحيحة",

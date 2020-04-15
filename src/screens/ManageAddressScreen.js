@@ -24,7 +24,7 @@ import Colors from '../constants/Colors';
 import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { LocalizationContext } from '../context/cartContext/provider';
-import { saveUserToDb } from '../core/firebaseHelper';
+import { manageUserAddresses } from '../core/firebaseHelper';
 import { GooglePlacesInput } from '../components/GooglePlacesInput';
 import { MapConfig } from '../config/googlemap.config';
 
@@ -247,9 +247,9 @@ export default function ManageAddressScreen({ navigation, route }) {
     // if edit
     if (item) {
       newAddress.id = item.id;
-      await saveUserToDb(newAddress, true);
+      await manageUserAddresses(newAddress, true);
     } else {
-      await saveUserToDb(newAddress);
+      await manageUserAddresses(newAddress);
     }
     // dispatch({ type: types.ADD_ADDRESS, payload: newAddress });
 

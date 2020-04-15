@@ -7,6 +7,7 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
@@ -125,7 +126,16 @@ export default function AddressesScreen({ navigation }) {
           Select your address
         </Text>
 
-        {/* {isLoading ? <Text>Loading</Text> : null} */}
+        {!addresses && (
+          <ActivityIndicator
+            style={{
+              alignSelf: 'center',
+              width: Layout.window.width,
+            }}
+            size={'large'}
+            color={Colors.primary}
+          />
+        )}
         {addresses && addresses.length > 0 && (
           <ScrollView
             showsVerticalScrollIndicator={false}

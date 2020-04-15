@@ -10,6 +10,7 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Logo } from '../components';
@@ -25,6 +26,7 @@ export default function LoginScreen({ navigation }) {
   const [email, setEmail] = React.useState('b@b.com');
   const [password, setPassword] = React.useState('123456');
   const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const { state, signIn } = React.useContext(AuthContext);
   console.log('auth STATE', state);
@@ -32,6 +34,7 @@ export default function LoginScreen({ navigation }) {
   React.useEffect(() => {});
 
   const handleLogin = () => {
+    setIsLoading(true);
     console.log('handleLogin');
     firebase
       .auth()
@@ -39,10 +42,13 @@ export default function LoginScreen({ navigation }) {
       .then((user) => {
         console.log(user.user.id);
         signIn(user.user.uid);
-
+        setIsLoading(false);
         // navigation.navigate('Home');
       })
-      .catch((err) => setError(err));
+      .catch((err) => {
+        setIsLoading(false);
+        setError(err);
+      });
   };
 
   return (
@@ -76,6 +82,17 @@ export default function LoginScreen({ navigation }) {
             LOGIN
           </Text>
         </TouchableOpacity>
+
+        {isLoading ? (
+          <ActivityIndicator
+            style={{
+              alignSelf: 'center',
+              width: Layout.window.width,
+            }}
+            size={'large'}
+            color={Colors.primary}
+          />
+        ) : null}
         {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
 
         {/* Social media login */}
