@@ -16,6 +16,18 @@ const reducer = (state = initialState, action) => {
         addresses: action.payload,
       };
 
+    case types.SET_SELECTED_DELIVERY_ADDRESS:
+      return {
+        ...state,
+        selectedDeliveryAddress: action.payload,
+      };
+
+    case types.SET_SELECTED_PAYMENT_METHOD:
+      return {
+        ...state,
+        selectedPaymentMethod: action.payload,
+      };
+
     default:
       return state;
   }
