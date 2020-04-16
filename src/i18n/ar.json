@@ -8,6 +8,8 @@
   "Sign out": "خروج",
   "Save": "حفظ",
   "Enter address": "ادخل العنوان",
+  "Details": "تفاصيل",
+  "Order ID": "رقم الطلب",
   "Order details": "تفاصيل الطلب",
   "Errors": {
     "user with tel no not exist": "لا يوجد مستخدم بهذا الرقم",

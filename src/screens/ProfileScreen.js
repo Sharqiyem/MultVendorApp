@@ -55,6 +55,42 @@ export default function ProfileScreen({ navigation }) {
           Lang
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{ height: 30 }}
+        onPress={() => {
+          navigation.navigate('Orders');
+        }}
+      >
+        <Text
+          style={{
+            // fontFamily: 'space-mono',
+            color: 'red',
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
+          Orders
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{ height: 30 }}
+        onPress={() => {
+          navigation.navigate('Address', { fromProfile: true });
+        }}
+      >
+        <Text
+          style={{
+            // fontFamily: 'space-mono',
+            color: 'red',
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
+          Addresses
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

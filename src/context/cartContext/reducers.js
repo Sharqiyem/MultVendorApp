@@ -3,6 +3,17 @@ import initialState from './state';
 const reducer = (state = initialState, action) => {
   // console.log({ oldState: state, type: action.type, payload: action.payload });
   switch (action.type) {
+    case types.REORDER:
+      const reOrderItems = action.payload.products;
+      const storeId = action.payload.storeId;
+
+      return {
+        ...state,
+        cartItems: [...reOrderItems],
+        totalAmount: calcTotalAmount(reOrderItems),
+        selectedStore: storeId,
+      };
+
     case types.CART_ADD:
       const newItem = action.payload;
       const itemExist = state.cartItems.find(
@@ -15,6 +26,7 @@ const reducer = (state = initialState, action) => {
           ...state,
           cartItems: [...state.cartItems],
           totalAmount: calcTotalAmount(state.cartItems),
+          selectedStore: newItem.storeId,
         };
       } else {
         const newCartItems = [
@@ -25,6 +37,7 @@ const reducer = (state = initialState, action) => {
           ...state,
           cartItems: newCartItems,
           totalAmount: calcTotalAmount(newCartItems),
+          selectedStore: newItem.storeId,
         };
       }
 
@@ -84,7 +97,7 @@ const calcTotalAmount = (cartItems) => {
     (sum, item) => sum + item.quantity * item.item.price,
     0
   );
-  console.log('calcTotalAmount', total);
+  console.log('calcTotalAmount', cartItems);
   return total;
 };
 export default reducer;

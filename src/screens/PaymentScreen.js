@@ -20,7 +20,7 @@ import { orderUUID } from '../core/stringHelper';
 
 export default function PaymentScreen({ navigation }) {
   const { state } = React.useContext(StoreContext);
-  const { cartItems, totalAmount } = state;
+  const { cartItems, totalAmount, selectedStore } = state;
 
   const { state: userState, dispatch } = React.useContext(UserContext);
   const { selectedDeliveryAddress } = userState;
@@ -66,6 +66,7 @@ export default function PaymentScreen({ navigation }) {
       selectedDeliveryAddress,
       selectedPaymentMethod,
       totalAmount,
+      selectedStore,
       createdAt: date,
       updatedAt: date,
       products: cartItems,
@@ -110,7 +111,7 @@ export default function PaymentScreen({ navigation }) {
       <View style={styles.tabBarInfoContainer}>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.primary,
             // padding: 10,
             margin: 10,
             borderRadius: 100,
@@ -123,7 +124,7 @@ export default function PaymentScreen({ navigation }) {
           }}
           onPress={continueHandler}
         >
-          <Text style={{ textAlign: 'center', color: Colors.primary }}>
+          <Text style={{ textAlign: 'center', color: Colors.white }}>
             Continue
           </Text>
         </TouchableOpacity>

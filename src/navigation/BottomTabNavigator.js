@@ -31,6 +31,7 @@ import AddressesScreen from '../screens/AddressesScreen';
 import PaymentScreen from '../screens/PaymentScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 import ManageAddressScreen from '../screens/ManageAddressScreen';
+import OrdersScreen from '../screens/OrdersScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -210,6 +211,28 @@ function ProfileStack({ navigation }) {
         name='Profile'
         options={{ title: 'Profile' }}
         component={ProfileScreen}
+      />
+      <Stack.Screen
+        name='Orders'
+        options={{ title: 'Orders' }}
+        component={OrdersScreen}
+      />
+      <Stack.Screen
+        name='OrderDetails'
+        options={{ title: 'Order details' }}
+        component={OrderDetailsScreen}
+      />
+      <Stack.Screen
+        name='Address'
+        options={{
+          title: 'Addresses',
+        }}
+        component={AddressesScreen}
+      />
+      <Stack.Screen
+        name='ManageAddress'
+        options={{ title: 'Manage address' }}
+        component={ManageAddressScreen}
       />
     </Stack.Navigator>
   );

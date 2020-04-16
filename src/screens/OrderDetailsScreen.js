@@ -31,9 +31,6 @@ export default function OrderDetailsScreen({ navigation, route }) {
   const { t } = React.useContext(LocalizationContext);
 
   const orderId = route.params.id;
-  const { state } = React.useContext(StoreContext);
-  const { state: userState } = React.useContext(UserContext);
-  const { cartItems, totalAmount } = state;
 
   const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
 
@@ -54,7 +51,7 @@ export default function OrderDetailsScreen({ navigation, route }) {
 
   React.useEffect(() => {
     if (!isLoading && currentOrder) {
-      const storeId = currentOrder.products[0].item.storeId;
+      const storeId = currentOrder.selectedStore;
       const selectedStore = stores.find((item) => item.id === storeId);
       console.log('selectedStore', selectedStore);
       setSelectedStore(selectedStore);
@@ -62,15 +59,14 @@ export default function OrderDetailsScreen({ navigation, route }) {
   }, [isLoading, currentOrder]);
 
   console.log('stores', stores);
-  const { selectedDeliveryAddress, selectedPaymentMethod } = userState;
 
-  console.log({ selectedDeliveryAddress, selectedPaymentMethod, cartItems });
+  if (!currentOrder) return <Text>Loading</Text>;
   return (
     <SafeAreaView style={styles.container}>
       <Text style={[textHeader, { margin: 20 }]}>{t('Order details')}</Text>
 
       <View style={{}}>
-        <OrderProductCycleList data={cartItems} />
+        <OrderProductCycleList data={currentOrder.products} />
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -78,40 +74,38 @@ export default function OrderDetailsScreen({ navigation, route }) {
         contentContainerStyle={{ padding: 20 }}
       >
         <View style={[row, { justifyContent: 'space-between' }]}>
-          <Text>Order ID</Text>
-          {currentOrder && <Text style={{}}>{currentOrder.id}</Text>}
+          <Text>{t('Order ID')}</Text>
+          <Text style={{}}>{currentOrder.id}</Text>
         </View>
 
-        {currentOrder && (
-          <View style={styles.orderDetailContainer}>
-            <Text style={textHeader}>Delivery</Text>
-            <View style={[row, { justifyContent: 'space-between' }]}>
-              <Text>Address name:</Text>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  textAlign: 'right',
-                  // backgroundColor: 'red',
-                }}
-              >
-                {currentOrder.selectedDeliveryAddress.label}
-              </Text>
-            </View>
-            <View style={[row, { justifyContent: 'space-between' }]}>
-              <Text>Address:</Text>
-              <Text
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 10,
-                  textAlign: 'right',
-                  // backgroundColor: 'red',
-                }}
-              >
-                {currentOrder.selectedDeliveryAddress.address}
-              </Text>
-            </View>
+        <View style={styles.orderDetailContainer}>
+          <Text style={textHeader}>Delivery</Text>
+          <View style={[row, { justifyContent: 'space-between' }]}>
+            <Text>Address name:</Text>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                textAlign: 'right',
+                // backgroundColor: 'red',
+              }}
+            >
+              {currentOrder.selectedDeliveryAddress.label}
+            </Text>
           </View>
-        )}
+          <View style={[row, { justifyContent: 'space-between' }]}>
+            <Text>Address:</Text>
+            <Text
+              style={{
+                flex: 1,
+                paddingHorizontal: 10,
+                textAlign: 'right',
+                // backgroundColor: 'red',
+              }}
+            >
+              {currentOrder.selectedDeliveryAddress.address}
+            </Text>
+          </View>
+        </View>
 
         <View style={styles.orderDetailContainer}>
           <Text style={textHeader}>Details</Text>
@@ -129,11 +123,11 @@ export default function OrderDetailsScreen({ navigation, route }) {
           </View>
           <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Total amount</Text>
-            <Text>{totalAmount}$</Text>
+            <Text>{currentOrder.totalAmount}$</Text>
           </View>
           <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Status</Text>
-            {currentOrder && <Text style={{}}>{currentOrder.status}</Text>}
+            <Text style={{}}>{currentOrder.status}</Text>
           </View>
         </View>
 
@@ -145,16 +139,15 @@ export default function OrderDetailsScreen({ navigation, route }) {
           </View>
           <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Tel:</Text>
-            <Text>{selectedDeliveryAddress.tel}</Text>
+
+            <Text>{currentOrder.selectedDeliveryAddress.tel}</Text>
           </View>
         </View>
 
         <View style={styles.orderDetailContainer}>
           <View style={[row, { justifyContent: 'space-between' }]}>
             <Text>Payment method:</Text>
-            {currentOrder && (
-              <Text>{currentOrder.selectedPaymentMethod.label}</Text>
-            )}
+            <Text>{currentOrder.selectedPaymentMethod.label}</Text>
           </View>
         </View>
       </ScrollView>

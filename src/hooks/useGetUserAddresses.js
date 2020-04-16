@@ -77,6 +77,7 @@ export const useGetOrders = () => {
               updatedAt: orderItem.updatedAt,
               products: orderItem.products,
               status: orderItem.status,
+              selectedStore: orderItem.selectedStore,
             });
           });
 

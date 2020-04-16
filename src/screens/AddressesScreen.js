@@ -19,7 +19,8 @@ import Layout from '../constants/Layout';
 import { UserContext } from '../context/userContext/provider';
 import types from '../context/userContext/types';
 
-export default function AddressesScreen({ navigation }) {
+export default function AddressesScreen({ navigation, route }) {
+  const fromProfile = route.params?.fromProfile || false;
   const { row, text, textHeader, buttonOutline } = getStyle();
 
   const { state, dispatch } = React.useContext(UserContext);
@@ -120,11 +121,13 @@ export default function AddressesScreen({ navigation }) {
         </Text>
       </TouchableOpacity>
       <View style={{ flex: 1, margin: 20 }}>
-        <Text
-          style={[textHeader, { marginHorizontal: 20, marginVertical: 10 }]}
-        >
-          Select your address
-        </Text>
+        {!fromProfile && (
+          <Text
+            style={[textHeader, { marginHorizontal: 20, marginVertical: 10 }]}
+          >
+            Select your address
+          </Text>
+        )}
 
         {!addresses && (
           <ActivityIndicator
@@ -154,28 +157,35 @@ export default function AddressesScreen({ navigation }) {
           </ScrollView>
         )}
       </View>
-      <View style={styles.tabBarInfoContainer}>
-        <TouchableOpacity
-          disabled={addresses.length === 0}
-          style={{
-            backgroundColor: Colors.white,
-            // padding: 10,
-            margin: 10,
-            borderRadius: 100,
-            borderWidth: 1,
-            borderColor: Colors.primary,
-            flex: 1,
-            height: 30,
-            width: Layout.window.width * 0.8,
-            justifyContent: 'center',
-          }}
-          onPress={continueHandler}
-        >
-          <Text style={{ textAlign: 'center', color: Colors.primary }}>
-            Continue
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {!fromProfile && (
+        <View style={styles.tabBarInfoContainer}>
+          <TouchableOpacity
+            disabled={addresses.length === 0}
+            style={{
+              backgroundColor: Colors.primary,
+              // padding: 10,
+              margin: 10,
+              borderRadius: 100,
+              borderWidth: 1,
+              borderColor: Colors.primary,
+              flex: 1,
+              height: 30,
+              width: Layout.window.width * 0.8,
+              justifyContent: 'center',
+            }}
+            onPress={continueHandler}
+          >
+            <Text
+              style={{
+                textAlign: 'center',
+                color: Colors.white,
+              }}
+            >
+              Continue
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   );
 }

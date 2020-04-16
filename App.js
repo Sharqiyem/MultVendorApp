@@ -23,6 +23,7 @@ import { AuthProvider } from './src/context/authContext/provider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AddressesScreen from './src/screens/AddressesScreen';
 import ManageAddressScreen from './src/screens/ManageAddressScreen';
+import OrdersScreen from './src/screens/OrdersScreen';
 import { UserProvider } from './src/context/userContext/provider';
 
 YellowBox.ignoreWarnings([
@@ -172,6 +173,7 @@ export default function App(props) {
                 >
                   {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
                   {/* <AddressesScreen /> */}
+                  {/* <OrdersScreen /> */}
                 </NavigationContainer>
               </SafeAreaProvider>
             </UserProvider>

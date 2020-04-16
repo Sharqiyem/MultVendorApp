@@ -68,14 +68,12 @@ UI design Checkout screens
 
 ### Orders management
 
-1.1. [In] place order,
-1.1.1 [In] re order functionality (2h)
+1.1. [Done] place order,
+1.1.1 [Done] re order functionality (2h)
 
 1.2. [Done] order details screen
 
-1.3 [In] order history screen (1h)
-
-2. [In] Logic - Orders management (2h)
+1.3 [Done] order history screen (1h)
 
 # 3 REALESE V3.0 (20 April)
 

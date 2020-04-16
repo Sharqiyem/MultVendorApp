@@ -9,6 +9,8 @@
   "Save": "Save",
   "Enter address": "Enter address",
   "Order details": "Order details",
+  "Details": "Details",
+  "Order ID": "Order ID",
   "Errors": {
     "user with tel no not exist": "User with this tel No. not exist",
     "Authentication Faild": "Authentication failed",
