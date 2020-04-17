@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Platform, StatusBar, AsyncStorage, YellowBox } from 'react-native';
-import { SplashScreen } from 'expo';
+import { SplashScreen, AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import firebase from './src/config/firebase.config';
+import { setCustomText } from 'react-native-global-props';
 
 import { RootNavigator } from './src/navigation/BottomTabNavigator';
 import {
@@ -37,6 +38,8 @@ if (__DEV__) {
 export default function App(props) {
   const { skipLoadingScreen } = props;
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [fontLoaded, setFontLoaded] = React.useState(false);
+
   const [isFirebaseInit, setIsFirebaseInit] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
@@ -44,6 +47,7 @@ export default function App(props) {
 
   const [locale, setLocale] = React.useState(I18n.locale);
   const [isRTL, setIsRTL] = React.useState(I18n.isRTL);
+
   const changeLang = () => {
     try {
       I18n.changDefLanguage(locale);
@@ -60,6 +64,7 @@ export default function App(props) {
       console.log(err);
     }
   };
+
   const localizationContext = React.useMemo(
     () => ({
       t: (scope, options) => I18n.t(scope, { locale, ...options }),
@@ -69,6 +74,51 @@ export default function App(props) {
     }),
     [locale]
   );
+
+  const setDefaultTextStyles = () => {
+    const customTextProps = {
+      style: {
+        fontSize: 12,
+        fontFamily: 'DroidKufi',
+        // color: 'white'
+        // alignSelf: I18n.isRTL() ? "flex-end" : "flex-start"
+      },
+    };
+    //https://github.com/Ajackster/react-native-global-props
+    setCustomText(customTextProps);
+  };
+
+  async function loadResourcesAsync() {
+    await Promise.all([
+      // Asset.loadAsync([
+      //   require('./assets/images/hosp/1.jpeg'),
+      //   require('./assets/images/hosp/2.jpeg'),
+      //   require('./assets/images/hosp/3.jpeg')
+      // ]),
+      Font.loadAsync({
+        // This is the font that we are using for our tab bar
+        ...Ionicons.font,
+        // We include SpaceMono because we use it in HomeScreen.js. Feel free to
+        // remove this if you are not using it in your app
+        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        DroidKufi: require('./assets/fonts/DroidKufi-Regular.ttf'),
+      }),
+    ]);
+
+    setFontLoaded(true);
+  }
+
+  function handleLoadingError(error) {
+    // In this case, you might want to report the error to your error reporting
+    // service, for example Sentry
+    console.warn(error);
+  }
+
+  function handleFinishLoading(setLoadingComplete) {
+    setLoadingComplete(true);
+
+    SplashScreen.hide();
+  }
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -122,18 +172,12 @@ export default function App(props) {
         } catch (err) {
           console.log('registerForPushNotificationsAsync faild ');
         }
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-          'DroidKufi-Regular': require('./assets/fonts/DroidKufi-Regular.ttf'),
-        });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
-        setLoadingComplete(true);
-        SplashScreen.hide();
+        // setLoadingComplete(true);
+        // SplashScreen.hide();
       }
     }
 
@@ -144,11 +188,28 @@ export default function App(props) {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log('user changed..', user);
-        setIsFirebaseInit(true);
+        // setIsFirebaseInit(true);
       }
+      setIsFirebaseInit(true);
     });
-    setIsFirebaseInit(true);
+    // setIsFirebaseInit(true);
+    setDefaultTextStyles();
   });
+
+  if (
+    !isLoadingComplete &&
+    !skipLoadingScreen &&
+    !isFirebaseInit &&
+    !fontLoaded
+  ) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  }
 
   if (!isLoadingComplete && !skipLoadingScreen && !isFirebaseInit) {
     return <LoadingScreen />;
