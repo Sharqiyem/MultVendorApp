@@ -138,6 +138,8 @@ const getStyle = () => {
       paddingHorizontal: 5,
     },
 
+    angleIcon: isRTL ? 'angle-left' : 'angle-right',
+
     //Forms
     textInput: {
       height: inputTextHeight,
