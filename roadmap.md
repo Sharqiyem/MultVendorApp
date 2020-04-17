@@ -69,11 +69,19 @@ UI design Checkout screens
 ### Orders management
 
 1.1. [Done] place order,
+
 1.1.1 [Done] re order functionality (2h)
 
 1.2. [Done] order details screen
 
 1.3 [Done] order history screen (1h)
+
+1.4 profile UI and [In progress] func
+1.4.1 [Done] share app
+1.4.1 [Done] rate app
+1.4.1 [Done] contact us
+1.4.1 [Done] about us
+1.4.1 [Done] change language
 
 # 3 REALESE V3.0 (20 April)
 
@@ -95,4 +103,4 @@ Notification {id, text, created date, is readed, sender id }
 
 # Issues
 
-set tabBarVisible for some screens
+[Fixed] set tabBarVisible for some screens
