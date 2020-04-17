@@ -13,7 +13,7 @@ const useGetUserAddresses = () => {
     const unsubscribe = firebase
       .firestore()
       .collection('users')
-      .doc(firebase.auth().currentUser?.uid || 'neb7mRODYTTaSvdxbsGhwOksLdU2')
+      .doc(firebase.auth().currentUser?.uid)
 
       .onSnapshot((snapShot) => {
         const newData = snapShot.data().addresses;
@@ -60,7 +60,7 @@ export const useGetOrders = () => {
     const unsubscribe = firebase
       .firestore()
       .collection('users')
-      .doc(firebase.auth().currentUser?.uid || 'neb7mRODYTTaSvdxbsGhwOksLdU2')
+      .doc(firebase.auth().currentUser?.uid)
 
       .onSnapshot((snapShot) => {
         const newData = snapShot.data().orders;

@@ -8,24 +8,34 @@ const useGetDataByCollection = (collectionName = 'products') => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    // console.log('useGetDataByCollection useEffect');
-    const unsubscribe = firebase
-      .firestore()
-      .collection(collectionName)
-      .onSnapshot((snapShot) => {
-        // console.log('useGetDataByCollection onSnapshot');
-        const newData = snapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        if (!isCancelled) {
-          setData(newData);
-          setIsLoading(false);
-        }
-      });
+    let unsubscribe;
+    try {
+      // console.log('useGetDataByCollection useEffect');
+      unsubscribe = firebase
+        .firestore()
+        .collection(collectionName)
+        .onSnapshot((snapShot) => {
+          // console.log('useGetDataByCollection onSnapshot');
+          const newData = snapShot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          if (!isCancelled) {
+            setData(newData);
+            setIsLoading(false);
+          }
+        });
+    } catch (err) {
+      //TODO : try to catch error on use logout
+      alert(`useGetDataByCollection ${collectionName} err` + err);
+    }
     return () => {
+      console.log(`unsubscribe useGetDataByCollection ${collectionName}`);
       isCancelled = true;
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+        console.log(`unsubscribe useGetDataByCollection ${collectionName}`);
+      }
     };
   }, [collectionName]);
 
@@ -38,26 +48,36 @@ const useGetProductsByCatId = (catId) => {
   useEffect(() => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
+    let unsubscribe;
 
-    // console.log('useGetDataByCollection useEffect');
-    const unsubscribe = firebase
-      .firestore()
-      .collection('products')
-      .where('catId', '==', catId)
-      .onSnapshot((snapShot) => {
-        // console.log('useGetDataByCollection onSnapshot');
-        const newData = snapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        if (!isCancelled) {
-          setData(newData);
-          setIsLoading(false);
-        }
-      });
+    try {
+      // console.log('useGetDataByCollection useEffect');
+      unsubscribe = firebase
+        .firestore()
+        .collection('products')
+        .where('catId', '==', catId)
+        .onSnapshot((snapShot) => {
+          // console.log('useGetDataByCollection onSnapshot');
+          const newData = snapShot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          if (!isCancelled) {
+            setData(newData);
+            setIsLoading(false);
+          }
+        });
+    } catch (err) {
+      //TODO : try to catch error on use logout
+      alert('useGetProductsByCatId err' + err);
+    }
     return () => {
+      console.log('unsubscribe useGetProductsByCatId');
       isCancelled = true;
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+        console.log('unsubscribe useGetProductsByCatId');
+      }
     };
   }, [catId]);
 
@@ -70,26 +90,35 @@ const useGetProductsByStoreId = (storeId) => {
   useEffect(() => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
-
-    // console.log('useGetDataByCollection useEffect');
-    const unsubscribe = firebase
-      .firestore()
-      .collection('products')
-      .where('storeId', '==', storeId)
-      .onSnapshot((snapShot) => {
-        // console.log('useGetDataByCollection onSnapshot');
-        const newData = snapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        if (!isCancelled) {
-          setData(newData);
-          setIsLoading(false);
-        }
-      });
+    let unsubscribe;
+    try {
+      // console.log('useGetDataByCollection useEffect');
+      unsubscribe = firebase
+        .firestore()
+        .collection('products')
+        .where('storeId', '==', storeId)
+        .onSnapshot((snapShot) => {
+          // console.log('useGetDataByCollection onSnapshot');
+          const newData = snapShot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          if (!isCancelled) {
+            setData(newData);
+            setIsLoading(false);
+          }
+        });
+    } catch (err) {
+      //TODO : try to catch error on use logout
+      alert('useGetProductsByStoreId err' + err);
+    }
     return () => {
+      console.log('unsubscribe useGetProductsByStoreId');
       isCancelled = true;
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+        console.log('unsubscribe useGetProductsByStoreId');
+      }
     };
   }, [storeId]);
 

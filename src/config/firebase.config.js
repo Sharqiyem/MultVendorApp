@@ -16,5 +16,6 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+// firebase.firestore.setLogLevel('debug');
 console.log('firebase.SDK_VERSION', firebase.SDK_VERSION);
 export default firebase;

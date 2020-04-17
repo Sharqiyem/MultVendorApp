@@ -9,11 +9,11 @@ const UserContext = createContext(initialState);
 
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [data] = AddressHook.useGetUserAddresses();
+  // const [data] = AddressHook.useGetUserAddresses();
 
-  useEffect(() => {
-    dispatch({ type: types.SAVE_ADDRESSES, payload: data });
-  }, [data]);
+  // useEffect(() => {
+  //   dispatch({ type: types.SAVE_ADDRESSES, payload: data });
+  // }, [data]);
 
   return (
     <UserContext.Provider value={{ state, dispatch }}>
