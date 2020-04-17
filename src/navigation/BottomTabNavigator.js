@@ -32,6 +32,10 @@ import PaymentScreen from '../screens/PaymentScreen';
 import OrderDetailsScreen from '../screens/OrderDetailsScreen';
 import ManageAddressScreen from '../screens/ManageAddressScreen';
 import OrdersScreen from '../screens/OrdersScreen';
+import ContactUsScreen from '../screens/ContactUsScreen';
+import AboutUsScreen from '../screens/AboutUsScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -213,6 +217,17 @@ function ProfileStack({ navigation }) {
         component={ProfileScreen}
       />
       <Stack.Screen
+        name='EditProfile'
+        options={{ title: 'Edit Profile' }}
+        component={EditProfileScreen}
+      />
+      <Stack.Screen
+        name='ChangePassword'
+        options={{ title: 'Change Password' }}
+        component={ChangePasswordScreen}
+      />
+
+      <Stack.Screen
         name='Orders'
         options={{ title: 'Orders' }}
         component={OrdersScreen}
@@ -233,6 +248,17 @@ function ProfileStack({ navigation }) {
         name='ManageAddress'
         options={{ title: 'Manage address' }}
         component={ManageAddressScreen}
+      />
+
+      <Stack.Screen
+        name='ContactUs'
+        options={{ title: 'ContactUs' }}
+        component={ContactUsScreen}
+      />
+      <Stack.Screen
+        name='AboutUs'
+        options={{ title: 'About Us' }}
+        component={AboutUsScreen}
       />
     </Stack.Navigator>
   );
