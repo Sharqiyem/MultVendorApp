@@ -101,8 +101,8 @@ function HomeStack({ navigation, route }) {
 }
 
 function CategoriesStack({ navigation }) {
-  const { state, dispatch } = React.useContext(StoreContext);
   const { t } = React.useContext(LocalizationContext);
+  const { state, dispatch } = React.useContext(StoreContext);
 
   return (
     <Stack.Navigator
@@ -125,7 +125,7 @@ function CategoriesStack({ navigation }) {
     >
       <Stack.Screen
         name='Categories'
-        options={{ title: 'Categories' }}
+        options={{ title: t('Categories') }}
         component={CategoriesScreen}
       />
       <Stack.Screen
@@ -143,8 +143,8 @@ function CategoriesStack({ navigation }) {
 }
 
 function StoresStack({ navigation, route }) {
-  const { state, dispatch } = React.useContext(StoreContext);
   const { t } = React.useContext(LocalizationContext);
+  const { state, dispatch } = React.useContext(StoreContext);
 
   return (
     <Stack.Navigator
@@ -189,8 +189,8 @@ function StoresStack({ navigation, route }) {
 }
 
 function ProfileStack({ navigation }) {
+  const { t } = React.useContext(LocalizationContext);
   const { state } = React.useContext(StoreContext);
-
   return (
     <Stack.Navigator
       // initialRouteName='Register'
@@ -213,7 +213,7 @@ function ProfileStack({ navigation }) {
     >
       <Stack.Screen
         name='Profile'
-        options={{ title: 'Profile' }}
+        options={{ title: t('Account') }}
         component={ProfileScreen}
       />
       <Stack.Screen
@@ -307,8 +307,8 @@ export function AuthStack({ navigation }) {
 }
 
 function CartStack({ navigation }) {
-  const { state, dispatch } = React.useContext(StoreContext);
   const { t } = React.useContext(LocalizationContext);
+  const { state, dispatch } = React.useContext(StoreContext);
 
   return (
     <Stack.Navigator
@@ -371,6 +371,7 @@ function CartStack({ navigation }) {
 }
 
 export default function BottomTabNavigator() {
+  const { t } = React.useContext(LocalizationContext);
   const { state, dispatch } = React.useContext(StoreContext);
 
   return (
@@ -401,7 +402,7 @@ export default function BottomTabNavigator() {
         name='Home'
         component={HomeStack}
         options={{
-          title: 'Home',
+          title: t('Home'),
 
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-home' />
@@ -412,7 +413,7 @@ export default function BottomTabNavigator() {
         name='Stores'
         component={StoresStack}
         options={{
-          title: 'Stores',
+          title: t('Stores'),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-apps' />
           ),
@@ -425,7 +426,7 @@ export default function BottomTabNavigator() {
         name='Categories'
         component={CategoriesStack}
         options={{
-          title: 'Categories',
+          title: t('Categories'),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-book' />
           ),
@@ -436,7 +437,7 @@ export default function BottomTabNavigator() {
         name='Profile'
         component={ProfileStack}
         options={{
-          title: 'Profile',
+          title: t('Account'),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} name='md-person' />
           ),

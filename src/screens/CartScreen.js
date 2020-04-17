@@ -17,6 +17,7 @@ import { useRoute } from '@react-navigation/native';
 import { StoreContext } from '../context/cartContext/provider';
 import types from '../context/cartContext/types';
 import Colors from '../constants/Colors';
+import getStyle from '../constants/styles';
 
 const preview = {
   uri:
@@ -24,6 +25,7 @@ const preview = {
 };
 
 const CartScreen = ({ navigation }) => {
+  const { text } = getStyle();
   const { state, dispatch } = useContext(StoreContext);
   const data = state.cartItems;
   const total = state.totalAmount;
@@ -184,6 +186,7 @@ const CartScreen = ({ navigation }) => {
       </View>
     );
   };
+
   return (
     <>
       <View style={{ flex: 1, paddingTop: 10 }}>
@@ -219,7 +222,10 @@ const CartScreen = ({ navigation }) => {
             fontSize: 18,
           }}
         >
-          Total Amount: <Text style={{ color: Colors.primary }}>{total}</Text>
+          Total Amount:{'   '}
+          <Text style={[text, { color: Colors.primary, fontSize: 18 }]}>
+            {total}
+          </Text>
         </Text>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
@@ -333,4 +339,5 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
 });
+
 export default CartScreen;

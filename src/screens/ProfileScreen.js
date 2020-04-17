@@ -87,9 +87,9 @@ export default function ProfileScreen({ navigation }) {
   const settings = () => {
     return (
       <SettingsPage>
-        <SectionRow text='Account'>
+        <SectionRow text={t('Account')}>
           <SettingsNavigateRow
-            text='Edit profile'
+            text={t('Edit profile')}
             iconName='user'
             onPressCallback={() => {
               navigateToScreen('EditProfile');
@@ -97,7 +97,7 @@ export default function ProfileScreen({ navigation }) {
           />
 
           <SettingsNavigateRow
-            text='Change password'
+            text={t('Change password')}
             iconName='edit'
             onPressCallback={() => {
               navigateToScreen('ChangePassword');
@@ -113,14 +113,14 @@ export default function ProfileScreen({ navigation }) {
 
         <SectionRow text='Usage'>
           <SettingsNavigateRow
-            text='Orders'
+            text={t('Orders')}
             iconName='edit'
             onPressCallback={() => {
               navigateToScreen('Orders');
             }}
           />
           <SettingsNavigateRow
-            text='Addresses'
+            text={t('Addresses')}
             iconName='edit'
             onPressCallback={() => {
               navigateToScreen('Address');
@@ -130,28 +130,28 @@ export default function ProfileScreen({ navigation }) {
 
         <SectionRow text='App'>
           <SettingsNavigateRow
-            text='Change language'
+            text={t('Change language')}
             iconName='edit'
             onPressCallback={() => {
               changeLang();
             }}
           />
           <SettingsNavigateRow
-            text='Rate App'
+            text={t('Rate App')}
             iconName='edit'
             onPressCallback={() => {
               onRateApp();
             }}
           />
           <SettingsNavigateRow
-            text='Share App'
+            text={t('Share App')}
             iconName='edit'
             onPressCallback={() => {
               onShareApp();
             }}
           />
           <SettingsNavigateRow
-            text='Contact Us'
+            text={t('Contact Us')}
             iconName='edit'
             onPressCallback={() => {
               navigateToScreen('ContactUs');
@@ -159,7 +159,7 @@ export default function ProfileScreen({ navigation }) {
           />
 
           <SettingsNavigateRow
-            text='About US'
+            text={t('About US')}
             iconName='edit'
             onPressCallback={() => {
               navigateToScreen('AboutUs');
