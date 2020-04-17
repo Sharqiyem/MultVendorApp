@@ -43,7 +43,7 @@ export default function HomeScreen({ navigation, route }) {
       >
         <Text
           style={{
-            // fontFamily: 'DroidKufi-Regular',
+            fontFamily: 'DroidKufi',
             color: 'red',
             fontSize: 20,
             textAlign: 'center',
@@ -85,7 +85,7 @@ export default function HomeScreen({ navigation, route }) {
             <Text
               style={{
                 fontSize: 12,
-                padding: 5,
+                // padding: 5,
                 paddingHorizontal: 10,
                 color: Colors.white,
               }}
@@ -124,7 +124,7 @@ export default function HomeScreen({ navigation, route }) {
             <Text
               style={{
                 fontSize: 12,
-                padding: 5,
+                // padding: 5,
                 paddingHorizontal: 10,
                 color: Colors.white,
               }}
@@ -167,7 +167,7 @@ export default function HomeScreen({ navigation, route }) {
             <Text
               style={{
                 fontSize: 12,
-                padding: 5,
+                // padding: 5,
                 paddingHorizontal: 10,
                 color: Colors.white,
               }}
