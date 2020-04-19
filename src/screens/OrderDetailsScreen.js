@@ -23,7 +23,7 @@ import {
 } from '../context/cartContext/provider';
 import { UserContext } from '../context/userContext/provider';
 import productHooks from '../hooks/useGetDataByCollection';
-import { useGetOrders } from '../hooks/useGetUserAddresses';
+import { useGetOrderById } from '../hooks/useGetUserAddresses';
 import moment from 'moment';
 
 export default function OrderDetailsScreen({ navigation, route }) {
@@ -34,7 +34,7 @@ export default function OrderDetailsScreen({ navigation, route }) {
 
   const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
 
-  const [orders, isLoadingOrders] = useGetOrders();
+  const [orders, isLoadingOrders] = useGetOrderById(orderId);
 
   const [currentOrder, setCurrentOrder] = React.useState(null);
   const [selectedStore, setSelectedStore] = React.useState(null);

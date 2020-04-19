@@ -9,28 +9,33 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles';
+import moment from 'moment';
+
+import Colors from '../../constants/Colors';
+import getStyle from '../../constants/styles';
 import {
   StoreContext,
   LocalizationContext,
-} from '../context/cartContext/provider';
-import { UserContext } from '../context/userContext/provider';
-import productHooks from '../hooks/useGetDataByCollection';
-import { useGetOrders } from '../hooks/useGetUserAddresses';
-import moment from 'moment';
-import types from '../context/cartContext/types';
+} from '../../context/cartContext/provider';
 
-export default function OrdersScreen({ navigation }) {
+import productHooks from '../../hooks/useGetDataByCollection';
+
+import types from '../../context/cartContext/types';
+import { useGetDeliveryOrders } from '../../hooks/useGetDeliveryOrders';
+import { AuthContext } from '../../context/authContext/provider';
+export default function DeliveryOrdersScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
-  const { row, shadow } = getStyle();
+  const { state: authState } = React.useContext(AuthContext);
+
   const { state, dispatch } = React.useContext(StoreContext);
+  const { row, shadow } = getStyle();
 
   const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
 
-  const [orders, isOrdersLoading] = useGetOrders();
+  const [orders, isOrdersLoading] = useGetDeliveryOrders(authState.storeId);
 
   const [isReady, setIsReady] = React.useState(false);
+
   React.useEffect(() => {
     //TODO
     if (!isLoading && !isOrdersLoading) {
@@ -44,19 +49,6 @@ export default function OrdersScreen({ navigation }) {
   }, [isLoading, isOrdersLoading]);
 
   console.log('stores', stores);
-
-  const reOrderPress = (item) => {
-    console.log('reOrderPress', item);
-
-    // prepare cart from current order;
-
-    dispatch({
-      type: types.REORDER,
-      payload: { products: item.products, storeId: item.store.id },
-    });
-
-    navigation.navigate('Cart');
-  };
 
   const renderItem = ({ item }) => {
     const orderItemStyle = [
@@ -148,32 +140,6 @@ export default function OrdersScreen({ navigation }) {
                 justifyContent: 'center',
               }}
               onPress={() => {
-                reOrderPress(item);
-              }}
-            >
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: Colors.white,
-                }}
-              >
-                Re order
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.primary,
-                // padding: 10,
-                margin: 10,
-                borderRadius: 100,
-                borderWidth: 1,
-                borderColor: Colors.primary,
-                flex: 1,
-                height: 30,
-                width: Layout.window.width * 0.8,
-                justifyContent: 'center',
-              }}
-              onPress={() => {
                 navigation.navigate('Chat', { orderId: item.id });
               }}
             >
@@ -193,25 +159,46 @@ export default function OrdersScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {/* <View
+        style={{
+          backgroundColor: Colors.primary,
+          height: 90,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Text
+          style={{
+            textAlign: 'center',
+            paddingTop: 40,
+            color: Colors.white,
+            fontSize: 16,
+          }}
+        >
+          Orders
+        </Text>
+      </View> */}
       {!isReady ? (
         <Text>Loading</Text>
       ) : (
         <FlatList
+          // style={{ backgroundColor: 'red' }}
           showsVerticalScrollIndicator={false}
           data={orders}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    // justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor: Colors.white,
   },
   orderDetailContainer: {
