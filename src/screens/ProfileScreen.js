@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Share, Linking } from 'react-native';
+import { StyleSheet, View, Share, Linking, Text } from 'react-native';
 
 import Colors from '../constants/Colors';
 
@@ -11,9 +11,10 @@ import SectionRow from '../components/SettingsSectionRow';
 import SettingsPage from '../components/SettingsPage';
 
 export default function ProfileScreen({ navigation }) {
-  const { signOut } = React.useContext(AuthContext);
-  const { t, changeLang } = React.useContext(LocalizationContext);
+  const { state, signOut } = React.useContext(AuthContext);
+  const { t, changeLang, locale } = React.useContext(LocalizationContext);
 
+  console.log('locale', locale);
   const [] = React.useState(false);
   const [] = React.useState(40);
   const [] = React.useState(false);
@@ -80,13 +81,13 @@ export default function ProfileScreen({ navigation }) {
     // });
   };
 
-  const navigateToScreen = (screen) => {
-    navigation.navigate(screen);
+  const navigateToScreen = (screen, params = {}) => {
+    navigation.navigate(screen, params);
   };
 
   const settings = () => {
     return (
-      <SettingsPage>
+      <SettingsPage key={locale}>
         <SectionRow text={t('Account')}>
           <SettingsNavigateRow
             text={t('Edit profile')}
@@ -123,7 +124,7 @@ export default function ProfileScreen({ navigation }) {
             text={t('Addresses')}
             iconName='edit'
             onPressCallback={() => {
-              navigateToScreen('Address');
+              navigateToScreen('Address', { fromProfile: true });
             }}
           />
         </SectionRow>
@@ -170,10 +171,15 @@ export default function ProfileScreen({ navigation }) {
     );
   };
 
+  console.log('profile render');
   return (
     <View style={styles.container}>
-      {/* <Text>Hello {email}</Text>
-      <Button title={t('Sign out')} onPress={handleSignOut} />
+      <View style={{ backgroundColor: '#F4F3F3' }}>
+        <Text style={{ marginVertical: 5 }}>
+          Hello {state.userToken} - {state.role}
+        </Text>
+      </View>
+      {/*  <Button title={t('Sign out')} onPress={handleSignOut} />
       {renderBTNs()} */}
       {settings()}
     </View>

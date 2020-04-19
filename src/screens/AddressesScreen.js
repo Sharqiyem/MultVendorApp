@@ -22,6 +22,7 @@ import addressHook from '../hooks/useGetUserAddresses';
 
 export default function AddressesScreen({ navigation, route }) {
   const fromProfile = route.params?.fromProfile || false;
+  console.log('fromProfile', fromProfile);
   const { row, text, textHeader, buttonOutline } = getStyle();
 
   const { state, dispatch } = React.useContext(UserContext);

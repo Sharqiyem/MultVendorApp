@@ -35,7 +35,7 @@ export default function HomeScreen({ navigation, route }) {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{ height: 30 }}
         onPress={() => {
           changeLang();
@@ -51,7 +51,7 @@ export default function HomeScreen({ navigation, route }) {
         >
           اللغه
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Banner */}
       <View style={{ marginVertical: 5 }}>

@@ -8,7 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import firebase from './src/config/firebase.config';
 import { setCustomText } from 'react-native-global-props';
 
-import { RootNavigator } from './src/navigation/BottomTabNavigator';
+import RootNavigator from './src/navigation/BottomTabNavigator';
 import {
   StoreProvider,
   LocalizationContext,
@@ -26,9 +26,11 @@ import AddressesScreen from './src/screens/AddressesScreen';
 import ManageAddressScreen from './src/screens/ManageAddressScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import { UserProvider } from './src/context/userContext/provider';
+import ChatScreen from './src/screens/ChatScreen';
 
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
+  'Setting a timer',
 ]);
 
 if (__DEV__) {
@@ -57,6 +59,7 @@ export default function App(props) {
       console.log('I18n.isRTL', I18n.isRTL);
       AsyncStorage.setItem('lang', I18n.locale)
         .then((lang) => {
+          console.log('change from', locale);
           console.log('AsyncStorage.setItem', lang);
         })
         .catch((err) => console.log('AsyncStorage.setItem', err));
@@ -189,6 +192,16 @@ export default function App(props) {
       if (user) {
         // console.log('user changed..', user);
         // setIsFirebaseInit(true);
+        const name = user.displayName;
+        const email = user.email;
+        const photoUrl = user.photoURL;
+        const emailVerified = user.emailVerified;
+        const uid = user.uid;
+
+        console.log('onAuthStateChanged', {
+          name,
+          email,
+        });
       }
       setIsFirebaseInit(true);
     });
@@ -235,6 +248,7 @@ export default function App(props) {
                   {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
                   {/* <AddressesScreen /> */}
                   {/* <OrdersScreen /> */}
+                  {/* <ChatScreen /> */}
                 </NavigationContainer>
               </SafeAreaProvider>
             </UserProvider>

@@ -7,6 +7,8 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+import firebase from '../config/firebase.config';
+
 import Colors from '../constants/Colors';
 import { RadioButtons } from '../components/index';
 import getStyle from '../constants/styles';
@@ -62,6 +64,7 @@ export default function PaymentScreen({ navigation }) {
     console.log('firebase.database.ServerValue.TIMESTAMP', date);
     const id = orderUUID();
     const order = {
+      userId: firebase.auth().currentUser?.uid,
       id,
       selectedDeliveryAddress,
       selectedPaymentMethod,

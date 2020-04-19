@@ -1,13 +1,3 @@
-Store data {
-name,
-image,
-description,
-status,
-city,
-openTime,
-closeTime
-}
-
 # 1 REALESE V1.0 (5 April)
 
 ## 1.1 Customer App Section
@@ -83,23 +73,34 @@ UI design Checkout screens
 1.4.1 [Done] about us
 1.4.1 [Done] change language
 
-# 3 REALESE V3.0 (20 April)
+# 3 REALESE V3.0 (18 April)
 
-List orders from manager, start delivery order, chat with customer
-Delivery Live Tracking
+[Done] Fix orders [make order collection instead of user collection][some] Backend Localization
+
+- stores and categories names (stores [name and description])
+- categories and products [name]
 
 ## 3.1 Delivery App Section
 
+[Done] user role 'delivery' for store {role: 'delivery', storeId:'2131' }
+[Done] get orders for delivery by store id
+[Done] List orders from manager,
+[In] start delivery order,
+
+Delivery Live Tracking
+
 ## 3.2 Chats and contact
 
-## 3.3 Sorting and Filtering
+[Done] Chat between customer and delivery for selected order
 
-## 3.4 Ratings and reviews
-
-## Notifications
+## 3.3 Notifications
 
 Notifications (Push notification and save them to FB and list them)
 Notification {id, text, created date, is readed, sender id }
+
+## 3.4 Sorting and Filtering
+
+## 3.5 Ratings and reviews
 
 # Issues
 
