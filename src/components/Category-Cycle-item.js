@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import { LocalizationContext } from '../context/cartContext/provider';
 
 import { Image } from 'react-native-expo-image-cache';
 import Colors from '../constants/Colors';
@@ -42,24 +43,27 @@ export const ExCategoryCycleItem = ({ navigation }) => {
 
   // return <CategoryCycleItem item={item} />;
 };
-export const CategoryCycleItem = ({ item, navigation }) => (
-  <TouchableOpacity
-    style={styles.container}
-    key={item.id}
-    onPress={() => {
-      navigation.navigate('Category', { item });
-    }}
-  >
-    <View style={styles.itemTwoContainer}>
-      <Image
-        style={styles.itemTwoImage}
-        // source={{ uri: item.image }}
-        {...{ uri: item.image }}
-      />
-    </View>
-    <Text style={styles.itemTwoTitle}>{item.name}</Text>
-  </TouchableOpacity>
-);
+export const CategoryCycleItem = ({ item, navigation }) => {
+  const { locale } = React.useContext(LocalizationContext);
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      key={item.id}
+      onPress={() => {
+        navigation.navigate('Category', { item });
+      }}
+    >
+      <View style={styles.itemTwoContainer}>
+        <Image
+          style={styles.itemTwoImage}
+          // source={{ uri: item.image }}
+          {...{ uri: item.image }}
+        />
+      </View>
+      <Text style={styles.itemTwoTitle}>{item.names[locale]}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const itemsPerRow = 3;
 const margenHorizontal = 15;

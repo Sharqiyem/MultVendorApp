@@ -13,20 +13,26 @@ const AuthProvider = ({ children }) => {
         case 'RESTORE_TOKEN':
           return {
             ...prevState,
-            userToken: action.token,
+            userToken: action.data.userToken,
+            role: action.data.role || 'user',
             isLoading: false,
+            storeId: action.data.storeId,
           };
         case 'SIGN_IN':
           return {
             ...prevState,
             isSignout: false,
-            userToken: action.token,
+            userToken: action.data.email,
+            role: action.data.role || 'user',
+            storeId: action.data.storeId || '',
           };
         case 'SIGN_OUT':
           return {
             ...prevState,
             isSignout: true,
             userToken: null,
+            role: '',
+            storeId: '',
           };
       }
     },
@@ -34,6 +40,8 @@ const AuthProvider = ({ children }) => {
       isLoading: true,
       isSignout: false,
       userToken: null,
+      role: '',
+      storeId: '',
     }
   );
 
@@ -45,13 +53,18 @@ const AuthProvider = ({ children }) => {
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
 
+        const userToken = data.email;
+        const role = data.role;
+        const storeId = data.storeId || '';
         try {
-          await AsyncStorage.setItem('userToken', data);
+          await AsyncStorage.setItem('userToken', userToken);
+          await AsyncStorage.setItem('role', role);
+          await AsyncStorage.setItem('storeId', storeId);
         } catch (e) {
           console.log('Set token failed');
         }
 
-        dispatch({ type: 'SIGN_IN', token: data });
+        dispatch({ type: 'SIGN_IN', data });
       },
       signOut: async () => {
         await AsyncStorage.removeItem('userToken');
@@ -63,7 +76,7 @@ const AuthProvider = ({ children }) => {
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
 
-        dispatch({ type: 'SIGN_IN', token: data });
+        dispatch({ type: 'SIGN_IN', data });
       },
     }),
     []
@@ -72,19 +85,26 @@ const AuthProvider = ({ children }) => {
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let userToken;
+      let userToken, role, storeId;
 
       try {
         userToken = await AsyncStorage.getItem('userToken');
+        role = await AsyncStorage.getItem('role');
+        storeId = await AsyncStorage.getItem('storeId');
       } catch (e) {
         console.log('Restoring token failed');
       }
 
+      const data = {
+        userToken,
+        role,
+        storeId,
+      };
       // After restoring token, we may need to validate it in production apps
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+      dispatch({ type: 'RESTORE_TOKEN', data });
     };
 
     bootstrapAsync();

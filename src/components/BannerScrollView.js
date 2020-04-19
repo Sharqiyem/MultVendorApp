@@ -23,13 +23,13 @@ const { width } = Dimensions.get('window');
 export const BannerScrollView = () => {
   const { isRTL } = React.useContext(LocalizationContext);
   const initImagesState = [image1, image2, image3];
-  const [images, setImages] = React.useState(initImagesState);
+  const [images, setImages] = React.useState([]);
 
   React.useEffect(() => {
-    if (isRTL) {
-      const cloneImages = [...images];
-
-      setImages(cloneImages.reverse());
+    if (!isRTL) {
+      let cloneImages = [...initImagesState];
+      cloneImages.reverse();
+      setImages(cloneImages);
     } else {
       setImages(initImagesState);
     }
@@ -37,7 +37,7 @@ export const BannerScrollView = () => {
 
   const carousel = React.useRef(null);
   const scrollToEnd = () => {
-    if (isRTL) {
+    if (!isRTL) {
       // console.log('scrollToEnd');
       carousel.current.scrollToEnd({ animated: false });
     }

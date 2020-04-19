@@ -140,6 +140,13 @@ const getStyle = () => {
 
     angleIcon: isRTL ? 'angle-left' : 'angle-right',
 
+    textinputIcon: {
+      marginHorizontal: 15,
+      alignSelf: 'center',
+      position: 'absolute',
+      left: 0,
+      zIndex: 10,
+    },
     //Forms
     textInput: {
       height: inputTextHeight,
@@ -150,6 +157,8 @@ const getStyle = () => {
       marginVertical: 5,
       paddingVertical: 5,
       paddingHorizontal: 15,
+      color: Colors.primary,
+      backgroundColor: '#fff',
     },
     buttonPrimary: {
       height: inputTextHeight,

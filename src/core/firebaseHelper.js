@@ -23,7 +23,6 @@ export const manageUserAddresses = async (address, edit = false) => {
         const addressesArray = snapshot.get('addresses');
         console.log('addressesArray', addressesArray);
 
-        // TODO: Fix if addressesArray doesn't exist
         if (addressesArray) {
           if (edit) {
             console.log('edit', edit);
@@ -36,6 +35,9 @@ export const manageUserAddresses = async (address, edit = false) => {
             addressesArray.push(address);
           }
           transaction.update(userDoc, 'addresses', addressesArray);
+        } else {
+          address.id = uuidv4();
+          userDoc.set({ addresses: [address] });
         }
       });
     });
@@ -48,21 +50,10 @@ export const addOrder = async (order) => {
   try {
     const db = firebase.firestore();
     const userId = firebase.auth().currentUser.uid;
-    const userDoc = db.collection('users').doc(userId);
-
-    await db.runTransaction((transaction) => {
-      return transaction.get(userDoc).then(async (snapshot) => {
-        const ordersArray = snapshot.get('orders');
-        console.log('orders', ordersArray);
-
-        // TODO: Fix if addressesArray doesn't exist
-        if (ordersArray) {
-          ordersArray.push(order);
-
-          transaction.update(userDoc, 'orders', ordersArray);
-        }
-      });
-    });
+    db.collection('orders').add(order);
+    db.collection('chats')
+      .doc(order.id)
+      .set({ createdAt: new Date(), messages: [] });
   } catch (err) {
     console.log('manageUserAddresses', err);
   }

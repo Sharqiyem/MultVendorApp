@@ -24,7 +24,7 @@ const SettingsRowStyle = StyleSheet.create({
     flex: 1,
     height: 50,
     borderRadius: 1,
-    borderBottomWidth: 0.2,
+    // borderBottomWidth: 0.2,
   },
   containerInnerSection: {
     flex: 1,
