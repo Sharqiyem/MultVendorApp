@@ -36,6 +36,9 @@ import ContactUsScreen from '../screens/ContactUsScreen';
 import AboutUsScreen from '../screens/AboutUsScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import DeliveryOrdersScreen from '../screens/delivery/DeliveryOrdersScreen';
+import DeliveryTabs from './DeliveryNavigator';
+import ChatScreen from '../screens/ChatScreen';
 
 const BottomTab = createMaterialTopTabNavigator();
 
@@ -237,6 +240,7 @@ function ProfileStack({ navigation }) {
         options={{ title: 'Order details' }}
         component={OrderDetailsScreen}
       />
+
       <Stack.Screen
         name='Address'
         options={{
@@ -294,7 +298,7 @@ export function AuthStack({ navigation }) {
       />
       <Stack.Screen
         name='Register'
-        options={{ title: 'Register' }}
+        options={{ title: 'Register', headerShown: false }}
         component={RegisterScreen}
       />
       <Stack.Screen
@@ -370,7 +374,7 @@ function CartStack({ navigation }) {
   );
 }
 
-export default function BottomTabNavigator() {
+function UserTabs() {
   const { t } = React.useContext(LocalizationContext);
   const { state, dispatch } = React.useContext(StoreContext);
 
@@ -433,6 +437,16 @@ export default function BottomTabNavigator() {
         }}
       />
 
+      {/* <BottomTab.Screen
+        name='Chat'
+        component={ChatScreen}
+        options={{
+          title: t('Chat'),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} name='md-person' />
+          ),
+        }}
+      /> */}
       <BottomTab.Screen
         name='Profile'
         component={ProfileStack}
@@ -447,17 +461,19 @@ export default function BottomTabNavigator() {
   );
 }
 
-export const RootNavigator = () => {
+export default RootNavigator = () => {
   const {
-    state: { isLoading, userToken },
+    state: { isLoading, userToken, role },
   } = React.useContext(AuthContext);
-
+  console.log({ isLoading, userToken, role });
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoading ? (
         <Stack.Screen name='Loading' component={LoadingScreen} />
-      ) : userToken ? (
-        <Stack.Screen name='Home' component={BottomTabNavigator} />
+      ) : userToken && role === 'user' ? (
+        <Stack.Screen name='Home' component={UserTabs} />
+      ) : userToken && role === 'delivery' ? (
+        <Stack.Screen name='Home' component={DeliveryTabs} />
       ) : (
         <Stack.Screen name='Auth' component={AuthStack} />
       )}
@@ -465,6 +481,11 @@ export const RootNavigator = () => {
         name='Cart'
         options={{ headerRight: null }}
         component={CartStack}
+      />
+      <Stack.Screen
+        name='Chat'
+        options={{ title: 'Chat' }}
+        component={ChatScreen}
       />
     </Stack.Navigator>
   );
