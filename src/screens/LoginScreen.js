@@ -18,12 +18,12 @@ import { Logo } from '../components';
 import getStyle from '../constants/styles';
 
 import Layout from '../constants/Layout';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = React.useState('b@b.com');
+  const [email, setEmail] = React.useState('d@d.com');
   const [password, setPassword] = React.useState('123456');
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
@@ -39,9 +39,16 @@ export default function LoginScreen({ navigation }) {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        console.log(user.user.id);
-        signIn(user.user.uid);
+      .then(async (user) => {
+        console.log(user);
+        const userDoc = await firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .get();
+
+        console.log('handleLogin', userDoc.data());
+        signIn(userDoc.data());
         setIsLoading(false);
         // navigation.navigate('Home');
       })
@@ -53,28 +60,65 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Logo style={{ marginVertical: 100 }} />
+      <View style={{ alignItems: 'center' }}>
+        <Logo style={{ marginTop: 100, marginBottom: 20 }} />
+        <Text style={{ fontSize: 24 }}>Welcome back</Text>
+        <Text style={{ color: Colors.gray }}>Login to your account</Text>
+      </View>
       <View style={{ flex: 1, margin: 20 }}>
-        <TextInput
-          style={getStyle().textInput}
-          placeholder='Email'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          autoCorrect={false}
-          autoCapitalize='none'
-        />
-        <TextInput
-          style={getStyle().textInput}
-          placeholder='Password'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          autoCorrect={false}
-          autoCapitalize='none'
-          secureTextEntry
-        />
+        <View style={{ justifyContent: 'center' }}>
+          <Feather
+            name='user'
+            size={20}
+            style={getStyle().textinputIcon}
+            color={Colors.primaryLight}
+          />
+          <TextInput
+            style={[getStyle().textInput]}
+            placeholder='Email'
+            placeholderStyle={{ textAlign: 'center' }}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            autoCorrect={false}
+            autoCapitalize='none'
+          />
+        </View>
+
+        <View style={{ justifyContent: 'center' }}>
+          <Feather
+            name='lock'
+            size={20}
+            style={getStyle().textinputIcon}
+            color={Colors.primaryLight}
+          />
+          <TextInput
+            style={getStyle().textInput}
+            placeholder='Password'
+            placeholderStyle={{ textAlign: 'center' }}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            autoCorrect={false}
+            autoCapitalize='none'
+            secureTextEntry
+          />
+        </View>
         <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ForgotPassword');
+          }}
+          style={[
+            {
+              // flex: 1,
+              // backgroundColor: 'red',
+              // marginHorizontal: 20,
+            },
+            getStyle().flexDir,
+          ]}
+        >
+          <Text style={{}}>Forgot password?</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={isLoading}
           onPress={handleLogin}
           style={getStyle().buttonPrimary}
         >
@@ -107,7 +151,9 @@ export default function LoginScreen({ navigation }) {
           ]}
         >
           <View style={{ flex: 1 }}>
-            <Text style={{ textAlign: 'center' }}>Or Connect with</Text>
+            <Text style={{ textAlign: 'center', color: Colors.gray }}>
+              Or Connect using
+            </Text>
           </View>
           <View
             style={[
@@ -130,70 +176,54 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
         </View>
-        {/* <TouchableOpacity onPress={() => {}} style={getStyle().buttonOutline}>
-          <Text style={{ textAlign: 'center', color: Colors.primary }}>
-            REGISTER
-          </Text>
-        </TouchableOpacity> */}
 
-        <View style={styles.tabBarInfoContainer}>
-          <View
-            style={[
-              // getStyle().row,
-              {
-                flexDirection: 'row',
-                // width: Layout.window.width,
-                justifyContent: 'center',
-                // backgroundColor: 'red',
-              },
-            ]}
+        <View
+          style={[
+            {
+              // backgroundColor: 'red',
+              marginBottom: 60,
+              flex: 1,
+              marginHorizontal: 20,
+              justifyContent: 'flex-end',
+            },
+          ]}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Register');
+            }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('ForgotPassword');
-              }}
+            <Text
               style={[
                 {
-                  // flex: 1,
-                  // backgroundColor: 'red',
-                  marginHorizontal: 20,
-                },
-                getStyle().flexDir,
-              ]}
-            >
-              <Text style={{ textAlign: 'center', color: Colors.primary }}>
-                Forgot password?
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Register');
-              }}
-              style={[
-                {
+                  textAlign: 'center',
+                  // color: Colors.primary,
                   borderBottomColor: Colors.primary,
-                  borderBottomWidth: 1,
-
-                  marginHorizontal: 20,
                 },
+                // getStyle().link,
               ]}
             >
+              Don't have an account?{' '}
               <Text
                 style={[
                   {
                     textAlign: 'center',
                     color: Colors.primary,
                     borderBottomColor: Colors.primary,
-                    borderBottomWidth: 1,
                   },
                   // getStyle().link,
                 ]}
               >
-                New here, Sign Up
+                Sign Up
               </Text>
-            </TouchableOpacity>
-          </View>
+            </Text>
+          </TouchableOpacity>
         </View>
+        {/* <TouchableOpacity onPress={() => {}} style={getStyle().buttonOutline}>
+          <Text style={{ textAlign: 'center', color: Colors.primary }}>
+            REGISTER
+          </Text>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -206,28 +236,7 @@ LoginScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: Colors.white,
-  },
-
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    // backgroundColor: '#fbfbfb',
-    paddingVertical: 30,
+    justifyContent: 'center',
+    backgroundColor: '#F4F3F3',
   },
 });

@@ -20,18 +20,18 @@ import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function ForgotPasswordScreen({ navigation }) {
-  const [userName, setUserName] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
   return (
     <View style={styles.container}>
-      <Logo style={{ marginVertical: 100 }} />
+      {/* <Logo style={{ marginVertical: 100 }} /> */}
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
           style={getStyle().textInput}
-          placeholder='User name'
+          placeholder='Email'
           placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setUserName(text)}
-          value={userName}
+          onChangeText={(text) => setEmail(text)}
+          value={email}
           autoCorrect={false}
           autoCapitalize='none'
         />
