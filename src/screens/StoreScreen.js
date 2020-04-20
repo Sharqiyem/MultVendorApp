@@ -12,14 +12,11 @@ import {
   StoreProducts,
 } from '../components';
 import Colors from '../constants/Colors';
-import { centerHeaderTitleAndroid } from '../core/functions';
 
 export default function StoreScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = React.useState('products');
   const { item } = route.params;
   // console.log('Store item', item);
-
-  centerHeaderTitleAndroid(navigation, route);
 
   return (
     <View style={styles.container}>

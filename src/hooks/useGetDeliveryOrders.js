@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import firebase from '../config/firebase.config';
 import Colors from '../constants/Colors';
 
-export const useGetDeliveryOrders = (storeId = 'pQkP1xsuT17iFtR5ETn2') => {
+export const useGetDeliveryOrders = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {

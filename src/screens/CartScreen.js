@@ -141,26 +141,28 @@ const CartScreen = ({ navigation }) => {
                   }}
                 >
                   <TouchableOpacity
+                    // style={{ backgroundColor: '#fff' }}
                     onPress={() => {
                       decItem(item.item);
                     }}
                   >
                     <Icon.Feather
-                      name='minus-circle'
-                      size={20}
+                      name='minus-square'
+                      size={26}
                       color={Colors.primary}
                       style={{ marginHorizontal: 5 }}
                     />
                   </TouchableOpacity>
                   <Text style={{ marginHorizontal: 3 }}>{quantity}</Text>
                   <TouchableOpacity
+                    // style={{ backgroundColor: '#fff' }}
                     onPress={() => {
                       incItem(item.item);
                     }}
                   >
                     <Icon.Feather
-                      name='plus-circle'
-                      size={20}
+                      name='plus-square'
+                      size={26}
                       color={Colors.primary}
                       style={{ marginHorizontal: 5 }}
                     />
@@ -179,7 +181,7 @@ const CartScreen = ({ navigation }) => {
           <Icon.MaterialIcons
             name='delete'
             size={26}
-            color='gray'
+            color={Colors.secondary}
             style={{ marginHorizontal: 5 }}
           />
         </TouchableOpacity>

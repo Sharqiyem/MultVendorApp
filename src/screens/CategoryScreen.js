@@ -13,12 +13,9 @@ import {
   ProductCycleItem,
 } from '../components';
 import Colors from '../constants/Colors';
-import { centerHeaderTitleAndroid } from '../core/functions';
 import productHooks from '../hooks/useGetDataByCollection';
 
 export default function CategoryScreen({ navigation, route }) {
-  centerHeaderTitleAndroid(navigation);
-
   const { item } = route.params;
 
   const [data, isLoading] = productHooks.useGetProductsByCatId(item.id);

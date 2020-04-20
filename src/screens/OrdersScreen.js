@@ -17,9 +17,10 @@ import {
 } from '../context/cartContext/provider';
 import { UserContext } from '../context/userContext/provider';
 import productHooks from '../hooks/useGetDataByCollection';
-import { useGetOrders } from '../hooks/useGetUserAddresses';
+
 import moment from 'moment';
 import types from '../context/cartContext/types';
+import { useGetOrders } from '../hooks/useOrders';
 
 export default function OrdersScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);

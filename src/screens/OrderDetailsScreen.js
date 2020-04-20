@@ -17,14 +17,15 @@ import {
 import getStyle from '../constants/styles';
 import { Feather } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
+import moment from 'moment';
 import {
   StoreContext,
   LocalizationContext,
 } from '../context/cartContext/provider';
 import { UserContext } from '../context/userContext/provider';
 import productHooks from '../hooks/useGetDataByCollection';
-import { useGetOrderById } from '../hooks/useGetUserAddresses';
-import moment from 'moment';
+
+import { useGetOrderById } from '../hooks/useOrders';
 
 export default function OrderDetailsScreen({ navigation, route }) {
   const { textHeader, row } = getStyle();

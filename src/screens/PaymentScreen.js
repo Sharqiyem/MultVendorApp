@@ -16,9 +16,10 @@ import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { UserContext } from '../context/userContext/provider';
 import types from '../context/userContext/types';
-import { addOrder } from '../core/firebaseHelper';
+
 import { StoreContext } from '../context/cartContext/provider';
 import { orderUUID } from '../core/stringHelper';
+import { useAddOrder } from '../hooks/useOrders';
 
 export default function PaymentScreen({ navigation }) {
   const { state } = React.useContext(StoreContext);
@@ -76,7 +77,7 @@ export default function PaymentScreen({ navigation }) {
       status: 'In progress',
     };
 
-    await addOrder(order);
+    await useAddOrder(order);
 
     navigation.navigate('OrderDetails', { id });
   };

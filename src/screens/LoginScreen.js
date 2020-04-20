@@ -62,7 +62,9 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <View style={{ alignItems: 'center' }}>
         <Logo style={{ marginTop: 100, marginBottom: 20 }} />
-        <Text style={{ fontSize: 24 }}>Welcome back</Text>
+        <Text style={{ fontSize: 26, color: Colors.primary }}>
+          Welcome back
+        </Text>
         <Text style={{ color: Colors.gray }}>Login to your account</Text>
       </View>
       <View style={{ flex: 1, margin: 20 }}>
@@ -199,6 +201,7 @@ export default function LoginScreen({ navigation }) {
                   textAlign: 'center',
                   // color: Colors.primary,
                   borderBottomColor: Colors.primary,
+                  fontSize: 16,
                 },
                 // getStyle().link,
               ]}
@@ -210,6 +213,7 @@ export default function LoginScreen({ navigation }) {
                     textAlign: 'center',
                     color: Colors.primary,
                     borderBottomColor: Colors.primary,
+                    fontSize: 16,
                   },
                   // getStyle().link,
                 ]}

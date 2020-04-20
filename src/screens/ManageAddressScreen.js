@@ -24,9 +24,10 @@ import Colors from '../constants/Colors';
 import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { LocalizationContext } from '../context/cartContext/provider';
-import { manageUserAddresses } from '../core/firebaseHelper';
+
 import { GooglePlacesInput } from '../components/GooglePlacesInput';
 import { MapConfig } from '../config/googlemap.config';
+import { manageUserAddresses } from '../hooks/useGetUserAddresses';
 
 const { Marker } = MapView;
 

@@ -4,13 +4,10 @@ import Colors from '../constants/Colors';
 import { StoreListItem } from '../components/index';
 import productHooks from '../hooks/useGetDataByCollection';
 import { LocalizationContext } from '../context/cartContext/provider';
-import { centerHeaderTitleAndroid } from '../core/functions';
 
 export default function StoresScreen({ navigation }) {
   const [data, isLoading] = productHooks.useGetDataByCollection('stores');
   const { t, changeLang } = React.useContext(LocalizationContext);
-
-  centerHeaderTitleAndroid(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

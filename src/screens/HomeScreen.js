@@ -23,15 +23,12 @@ import Colors from '../constants/Colors';
 import getStyle from '../constants/styles.js';
 import productHooks from '../hooks/useGetDataByCollection';
 import firebase from '../config/firebase.config';
-import { centerHeaderTitleAndroid } from '../core/functions';
 
 export default function HomeScreen({ navigation, route }) {
   //Test firebase
 
   const { t, changeLang } = React.useContext(LocalizationContext);
   const [data, isLoading] = productHooks.useGetDataByCollection('products');
-
-  centerHeaderTitleAndroid(navigation, route);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>

@@ -18,7 +18,7 @@ import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { UserContext } from '../context/userContext/provider';
 import types from '../context/userContext/types';
-import addressHook from '../hooks/useGetUserAddresses';
+import { useGetUserAddresses } from '../hooks/useGetUserAddresses';
 
 export default function AddressesScreen({ navigation, route }) {
   const fromProfile = route.params?.fromProfile || false;
@@ -30,7 +30,7 @@ export default function AddressesScreen({ navigation, route }) {
   const [addresses, setAddresses] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
 
-  const [data, isLoading] = addressHook.useGetUserAddresses();
+  const [data, isLoading] = useGetUserAddresses();
   React.useEffect(() => {
     dispatch({ type: types.SAVE_ADDRESSES, payload: data });
   }, [data]);

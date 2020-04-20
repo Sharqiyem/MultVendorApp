@@ -240,6 +240,7 @@ export default function RegisterScreen({ navigation }) {
                 {
                   textAlign: 'center',
                   color: Colors.primary,
+                  fontSize: 16,
                 },
                 // link,
               ]}

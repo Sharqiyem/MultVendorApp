@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import firebase from '../config/firebase.config';
 import Colors from '../constants/Colors';
 
-const useGetUserAddresses = () => {
+export const useGetUserAddresses = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -49,78 +49,47 @@ const useGetUserAddresses = () => {
   return [data, isLoading];
 };
 
-export const useGetOrders = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    //isCancel to prevent "Can't perform a React state update on an unmounted component"
-    let isCancelled = false;
+export const manageUserAddresses = async (address, edit = false) => {
+  // return firebase.firestore().collection(collName).add(object);
+  try {
+    const db = firebase.firestore();
+    const userId = firebase.auth().currentUser.uid;
+    const userDoc = db.collection('users').doc(userId);
 
-    // console.log('useGetDataByCollection useEffect');
-    const unsubscribe = firebase
-      .firestore()
-      .collection('orders')
-      .where('userId', '==', firebase.auth().currentUser?.uid)
-      // .doc(firebase.auth().currentUser?.uid)
+    console.log('manageUserAddresses', userDoc);
+    // if (userDoc)
 
-      .onSnapshot((snapShot) => {
-        const newData = snapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+    // userDoc.update({
+    //   addresses: firebase.firestore.FieldValue.arrayUnion(object),
+    // });
 
-        // console.log('useGetDataByCollection onSnapshot', addresssArr);
+    // else
+    // await userDoc.set({ addresses: [] }, { merge: true });
 
-        if (!isCancelled) {
-          setData(newData);
-          setIsLoading(false);
+    await db.runTransaction((transaction) => {
+      return transaction.get(userDoc).then(async (snapshot) => {
+        const addressesArray = snapshot.get('addresses');
+        console.log('addressesArray', addressesArray);
+
+        if (addressesArray) {
+          if (edit) {
+            console.log('edit', edit);
+            const objIndex = addressesArray.findIndex(
+              (el) => el.id === address.id
+            );
+            addressesArray[objIndex] = address;
+          } else {
+            address.id = uuidv4();
+            addressesArray.push(address);
+          }
+          transaction.update(userDoc, 'addresses', addressesArray);
+        } else {
+          address.id = uuidv4();
+          userDoc.set({ addresses: [address] });
         }
       });
-    return () => {
-      isCancelled = true;
-      unsubscribe();
-    };
-  }, []);
-
-  return [data, isLoading];
-};
-
-export const useGetOrderById = (orderId) => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    //isCancel to prevent "Can't perform a React state update on an unmounted component"
-    let isCancelled = false;
-
-    // console.log('useGetDataByCollection useEffect');
-    const unsubscribe = firebase
-      .firestore()
-      .collection('orders')
-      .where('id', '==', orderId)
-      // .doc(firebase.auth().currentUser?.uid)
-
-      .onSnapshot((snapShot) => {
-        const newData = snapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // console.log('useGetDataByCollection onSnapshot', addresssArr);
-
-        if (!isCancelled) {
-          setData(newData);
-          setIsLoading(false);
-        }
-      });
-    return () => {
-      isCancelled = true;
-      unsubscribe();
-    };
-  }, []);
-
-  return [data, isLoading];
-};
-
-export default {
-  useGetUserAddresses,
+    });
+  } catch (err) {
+    console.log('manageUserAddresses', err);
+  }
 };

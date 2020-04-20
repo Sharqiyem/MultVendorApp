@@ -12,7 +12,7 @@ export default class ChatHelper {
     firebase.firestore().collection('chats').add(data);
   }
 
-  static sendMessage(chatId = 'chat1', data) {
+  static sendMessage(chatId, data) {
     console.log(data);
     // const data = {
     //   uid: firebase.auth().currentUser.uid,
@@ -27,7 +27,7 @@ export default class ChatHelper {
     });
   }
 
-  static useGetMessages = (chatId = 'chat1') => {
+  static useGetMessages = (chatId) => {
     const [data, setData] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
     React.useEffect(() => {
