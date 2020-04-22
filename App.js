@@ -19,7 +19,7 @@ import { registerForPushNotificationsAsync } from './src/services';
 import useLinking from './src/navigation/useLinking';
 
 import I18n from './src/i18n/i18n';
-import LoadingScreen from './src/screens/LoadingScreen';
+import AnimationScreen from './src/screens/AnimationScreen';
 import { AuthProvider } from './src/context/authContext/provider';
 import ProfileScreen from './src/screens/ProfileScreen';
 import AddressesScreen from './src/screens/AddressesScreen';
@@ -41,6 +41,7 @@ export default function App(props) {
   const { skipLoadingScreen } = props;
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [fontLoaded, setFontLoaded] = React.useState(false);
+  const [isLoadedAnime, setIsLoadedAnime] = React.useState(false);
 
   const [isFirebaseInit, setIsFirebaseInit] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
@@ -187,6 +188,10 @@ export default function App(props) {
     loadResourcesAndDataAsync();
   }, []);
 
+  const onAnimeFinished = () => {
+    console.log('onAnimeFinished finished');
+    setIsLoadedAnime(true);
+  };
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -224,8 +229,8 @@ export default function App(props) {
     );
   }
 
-  if (!isLoadingComplete && !skipLoadingScreen && !isFirebaseInit) {
-    return <LoadingScreen />;
+  if (!isLoadedAnime) {
+    return <AnimationScreen onFinished={onAnimeFinished} />;
   }
   return (
     <>
@@ -245,10 +250,11 @@ export default function App(props) {
                   ref={containerRef}
                   initialState={initialNavigationState}
                 >
-                  {!isFirebaseInit ? <LoadingScreen /> : <RootNavigator />}
+                  <RootNavigator />
                   {/* <AddressesScreen /> */}
                   {/* <OrdersScreen /> */}
                   {/* <ChatScreen /> */}
+                  {/* <LoadingScreen /> */}
                 </NavigationContainer>
               </SafeAreaProvider>
             </UserProvider>
