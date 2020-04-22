@@ -23,7 +23,11 @@ import { Ionicons, Feather } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
 import { LocalizationContext } from '../context/cartContext/provider';
-
+import {
+  updateUserPushNotificationToken,
+  registerForPushNotificationsAsync,
+} from '../services/pushNotification';
+import { FirebaseAuth } from '../services/firebaseAuth';
 export default function RegisterScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
   const {
@@ -47,53 +51,74 @@ export default function RegisterScreen({ navigation }) {
   const handleRegister = () => {
     setIsLoading(true);
     setError('');
-
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        var user = firebase.auth().currentUser;
-        console.log('user', user);
-        const userData = {
-          email,
-          name,
-          role: 'user',
-        };
-        if (user) {
-          user
-            .updateProfile({
-              displayName: name,
-            })
-            .then(function () {
-              console.log('Profile updated successful.');
-            })
-            .catch(function (error) {
-              console.log('Profile updated faild', error);
-            });
-          firebase
-            .firestore()
-            .collection('users')
-            .doc(user.uid)
-            .set({
-              ...userData,
-              addresses: [],
-            });
-          // user
-          //   .sendEmailVerification()
-          //   .then(function () {
-          //     console.log('Email sent.');
-          //   })
-          //   .catch(function (error) {
-          //     console.log('Email sent faild', error);
-          //   });
-        }
-        signIn(userData);
+    FirebaseAuth.register(email, password, name)
+      .then((user) => {
+        signIn(user);
         setIsLoading(false);
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log(JSON.stringify(err));
         setError(err);
       });
+
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(async () => {
+    //     const user = firebase.auth().currentUser;
+    //     console.log('user', user);
+
+    //     let token = '';
+
+    //     try {
+    //       token = await registerForPushNotificationsAsync();
+    //     } catch (err) {
+    //       alert('Failed to get push token for push notification!');
+    //     }
+
+    //     const userData = {
+    //       email,
+    //       name,
+    //       role: 'user',
+    //       pushNotificationToken: token,
+    //     };
+    //     if (user)  {
+    //       user
+    //         .updateProfile({
+    //           displayName: name,
+    //         })
+    //         .then(function () {
+    //           console.log('Profile updated successful.');
+    //         })
+    //         .catch(function (error) {
+    //           console.log('Profile updated faild', error);
+    //         });
+    //       firebase
+    //         .firestore()
+    //         .collection('users')
+    //         .doc(user.uid)
+    //         .set({
+    //           ...userData,
+    //           addresses: [],
+    //         });
+
+    //       // user
+    //       //   .sendEmailVerification()
+    //       //   .then(function () {
+    //       //     console.log('Email sent.');
+    //       //   })
+    //       //   .catch(function (error) {
+    //       //     console.log('Email sent faild', error);
+    //       //   });
+    //     }
+    //     signIn(userData);
+    //     setIsLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     setIsLoading(false);
+    //     setError(err);
+    //   });
   };
 
   return (
@@ -196,7 +221,7 @@ export default function RegisterScreen({ navigation }) {
             color={Colors.primary}
           />
         ) : null}
-        {error ? <Text style={errorStyle}>{error.message}</Text> : null}
+        {error ? <Text style={errorStyle}>{error}</Text> : null}
 
         {/* Social media login */}
         <View

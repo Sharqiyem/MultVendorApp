@@ -26,6 +26,11 @@ import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
 import { t } from 'i18n-js';
 import { LocalizationContext } from '../context/cartContext/provider';
+import {
+  updateUserPushNotificationToken,
+  registerForPushNotificationsAsync,
+} from '../services/pushNotification';
+import { FirebaseAuth } from '../services/firebaseAuth';
 
 export default function LoginScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
@@ -52,27 +57,53 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = () => {
     setIsLoading(true);
-    console.log('handleLogin');
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(async (user) => {
-        console.log(user);
-        const userDoc = await firebase
-          .firestore()
-          .collection('users')
-          .doc(firebase.auth().currentUser.uid)
-          .get();
-
-        console.log('handleLogin', userDoc.data());
-        signIn(userDoc.data());
+    setError('');
+    FirebaseAuth.login(email, password)
+      .then((user) => {
+        signIn(user);
         setIsLoading(false);
-        // navigation.navigate('Home');
       })
       .catch((err) => {
         setIsLoading(false);
+        console.log(JSON.stringify(err));
         setError(err);
       });
+
+    //start
+    // firebase
+    //   .auth()
+    //   .signInWithEmailAndPassword(email, password)
+    //   .then(async (user) => {
+    //     console.log(user);
+    //     const userDoc = await firebase
+    //       .firestore()
+    //       .collection('users')
+    //       .doc(firebase.auth().currentUser.uid)
+    //       .get();
+
+    //     let token = '';
+
+    //     try {
+    //       token = await registerForPushNotificationsAsync();
+    //       if (token) await updateUserPushNotificationToken(token);
+    //     } catch (err) {
+    //       alert('Failed to get push token for push notification!');
+    //     }
+
+    //     console.log('handleLogin', userDoc.data());
+    //     const userObj = { ...userDoc.data(), pushNotificationToken: token };
+
+    //     // end
+
+    //     signIn(userObj);
+    //     setIsLoading(false);
+    //     // navigation.navigate('Home');
+    //   })
+    //   .catch((err) => {
+    //     setIsLoading(false);
+    //     console.log(JSON.stringify(err));
+    //     setError(err.message);
+    //   });
   };
 
   console.log('Constants.statusBarHeight', Constants.statusBarHeight);
@@ -160,7 +191,7 @@ export default function LoginScreen({ navigation }) {
             color={Colors.primary}
           />
         ) : null}
-        {error ? <Text style={error}>{error.message}</Text> : null}
+        {error ? <Text style={error}>{error}</Text> : null}
 
         {/* Social media login */}
         <View
