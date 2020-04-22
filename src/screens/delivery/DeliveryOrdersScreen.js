@@ -8,6 +8,7 @@ import {
   Platform,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 
@@ -23,6 +24,7 @@ import productHooks from '../../hooks/useGetDataByCollection';
 import types from '../../context/cartContext/types';
 import { useGetDeliveryOrders } from '../../hooks/useGetDeliveryOrders';
 import { AuthContext } from '../../context/authContext/provider';
+import Layout from '../../constants/Layout';
 export default function DeliveryOrdersScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
   const { state: authState } = React.useContext(AuthContext);
@@ -180,7 +182,15 @@ export default function DeliveryOrdersScreen({ navigation }) {
         </Text>
       </View> */}
       {!isReady ? (
-        <Text>Loading</Text>
+        <ActivityIndicator
+          style={{
+            flex: 1,
+            alignSelf: 'center',
+            width: Layout.window.width,
+          }}
+          size={'large'}
+          color={Colors.primary}
+        />
       ) : (
         <FlatList
           // style={{ backgroundColor: 'red' }}

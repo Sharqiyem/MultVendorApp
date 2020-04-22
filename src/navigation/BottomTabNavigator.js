@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Platform, Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -96,7 +96,11 @@ function HomeStack({ navigation, route }) {
 
       <Stack.Screen
         name='Store'
-        options={({ route }) => ({ title: route.params.item.name })}
+        options={({ route }) => ({
+          title: route.params.item.name,
+          headerShown: false,
+          header: null,
+        })}
         component={StoreScreen}
       />
     </Stack.Navigator>
@@ -176,7 +180,11 @@ function StoresStack({ navigation, route }) {
       />
       <Stack.Screen
         name='Store'
-        options={({ route }) => ({ title: route.params.item.name })}
+        options={({ route }) => ({
+          title: route.params.item.name,
+          headerShown: false,
+          header: null,
+        })}
         component={StoreScreen}
       />
       {/* <Stack.Screen
@@ -408,9 +416,19 @@ function UserTabs() {
         options={{
           title: t('Home'),
 
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} name='md-home' />
-          ),
+          tabBarIcon: ({ focused }) => {
+            const icon = focused
+              ? require('../../assets/images/appIcon.png')
+              : require('../../assets/images/appIcon2.png');
+            return (
+              <Image
+                style={{ height: 22, width: 22, marginBottom: -3 }}
+                resizeMode='contain'
+                source={icon}
+              />
+            );
+            // <TabBarIcon focused={focused} name='md-home' />
+          },
         }}
       />
       <BottomTab.Screen
@@ -463,16 +481,16 @@ function UserTabs() {
 
 export default RootNavigator = () => {
   const {
-    state: { isLoading, userToken, role },
+    state: { isLoading, userToken, isDelivery },
   } = React.useContext(AuthContext);
-  console.log({ isLoading, userToken, role });
+  console.log({ isLoading, userToken, isDelivery });
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isLoading ? (
         <Stack.Screen name='Loading' component={LoadingScreen} />
-      ) : userToken && role === 'user' ? (
+      ) : userToken && !isDelivery ? (
         <Stack.Screen name='Home' component={UserTabs} />
-      ) : userToken && role === 'delivery' ? (
+      ) : userToken && isDelivery ? (
         <Stack.Screen name='Home' component={DeliveryTabs} />
       ) : (
         <Stack.Screen name='Auth' component={AuthStack} />

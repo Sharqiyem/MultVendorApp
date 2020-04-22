@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation, route }) {
           style={{
             fontFamily: 'DroidKufi',
             color: 'red',
-            fontSize: 20,
+            fontSize: 16, marginHorizontal: 5,
             textAlign: 'center',
           }}
         >
@@ -67,7 +67,9 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>{t('Shop by Stores')}</Text>
+            <Text style={{ fontSize: 16, marginHorizontal: 5 }}>
+              {t('Shop by Stores')}
+            </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -76,6 +78,7 @@ export default function HomeScreen({ navigation, route }) {
             style={{
               backgroundColor: Colors.primary,
               borderRadius: 15,
+              height: 30,
               justifyContent: 'center',
             }}
           >
@@ -106,7 +109,14 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>{t('Shop by Categories')}</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                marginHorizontal: 5,
+              }}
+            >
+              {t('Shop by Categories')}
+            </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
@@ -115,6 +125,7 @@ export default function HomeScreen({ navigation, route }) {
             style={{
               backgroundColor: Colors.primary,
               borderRadius: 15,
+              height: 30,
               justifyContent: 'center',
             }}
           >
@@ -152,10 +163,13 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 20 }}>{t('Past orders')}</Text>
+            <Text style={{ fontSize: 16, marginHorizontal: 5 }}>
+              {t('Past orders')}
+            </Text>
           </View>
           <TouchableOpacity
             style={{
+              height: 30,
               backgroundColor: Colors.primary,
               borderRadius: 15,
               justifyContent: 'center',

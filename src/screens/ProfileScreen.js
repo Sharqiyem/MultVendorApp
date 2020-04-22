@@ -112,23 +112,24 @@ export default function ProfileScreen({ navigation }) {
           />
         </SectionRow>
 
-        <SectionRow text='Usage'>
-          <SettingsNavigateRow
-            text={t('Orders')}
-            iconName='edit'
-            onPressCallback={() => {
-              navigateToScreen('Orders');
-            }}
-          />
-          <SettingsNavigateRow
-            text={t('Addresses')}
-            iconName='edit'
-            onPressCallback={() => {
-              navigateToScreen('Address', { fromProfile: true });
-            }}
-          />
-        </SectionRow>
-
+        {!state.isDelivery && (
+          <SectionRow text='Usage'>
+            <SettingsNavigateRow
+              text={t('Orders')}
+              iconName='edit'
+              onPressCallback={() => {
+                navigateToScreen('Orders');
+              }}
+            />
+            <SettingsNavigateRow
+              text={t('Addresses')}
+              iconName='edit'
+              onPressCallback={() => {
+                navigateToScreen('Address', { fromProfile: true });
+              }}
+            />
+          </SectionRow>
+        )}
         <SectionRow text='App'>
           <SettingsNavigateRow
             text={t('Change language')}

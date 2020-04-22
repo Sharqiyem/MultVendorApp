@@ -19,11 +19,13 @@ import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
+import { AuthContext } from '../context/authContext/provider';
 
 export default function EditProfileScreen({ navigation }) {
-  const [email, setEmail] = React.useState('a@a.com');
-  const [password, setPassword] = React.useState('123456');
-  const [confirmPassword, setConfirmPassword] = React.useState('123456');
+  const { state } = React.useContext(AuthContext);
+  const [email, setEmail] = React.useState(state.userDate.email);
+  const [name, setName] = React.useState(state.userDate.name);
+
   const [error, setError] = React.useState('');
 
   const handleRegister = () => {
@@ -38,6 +40,15 @@ export default function EditProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, margin: 20 }}>
+        <TextInput
+          style={getStyle().textInput}
+          placeholder='Name'
+          placeholderStyle={{ textAlign: 'center' }}
+          onChangeText={(text) => (S = setName(text))}
+          value={name}
+          autoCorrect={false}
+          autoCapitalize='none'
+        />
         <TextInput
           style={getStyle().textInput}
           placeholder='Email'

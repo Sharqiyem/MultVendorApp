@@ -11,7 +11,10 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
+import Constants from 'expo-constants';
+
 import Colors from '../constants/Colors';
 import { Logo } from '../components';
 
@@ -21,14 +24,28 @@ import Layout from '../constants/Layout';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
+import { t } from 'i18n-js';
+import { LocalizationContext } from '../context/cartContext/provider';
 
 export default function LoginScreen({ navigation }) {
+  const { t } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    row,
+    error: errorStyle,
+    buttonPrimary,
+    statusBar,
+    textinputIcon,
+    flexDir,
+  } = getStyle();
+
+  const { state, signIn } = React.useContext(AuthContext);
+
   const [email, setEmail] = React.useState('d@d.com');
   const [password, setPassword] = React.useState('123456');
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { state, signIn } = React.useContext(AuthContext);
   console.log('auth STATE', state);
 
   React.useEffect(() => {});
@@ -58,26 +75,30 @@ export default function LoginScreen({ navigation }) {
       });
   };
 
+  console.log('Constants.statusBarHeight', Constants.statusBarHeight);
   return (
     <View style={styles.container}>
+      {Platform.OS === 'ios' && <StatusBar barStyle='dark-content' />}
+      {/* <View style={statusBar} /> */}
+
       <View style={{ alignItems: 'center' }}>
-        <Logo style={{ marginTop: 100, marginBottom: 20 }} />
+        <Logo style={{ marginTop: 120, marginBottom: 20 }} />
         <Text style={{ fontSize: 26, color: Colors.primary }}>
-          Welcome back
+          {t('Welcome back')}
         </Text>
-        <Text style={{ color: Colors.gray }}>Login to your account</Text>
+        <Text style={{ color: Colors.gray }}>{t('Login to your account')}</Text>
       </View>
       <View style={{ flex: 1, margin: 20 }}>
         <View style={{ justifyContent: 'center' }}>
           <Feather
             name='user'
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput
-            style={[getStyle().textInput]}
-            placeholder='Email'
+            style={[textInput]}
+            placeholder={t('Email')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -90,12 +111,12 @@ export default function LoginScreen({ navigation }) {
           <Feather
             name='lock'
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput
-            style={getStyle().textInput}
-            placeholder='Password'
+            style={textInput}
+            placeholder={t('Password')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setPassword(text)}
             value={password}
@@ -114,18 +135,18 @@ export default function LoginScreen({ navigation }) {
               // backgroundColor: 'red',
               // marginHorizontal: 20,
             },
-            getStyle().flexDir,
+            flexDir,
           ]}
         >
-          <Text style={{}}>Forgot password?</Text>
+          <Text style={{}}>{t('Forgot password?')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           disabled={isLoading}
           onPress={handleLogin}
-          style={getStyle().buttonPrimary}
+          style={buttonPrimary}
         >
           <Text style={{ textAlign: 'center', color: Colors.white }}>
-            LOGIN
+            {t('Login')}
           </Text>
         </TouchableOpacity>
 
@@ -139,12 +160,12 @@ export default function LoginScreen({ navigation }) {
             color={Colors.primary}
           />
         ) : null}
-        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+        {error ? <Text style={error}>{error.message}</Text> : null}
 
         {/* Social media login */}
         <View
           style={[
-            getStyle().row,
+            row,
             {
               justifyContent: 'space-around',
               alignItems: 'center',
@@ -154,12 +175,12 @@ export default function LoginScreen({ navigation }) {
         >
           <View style={{ flex: 1 }}>
             <Text style={{ textAlign: 'center', color: Colors.gray }}>
-              Or Connect using
+              {t('Or Connect using')}
             </Text>
           </View>
           <View
             style={[
-              getStyle().row,
+              row,
               { flex: 1, justifyContent: 'center', alignItems: 'center' },
             ]}
           >
@@ -183,7 +204,7 @@ export default function LoginScreen({ navigation }) {
           style={[
             {
               // backgroundColor: 'red',
-              marginBottom: 60,
+              marginBottom: 10,
               flex: 1,
               marginHorizontal: 20,
               justifyContent: 'flex-end',
@@ -203,10 +224,10 @@ export default function LoginScreen({ navigation }) {
                   borderBottomColor: Colors.primary,
                   fontSize: 16,
                 },
-                // getStyle().link,
+                // link,
               ]}
             >
-              Don't have an account?{' '}
+              {t("Don't have an account?")}{' '}
               <Text
                 style={[
                   {
@@ -215,15 +236,15 @@ export default function LoginScreen({ navigation }) {
                     borderBottomColor: Colors.primary,
                     fontSize: 16,
                   },
-                  // getStyle().link,
+                  // link,
                 ]}
               >
-                Sign Up
+                {t('Sign Up')}
               </Text>
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <TouchableOpacity onPress={() => {}} style={getStyle().buttonOutline}>
+        {/* <TouchableOpacity onPress={() => {}} style={buttonOutline}>
           <Text style={{ textAlign: 'center', color: Colors.primary }}>
             REGISTER
           </Text>
@@ -241,6 +262,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F4F3F3',
+    backgroundColor: '#fff',
+  },
+  statusBar: {
+    backgroundColor: Colors.primary,
+    height: Constants.statusBarHeight,
   },
 });

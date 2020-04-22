@@ -105,3 +105,10 @@ Notification {id, text, created date, is readed, sender id }
 # Issues
 
 [Fixed] set tabBarVisible for some screens
+
+# Ideas
+
+1.1 One restaurant (- stores)
+1.2 Food delivery (multi restaurant)
+1.3 Services (Mahara) - there's some changes in pick maher
+1.4 Mostaql (Like Mahara) - (stores -> mostaql)

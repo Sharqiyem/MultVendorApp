@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Logo } from '../components';
@@ -21,9 +22,18 @@ import Layout from '../constants/Layout';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
+import { LocalizationContext } from '../context/cartContext/provider';
 
 export default function RegisterScreen({ navigation }) {
-  const { textInput, row, error: errorStyle, buttonPrimary } = getStyle();
+  const { t } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    row,
+    error: errorStyle,
+    buttonPrimary,
+    statusBar,
+    textinputIcon,
+  } = getStyle();
 
   const { state, signIn } = React.useContext(AuthContext);
 
@@ -44,6 +54,11 @@ export default function RegisterScreen({ navigation }) {
       .then(() => {
         var user = firebase.auth().currentUser;
         console.log('user', user);
+        const userData = {
+          email,
+          name,
+          role: 'user',
+        };
         if (user) {
           user
             .updateProfile({
@@ -55,12 +70,14 @@ export default function RegisterScreen({ navigation }) {
             .catch(function (error) {
               console.log('Profile updated faild', error);
             });
-          firebase.firestore().collection('users').doc(user.uid).set({
-            email,
-            name,
-            role: 'user',
-            addresses: [],
-          });
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              ...userData,
+              addresses: [],
+            });
           // user
           //   .sendEmailVerification()
           //   .then(function () {
@@ -70,7 +87,7 @@ export default function RegisterScreen({ navigation }) {
           //     console.log('Email sent faild', error);
           //   });
         }
-        signIn({ userToken: user.uid, role: '' });
+        signIn(userData);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -81,10 +98,13 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {Platform.OS === 'ios' && <StatusBar barStyle='dark-content' />}
+
+      {/* <View style={statusBar} /> */}
       <View style={{ alignItems: 'center', marginTop: 100 }}>
-        <Text style={{ fontSize: 24 }}>Let's Get Started</Text>
+        <Text style={{ fontSize: 24 }}>{t("Let's Get Started")}</Text>
         <Text style={{ color: Colors.gray }}>
-          Create an account to get all features
+          {t('Create an account to get all features')}
         </Text>
       </View>
 
@@ -98,7 +118,7 @@ export default function RegisterScreen({ navigation }) {
           />
           <TextInput
             style={textInput}
-            placeholder='Name'
+            placeholder={t('Name')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setName(text)}
             value={name}
@@ -115,7 +135,7 @@ export default function RegisterScreen({ navigation }) {
           />
           <TextInput
             style={textInput}
-            placeholder='Email'
+            placeholder={t('Email')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setEmail(text)}
             value={email}
@@ -133,7 +153,7 @@ export default function RegisterScreen({ navigation }) {
           />
           <TextInput
             style={textInput}
-            placeholder='Password'
+            placeholder={t('Password')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setPassword(text)}
             value={password}
@@ -152,7 +172,7 @@ export default function RegisterScreen({ navigation }) {
           />
           <TextInput
             style={textInput}
-            placeholder='Confirm Password'
+            placeholder={t('Confirm Password')}
             placeholderStyle={{ textAlign: 'center' }}
             onChangeText={(text) => setConfirmPassword(text)}
             value={confirmPassword}
@@ -163,7 +183,7 @@ export default function RegisterScreen({ navigation }) {
         </View>
         <TouchableOpacity onPress={handleRegister} style={buttonPrimary}>
           <Text style={{ textAlign: 'center', color: Colors.white }}>
-            REGISTER
+            {t('Register')}
           </Text>
         </TouchableOpacity>
         {isLoading ? (
@@ -190,7 +210,7 @@ export default function RegisterScreen({ navigation }) {
           ]}
         >
           <View style={{ flex: 1 }}>
-            <Text style={{ textAlign: 'center' }}>Or Connect with</Text>
+            <Text style={{ textAlign: 'center' }}>{t('Or Connect using')}</Text>
           </View>
           <View
             style={[
@@ -218,7 +238,7 @@ export default function RegisterScreen({ navigation }) {
           style={[
             {
               // backgroundColor: 'red',
-              marginBottom: 60,
+              marginBottom: 10,
               flex: 1,
               marginHorizontal: 20,
               justifyContent: 'flex-end',
@@ -245,7 +265,7 @@ export default function RegisterScreen({ navigation }) {
                 // link,
               ]}
             >
-              I already have an account
+              {t('I already have an account')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -262,7 +282,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F4F3F3',
+    backgroundColor: '#fff',
   },
 
   tabBarInfoContainer: {

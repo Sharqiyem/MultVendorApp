@@ -8,9 +8,8 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#555CC4"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,6 +17,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#555CC4",
+      "translucent": false,
+      "barStyle": "light-content"
     },
     "android": {
       "package": "com.vistanasoft.astore",
