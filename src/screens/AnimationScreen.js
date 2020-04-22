@@ -18,7 +18,7 @@ const AnimationScreen = ({ onFinished }) => {
     ref.current.reset();
     ref.current.play(120);
   };
-  console.log('Loading screen');
+  console.log('Animation Screen');
   return (
     <View
       style={{
