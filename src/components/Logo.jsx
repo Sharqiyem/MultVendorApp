@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image } from 'react-native';
+import ResponsiveImage from 'react-native-responsive-image';
 
 const logo = require('../../assets/images/logo.png');
 
@@ -8,8 +9,9 @@ const Logo = ({ style }) => {
     <View style={[{ alignItems: 'center' }, style]}>
       <View
         style={{
-          height: 50,
-          width: 50,
+          height: 120,
+          width: 120,
+          // backgroundColor: '',
         }}
       >
         <Image
@@ -17,8 +19,14 @@ const Logo = ({ style }) => {
             alignContent: 'center',
             height: '100%',
             width: '100%',
-            marginVertical: 10,
+
+            // borderColor: 'red',
+            // borderWidth: 1,
+            // marginVertical: 10,
           }}
+          initWidth='100'
+          initHeight='100'
+          resizeMode='contain'
           source={logo}
         />
       </View>

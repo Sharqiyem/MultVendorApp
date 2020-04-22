@@ -14,6 +14,8 @@ import productHooks from '../hooks/useGetDataByCollection';
 import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import Colors from '../constants/Colors';
+import { FontAwesome } from '@expo/vector-icons';
+import { LocalizationContext } from '../context/cartContext/provider';
 
 const widowWidth = Dimensions.get('window').width;
 
@@ -46,6 +48,10 @@ export const CategoryList = ({ navigation }) => {
 };
 
 export const CategoryListItem = ({ item, navigation }) => {
+  const { t, locale } = React.useContext(LocalizationContext);
+
+  const angleIcon = getStyle().angleIcon;
+
   return (
     <TouchableOpacity
       style={[styles.container, getStyle().row]}
@@ -62,14 +68,27 @@ export const CategoryListItem = ({ item, navigation }) => {
       </View>
       <View style={styles.textContiner}>
         <View styles={{}}>
-          <Text style={[getStyle().text, { fontSize: 20 }]}>{item.name}</Text>
+          <Text
+            style={[getStyle().text, { fontSize: 20, color: Colors.primary }]}
+          >
+            {item.names[locale]}
+          </Text>
         </View>
 
-        <Text style={[getStyle().text, styles.shopSubTitle]}>
-          (35) products
-        </Text>
+        <View style={[getStyle().row, { alignItems: 'center' }]}>
+          <Text style={[getStyle().text, styles.shopSubTitle]}>(35)</Text>
+          <Text style={[getStyle().text, styles.shopSubTitle]}>
+            {t('Products')}
+          </Text>
+        </View>
         {/* <Text style={styles.timeText}>07:00AM:08PM</Text>  */}
       </View>
+      <FontAwesome
+        name={angleIcon}
+        size={25}
+        style={{ alignSelf: 'center' }}
+        color={Colors.grey}
+      />
     </TouchableOpacity>
   );
 };
@@ -80,7 +99,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    margin: 10,
+    marginHorizontal: 5,
+    marginVertical: 10,
+    backgroundColor: Colors.white,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    borderBottomColor: Colors.grey,
+    borderBottomWidth: 0.5,
   },
   imageContiner: {
     // flex: 1,
@@ -93,7 +118,7 @@ const styles = StyleSheet.create({
   },
   textContiner: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
   image: {
     height: '100%',
@@ -106,7 +131,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   shopSubTitle: {
-    fontSize: 15,
+    fontSize: 13,
     margin: 5,
   },
   timeText: {

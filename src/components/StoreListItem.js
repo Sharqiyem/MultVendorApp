@@ -42,7 +42,11 @@ export const StoreListItem = ({ item, navigation }) => {
           ]}
         >
           <View styles={{}}>
-            <Text style={[getStyle().text, { fontSize: 20 }]}>{name}</Text>
+            <Text
+              style={[getStyle().text, { fontSize: 20, color: Colors.primary }]}
+            >
+              {name}
+            </Text>
           </View>
 
           <Rating />
@@ -100,8 +104,14 @@ const width = widowWidth / 3 - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    // backgroundColor: 'red',
     margin: 10,
+    marginHorizontal: 5,
+    marginVertical: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    borderBottomColor: Colors.grey,
+    borderBottomWidth: 0.5,
   },
   imageContiner: {
     // flex: 1,

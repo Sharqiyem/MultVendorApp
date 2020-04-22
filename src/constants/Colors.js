@@ -1,7 +1,7 @@
-const tintColor = '#555CC4';
+// const tintColor = '#555CC4';
 
 export default Colors = {
-  tintColor,
+  tintColor: '#555CC4',
   tabIconDefault: '#ddd',
   tabIconSelected: '#fff',
   tabBar: '#fefefe',
@@ -9,11 +9,11 @@ export default Colors = {
   errorText: '#fff',
   warningBackground: '#EAEB5E',
   warningText: '#666804',
-  noticeBackground: tintColor,
+  noticeBackground: '#555CC4',
   noticeText: '#fff',
-  tabBarBG: tintColor,
+  tabBarBG: '#555CC4',
   white: '#fff',
-  headerBG: tintColor,
+  headerBG: '#555CC4',
   blue: '#6271da',
   primary: '#555CC4',
   secondary: '#FF1358',
@@ -29,9 +29,47 @@ export default Colors = {
   darkGray: '#4d4d4d',
   lightGray: '#9b9b9b',
   white: '#ffffff',
+  darkWhite: '#F4F3F3',
   blue: '#5A81F7',
   bluish: '#F1F1F7',
   black: '#000000',
   green: '#6DD0A3',
   yellow: '#ffc247',
 };
+
+// const tintColor = '#13293d';
+// export default Colors = {
+//   tintColor,
+//   tabIconDefault: '#ddd',
+//   tabIconSelected: '#fff',
+//   tabBar: '#fefefe',
+//   errorBackground: 'red',
+//   errorText: '#fff',
+//   warningBackground: '#EAEB5E',
+//   warningText: '#666804',
+//   noticeBackground: tintColor,
+//   noticeText: '#fff',
+//   tabBarBG: tintColor,
+//   white: '#fff',
+//   headerBG: tintColor,
+//   blue: '#6271da',
+//   primary: '#13293d', // here
+//   secondary: '#FF1358',
+//   primaryLight: '#425363', // here
+//   primaryGradientStart: '#4f44b6',
+//   primaryGradientEnd: '#4f44b6',
+//   secondaryGradientStart: '#FF1358',
+//   secondaryGradientEnd: '#FF1358',
+//   profileGradientStart: '#54CBF6',
+//   profileGradientEnd: '#49D2D0',
+//   grey: '#acacac',
+//   gray: '#5f5f5f',
+//   darkGray: '#4d4d4d',
+//   lightGray: '#9b9b9b',
+//   white: '#ffffff',
+//   blue: '#5A81F7',
+//   bluish: '#F1F1F7',
+//   black: '#000000',
+//   green: '#6DD0A3',
+//   yellow: '#ffc247',
+// };

@@ -6,6 +6,8 @@ import {
   View,
   // Image
 } from 'react-native';
+import Constants from 'expo-constants';
+
 import { Image } from 'react-native-expo-image-cache';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -113,6 +115,7 @@ const styles = StyleSheet.create({
 
     fontSize: 20,
     textAlign: 'center',
+    paddingTop: Constants.statusBarHeight,
   },
   itemTwoSubTitle: {
     color: Colors.white,

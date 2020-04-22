@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
+
 import Colors from './Colors';
 import I18n from '../i18n/i18n';
 import { LocalizationContext } from '../context/cartContext/provider';
 
 const { width } = Dimensions.get('window');
 
-const inputTextHeight = 35;
+const inputTextHeight = 38;
 export const globalStyles = StyleSheet.create({
   logoImage: {
     width: 120,
@@ -110,7 +112,7 @@ const getStyle = () => {
     row: {
       flexDirection: isRTL ? 'row-reverse' : 'row',
     },
-    flexDir: { alignItems: isRTL ? 'flex-start' : 'flex-end' },
+    flexDir: { alignItems: isRTL ? 'flex-end' : 'flex-start' },
     transform: [{ scaleX: isRTL ? -1 : 1 }],
     text: {
       textAlign: isRTL ? 'right' : 'left',
@@ -137,28 +139,34 @@ const getStyle = () => {
       color: 'red',
       paddingHorizontal: 5,
     },
-
+    statusBar: {
+      backgroundColor: Colors.primary,
+      height: Constants.statusBarHeight,
+    },
     angleIcon: isRTL ? 'angle-left' : 'angle-right',
 
     textinputIcon: {
       marginHorizontal: 15,
       alignSelf: 'center',
       position: 'absolute',
-      left: 0,
+      right: isRTL ? 0 : null,
+      left: !isRTL ? 0 : null,
       zIndex: 10,
     },
     //Forms
     textInput: {
+      fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
       height: inputTextHeight,
       borderColor: Colors.primaryLight,
       borderWidth: 1,
       textAlign: 'center',
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
-      paddingVertical: 5,
+      paddingVertical: 10,
       paddingHorizontal: 15,
-      color: Colors.primary,
+      color: Colors.darkGray,
       backgroundColor: '#fff',
+      fontSize: 16,
     },
     buttonPrimary: {
       height: inputTextHeight,

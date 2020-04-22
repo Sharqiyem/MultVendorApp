@@ -37,7 +37,7 @@ const SettingsNavigateRow = ({ onPressCallback, iconName, text }) => {
             name={angleIcon}
             size={25}
             style={iconRightStyle}
-            color={Colors.primary}
+            color={Colors.grey}
           />
         </View>
       </View>
