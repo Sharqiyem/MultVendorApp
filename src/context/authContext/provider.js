@@ -50,6 +50,12 @@ const authReducer = (prevState = initialState, action) => {
 
         storeId: '',
       };
+    case 'UPDATE_USER':
+      return {
+        ...prevState,
+
+        userDate: { ...prevState.userDate, ...action.data },
+      };
   }
 };
 const AuthProvider = ({ children }) => {
@@ -73,6 +79,9 @@ const AuthProvider = ({ children }) => {
       },
       signUp: async (data) => {
         dispatch({ type: 'SIGN_IN', data });
+      },
+      updateUser: async (data) => {
+        dispatch({ type: 'UPDATE_USER', data });
       },
     }),
     []
