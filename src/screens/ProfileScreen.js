@@ -14,7 +14,7 @@ export default function ProfileScreen({ navigation }) {
   const { state, signOut } = React.useContext(AuthContext);
   const { t, changeLang, locale } = React.useContext(LocalizationContext);
 
-  console.log('locale', locale);
+  console.log('AuthContext state', state);
   const [] = React.useState(false);
   const [] = React.useState(40);
   const [] = React.useState(false);
@@ -172,7 +172,6 @@ export default function ProfileScreen({ navigation }) {
     );
   };
 
-  console.log('profile render');
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: '#F4F3F3' }}>

@@ -30,7 +30,7 @@ import {
   updateUserPushNotificationToken,
   registerForPushNotificationsAsync,
 } from '../services/pushNotification';
-import { FirebaseAuth } from '../services/firebaseAuth';
+import FirebaseAuth from '../services/firebaseAuth';
 
 export default function LoginScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }) {
 
   const { state, signIn } = React.useContext(AuthContext);
 
-  const [email, setEmail] = React.useState('d@d.com');
+  const [email, setEmail] = React.useState('a@a.com');
   const [password, setPassword] = React.useState('123456');
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);

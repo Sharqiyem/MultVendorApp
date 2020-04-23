@@ -10,6 +10,7 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import { Logo } from '../components';
@@ -20,22 +21,30 @@ import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
 import { AuthContext } from '../context/authContext/provider';
+import FirebaseAuth from '../services/firebaseAuth';
 
 export default function EditProfileScreen({ navigation }) {
-  const { state } = React.useContext(AuthContext);
+  const { state, updateUser } = React.useContext(AuthContext);
   const [email, setEmail] = React.useState(state.userDate.email);
   const [name, setName] = React.useState(state.userDate.name);
 
+  const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const handleRegister = () => {
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then(() => {
-    //     navigation.navigate('Profile');
-    //   })
-    //   .catch((err) => setError(err));
+  const handleEditProfile = () => {
+    setIsLoading(true);
+    setError('');
+
+    FirebaseAuth.editProfile(name)
+      .then(() => {
+        alert('Profile was changed successfully');
+        setIsLoading(false);
+        updateUser({ name });
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+      });
   };
   return (
     <View style={styles.container}>
@@ -44,12 +53,12 @@ export default function EditProfileScreen({ navigation }) {
           style={getStyle().textInput}
           placeholder='Name'
           placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => (S = setName(text))}
+          onChangeText={(text) => setName(text)}
           value={name}
           autoCorrect={false}
           autoCapitalize='none'
         />
-        <TextInput
+        {/* <TextInput
           style={getStyle().textInput}
           placeholder='Email'
           placeholderStyle={{ textAlign: 'center' }}
@@ -57,15 +66,25 @@ export default function EditProfileScreen({ navigation }) {
           value={email}
           autoCorrect={false}
           autoCapitalize='none'
-        />
+        /> */}
 
         <TouchableOpacity
-          onPress={handleRegister}
+          onPress={handleEditProfile}
           style={getStyle().buttonPrimary}
         >
           <Text style={{ textAlign: 'center', color: Colors.white }}>SAVE</Text>
         </TouchableOpacity>
-        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+        {isLoading && (
+          <ActivityIndicator
+            style={{
+              alignSelf: 'center',
+              width: Layout.window.width,
+            }}
+            size={'large'}
+            color={Colors.primary}
+          />
+        )}
+        {error ? <Text style={getStyle().error}>{error}</Text> : null}
       </View>
     </View>
   );

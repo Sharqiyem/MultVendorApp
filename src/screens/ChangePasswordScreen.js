@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Platform,
+  ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
 import Colors from '../constants/Colors';
@@ -19,24 +20,42 @@ import getStyle from '../constants/styles';
 import Layout from '../constants/Layout';
 import { Ionicons } from '@expo/vector-icons';
 import firebase from '../config/firebase.config';
-
+import FirebaseAuth, {
+  reauthenticate,
+  changePassword,
+} from '../services/firebaseAuth';
 export default function ChangePasswordScreen({ navigation }) {
   const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [currentPassword, setCurrentPassword] = React.useState('');
   const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleRegister = () => {
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then(() => {
-    //     navigation.navigate('Profile');
-    //   })
-    //   .catch((err) => setError(err));
+  const handleChangePassword = () => {
+    setIsLoading(true);
+    setError('');
+    FirebaseAuth.changePassword(currentPassword, password)
+      .then(() => {
+        alert('Password was changed successfully');
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoading(false);
+      });
   };
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, margin: 20 }}>
+        <TextInput
+          style={getStyle().textInput}
+          placeholder='Current Password'
+          placeholderStyle={{ textAlign: 'center' }}
+          onChangeText={(text) => setCurrentPassword(text)}
+          value={currentPassword}
+          autoCorrect={false}
+          autoCapitalize='none'
+          secureTextEntry
+        />
         <TextInput
           style={getStyle().textInput}
           placeholder='Password'
@@ -47,23 +66,25 @@ export default function ChangePasswordScreen({ navigation }) {
           autoCapitalize='none'
           secureTextEntry
         />
-        <TextInput
-          style={getStyle().textInput}
-          placeholder='Confirm Password'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          autoCorrect={false}
-          autoCapitalize='none'
-          secureTextEntry
-        />
+
         <TouchableOpacity
-          onPress={handleRegister}
+          disabled={isLoading}
+          onPress={handleChangePassword}
           style={getStyle().buttonPrimary}
         >
           <Text style={{ textAlign: 'center', color: Colors.white }}>SAVE</Text>
         </TouchableOpacity>
-        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+        {isLoading && (
+          <ActivityIndicator
+            style={{
+              alignSelf: 'center',
+              width: Layout.window.width,
+            }}
+            size={'large'}
+            color={Colors.primary}
+          />
+        )}
+        {error ? <Text style={getStyle().error}>{error}</Text> : null}
       </View>
     </View>
   );

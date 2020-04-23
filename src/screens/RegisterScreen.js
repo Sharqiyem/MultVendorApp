@@ -27,7 +27,7 @@ import {
   updateUserPushNotificationToken,
   registerForPushNotificationsAsync,
 } from '../services/pushNotification';
-import { FirebaseAuth } from '../services/firebaseAuth';
+import FirebaseAuth from '../services/firebaseAuth';
 export default function RegisterScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
   const {
