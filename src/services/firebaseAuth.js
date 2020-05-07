@@ -1,6 +1,10 @@
 import firebase from '../config/firebase.config';
+import {
+  registerForPushNotificationsAsync,
+  updateUserPushNotificationToken,
+} from './pushNotification';
 
-export class FirebaseAuth {
+export default class FirebaseAuth {
   static login(email, password) {
     return new Promise((resolve, reject) => {
       firebase
@@ -20,7 +24,8 @@ export class FirebaseAuth {
             token = await registerForPushNotificationsAsync();
             if (token) await updateUserPushNotificationToken(token);
           } catch (err) {
-            alert('Failed to get push token for push notification!');
+            alert('Failed to get push token for push notification! ');
+            console.log('push notification err', err);
             // reject('Failed to get push token for push notification!');
           }
           const userObj = { ...userDoc.data(), pushNotificationToken: token };
@@ -85,4 +90,64 @@ export class FirebaseAuth {
         });
     });
   }
+
+  static reauthenticate = (currentPassword) => {
+    const user = firebase.auth().currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
+    return user.reauthenticateWithCredential(cred);
+  };
+
+  static changePassword = (currentPassword, newPassword) => {
+    return new Promise((resolve, reject) => {
+      FirebaseAuth.reauthenticate(currentPassword)
+        .then(() => {
+          const user = firebase.auth().currentUser;
+          user
+            .updatePassword(newPassword)
+            .then(() => {
+              resolve();
+            })
+            .catch((error) => {
+              reject(error.message);
+            });
+        })
+        .catch((error) => {
+          reject(error.message);
+        });
+    });
+  };
+
+  static editProfile = (name) => {
+    return new Promise((resolve, reject) => {
+      const user = firebase.auth().currentUser;
+      user
+        .updateProfile({
+          displayName: name,
+        })
+        .then(function () {
+          console.log('Profile updated successful.');
+        })
+        .catch(function (error) {
+          reject('Profile updated faild', error);
+        });
+
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(user.uid)
+        .update({
+          name,
+        })
+        .then(function () {
+          console.log('Profile updated successful.');
+          resolve();
+        })
+        .catch(function (error) {
+          reject('Profile updated faild', error);
+        });
+    });
+  };
 }

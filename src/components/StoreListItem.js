@@ -42,9 +42,7 @@ export const StoreListItem = ({ item, navigation }) => {
           ]}
         >
           <View styles={{}}>
-            <Text
-              style={[getStyle().text, { fontSize: 20, color: Colors.primary }]}
-            >
+            <Text style={[getStyle().textHeader, { color: Colors.primary }]}>
               {name}
             </Text>
           </View>
@@ -132,12 +130,8 @@ const styles = StyleSheet.create({
 
     borderRadius: width / 2,
   },
-  shopTitle: {
-    fontSize: 20,
-    marginHorizontal: 5,
-  },
+
   shopSubTitle: {
-    fontSize: 15,
     margin: 5,
   },
   timeText: {

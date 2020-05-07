@@ -68,9 +68,7 @@ export const CategoryListItem = ({ item, navigation }) => {
       </View>
       <View style={styles.textContiner}>
         <View styles={{}}>
-          <Text
-            style={[getStyle().text, { fontSize: 20, color: Colors.primary }]}
-          >
+          <Text style={[getStyle().textHeader, { color: Colors.primary }]}>
             {item.names[locale]}
           </Text>
         </View>
@@ -126,12 +124,8 @@ const styles = StyleSheet.create({
 
     // borderRadius: width / 2,
   },
-  shopTitle: {
-    fontSize: 20,
-    marginHorizontal: 5,
-  },
+
   shopSubTitle: {
-    fontSize: 13,
     margin: 5,
   },
   timeText: {

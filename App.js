@@ -5,19 +5,15 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import firebase from './src/config/firebase.config';
 import { setCustomText } from 'react-native-global-props';
-
 import RootNavigator from './src/navigation/BottomTabNavigator';
 import {
   StoreProvider,
   LocalizationContext,
 } from './src/context/cartContext/provider';
-
-import { registerForPushNotificationsAsync } from './src/services';
-
 import useLinking from './src/navigation/useLinking';
-
 import I18n from './src/i18n/i18n';
 import AnimationScreen from './src/screens/AnimationScreen';
 import { AuthProvider } from './src/context/authContext/provider';
@@ -27,6 +23,7 @@ import ManageAddressScreen from './src/screens/ManageAddressScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import { UserProvider } from './src/context/userContext/provider';
 import ChatScreen from './src/screens/ChatScreen';
+import { navigationRef } from './src/navigation/NavigationRef';
 
 YellowBox.ignoreWarnings([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
@@ -168,14 +165,6 @@ export default function App(props) {
         } catch (e) {
           console.log('Restoring lang failed', e);
         }
-
-        // Register PushNotifications
-        try {
-          const token = await registerForPushNotificationsAsync();
-          console.log('Push token', token);
-        } catch (err) {
-          console.log('registerForPushNotificationsAsync faild ');
-        }
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
@@ -189,6 +178,7 @@ export default function App(props) {
   }, []);
 
   const onAnimeFinished = () => {
+    setDefaultTextStyles();
     console.log('onAnimeFinished finished');
     setIsLoadedAnime(true);
   };
@@ -211,7 +201,6 @@ export default function App(props) {
       setIsFirebaseInit(true);
     });
     // setIsFirebaseInit(true);
-    setDefaultTextStyles();
   });
 
   if (

@@ -15,3 +15,15 @@ class Store {
   openTime = '08 AM';
   closeTim = '08 PM';
 }
+
+class Notification {
+  id = '';
+  category = 'Activity|Order|Chat'; //Event Type
+  data = {};
+  createdAt = 'timestamp';
+  readTimestamp = '';
+  to = '';
+  senderId = '';
+  title = '';
+  body = '';
+}

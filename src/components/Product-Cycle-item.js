@@ -60,6 +60,7 @@ export const ProductCycleItem = ({ item }) => {
         />
       </View>
       <Text style={styles.itemTwoTitle}>{item.name}</Text>
+      <Text style={{ color: Colors.gray }}>{item.price}</Text>
 
       <TouchableOpacity
         style={styles.button}
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: margenHorizontal,
-    marginVertical: 5,
+    marginVertical: 10,
   },
   button: {
     position: 'absolute',
@@ -98,6 +99,8 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: Colors.primary,
   },
   itemTwoContainer: {
@@ -112,13 +115,11 @@ const styles = StyleSheet.create({
   itemTwoTitle: {
     color: Colors.primary,
 
-    fontSize: 15,
+    // fontSize: 15,
   },
   btnText: {
     color: Colors.white,
-
-    fontSize: 28,
-    alignSelf: 'center',
+    fontSize: 25,
   },
   itemTwoSubTitle: {
     color: Colors.primary,

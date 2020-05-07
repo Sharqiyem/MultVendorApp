@@ -39,7 +39,8 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import DeliveryOrdersScreen from '../screens/delivery/DeliveryOrdersScreen';
 import DeliveryTabs from './DeliveryNavigator';
 import ChatScreen from '../screens/ChatScreen';
-
+import { useNotify } from '../hooks/useNotify';
+import { navigationRef } from './NavigationRef';
 const BottomTab = createMaterialTopTabNavigator();
 
 const Stack = createStackNavigator();
@@ -71,6 +72,7 @@ function HomeStack({ navigation, route }) {
           alignSelf: 'center',
           flex: 1,
           width: '100%',
+          fontSize: 14,
           // backgroundColor: 'red',
         },
         //Header text color
@@ -119,6 +121,9 @@ function CategoriesStack({ navigation }) {
           shadowColor: 'transparent',
           elevation: 0,
         },
+        headerTitleStyle: {
+          fontSize: 14,
+        },
         //Header text color
         headerTintColor: '#fff',
         headerRight: (props) => (
@@ -161,6 +166,9 @@ function StoresStack({ navigation, route }) {
           shadowColor: 'transparent',
           borderBottomWidth: 0,
           elevation: 0,
+        },
+        headerTitleStyle: {
+          fontSize: 14,
         },
         //Header text color
         headerTintColor: '#fff',
@@ -210,6 +218,9 @@ function ProfileStack({ navigation }) {
           backgroundColor: Colors.headerBG,
           shadowColor: 'transparent',
           elevation: 0,
+        },
+        headerTitleStyle: {
+          fontSize: 14,
         },
         // Header text color
         headerTintColor: '#fff',
@@ -332,6 +343,9 @@ function CartStack({ navigation }) {
           borderBottomWidth: 0,
           elevation: 0,
         },
+        headerTitleStyle: {
+          fontSize: 14,
+        },
         //Header text color
         headerTintColor: '#fff',
         headerRight: (props) => (
@@ -395,6 +409,7 @@ function UserTabs() {
         indicatorStyle: {
           display: 'none',
           color: '#fff',
+          height: 0, //this works
           borderColor: 'transparent',
           borderBottomWidth: 0,
         },
@@ -484,8 +499,12 @@ export default RootNavigator = () => {
     state: { isLoading, userToken, isDelivery },
   } = React.useContext(AuthContext);
   console.log({ isLoading, userToken, isDelivery });
+
+  const notification = useNotify();
+  console.log('useNotify notification', notification);
+
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator ref={navigationRef} screenOptions={{ headerShown: false }}>
       {isLoading ? (
         <Stack.Screen name='Loading' component={LoadingScreen} />
       ) : userToken && !isDelivery ? (

@@ -127,7 +127,7 @@ export default function AddressesScreen({ navigation, route }) {
           Add new address
         </Text>
       </TouchableOpacity>
-      <View style={{ flex: 1, margin: 20 }}>
+      <View style={{ flex: 1, margin: 10 }}>
         {!fromProfile && (
           <Text
             style={[textHeader, { marginHorizontal: 20, marginVertical: 10 }]}
@@ -149,7 +149,7 @@ export default function AddressesScreen({ navigation, route }) {
         {addresses && addresses.length > 0 && (
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ flex: 1, marginBottom: 100 }}
+            style={{ flex: 1, marginBottom: 30 }}
           >
             <RadioButtons
               key={refresh}

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
   imageContiner: {
     flex: 1,
-    height: 180,
+    height: 150,
     width: width / 2 - 50,
     overflow: 'hidden',
     alignItems: 'stretch',
@@ -104,12 +104,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryLight,
   },
   shopTitle: {
-    fontSize: 20,
+    fontSize: 14,
     marginHorizontal: 5,
     width: width / 2 - 50,
   },
   shopSubTitle: {
-    fontSize: 15,
+    fontSize: 12,
+    color: Colors.gray,
     marginHorizontal: 5,
     width: width / 2 - 50,
   },

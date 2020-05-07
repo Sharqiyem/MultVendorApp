@@ -14,6 +14,7 @@ import {
   CategoryList,
 } from '../components/index';
 import { LocalizationContext } from '../context/cartContext/provider';
+import getStyle from '../constants/styles';
 export default function CategoriesScreen({ navigation }) {
   const { t, changeLang } = React.useContext(LocalizationContext);
 
@@ -21,22 +22,13 @@ export default function CategoriesScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View
         style={{
-          height: 60,
+          height: 50,
           backgroundColor: Colors.primary,
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
-        <View
-          style={{
-            width: '90%',
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: Colors.primaryLight,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <View style={getStyle().textInputLight}>
           <Text style={{ color: Colors.white }}>Search your category</Text>
         </View>
       </View>

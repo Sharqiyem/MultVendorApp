@@ -89,6 +89,7 @@ UI design Checkout screens
 
 Delivery Live Tracking
 
+Stores Map View
 ## 3.2 Chats and contact
 
 [Done] Chat between customer and delivery for selected order

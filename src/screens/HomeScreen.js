@@ -67,7 +67,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 16, marginHorizontal: 5 }}>
+            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
               {t('Shop by Stores')}
             </Text>
           </View>
@@ -109,12 +109,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text
-              style={{
-                fontSize: 16,
-                marginHorizontal: 5,
-              }}
-            >
+            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
               {t('Shop by Categories')}
             </Text>
           </View>
@@ -163,7 +158,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={{ fontSize: 16, marginHorizontal: 5 }}>
+            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
               {t('Past orders')}
             </Text>
           </View>

@@ -47,7 +47,7 @@ const CartScreen = ({ navigation }) => {
   const RenderItem = ({ name, price, images, quantity, item }) => {
     const uri = images[0];
     return (
-      <View style={styles.itemContainer}>
+      <View style={[styles.itemContainer, getStyle().shadow]}>
         {/* <StatusBar backgroundColor='red' barStyle='dark-content' /> */}
         <View
           style={{
@@ -128,9 +128,17 @@ const CartScreen = ({ navigation }) => {
                   marginVertical: 5,
                   flexDirection: 'row',
                   alignItems: 'space-between',
+                  // backgroundColor: 'red',
                 }}
               >
-                <View style={{ flex: 1 }}>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    // alignItems: 'center',
+                    alignSelf: 'center',
+                  }}
+                >
                   <Text numberOfLines={2}>Quantity</Text>
                 </View>
                 <View
@@ -153,7 +161,9 @@ const CartScreen = ({ navigation }) => {
                       style={{ marginHorizontal: 5 }}
                     />
                   </TouchableOpacity>
-                  <Text style={{ marginHorizontal: 3 }}>{quantity}</Text>
+                  <Text style={{ marginHorizontal: 3, alignSelf: 'center' }}>
+                    {quantity}
+                  </Text>
                   <TouchableOpacity
                     // style={{ backgroundColor: '#fff' }}
                     onPress={() => {
@@ -191,7 +201,7 @@ const CartScreen = ({ navigation }) => {
 
   return (
     <>
-      <View style={{ flex: 1, paddingTop: 10 }}>
+      <View style={{ flex: 1, paddingTop: 10, backgroundColor: Colors.white }}>
         <FlatGrid
           style={{ marginBottom: 135 }}
           itemDimension={200}
@@ -291,13 +301,9 @@ const CartScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-
   contentContainer: {
     paddingTop: 30,
+    // backgroundColor: 'red',
   },
   gridView: {
     marginTop: 20,
@@ -305,20 +311,20 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     justifyContent: 'center',
-    borderRadius: 20,
-    borderColor: Colors.primary,
+    borderRadius: 10,
+    borderColor: Colors.primaryLight,
     borderWidth: 0.3,
 
-    shadowColor: 'gray',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 1,
+    // shadowColor: 'gray',
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 2,
+    // elevation: 1,
 
     padding: 10,
 
     alignItems: 'center',
-    // backgroundColor: 'gray'
+    backgroundColor: '#fff',
   },
   tabBarInfoContainer: {
     position: 'absolute',

@@ -11,11 +11,12 @@ import {
   Button,
   Keyboard,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { IntentLauncherAndroid } from 'expo';
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
-import * as Constants from 'expo-constants';
+import Constants from 'expo-constants';
 
 import MapView from 'react-native-maps';
 import Modal from 'react-native-modal';
@@ -239,6 +240,7 @@ export default function ManageAddressScreen({ navigation, route }) {
   }
 
   const saveAddress = async () => {
+    console.log('saveAddress');
     const newAddress = {
       name,
       tel,
@@ -332,7 +334,10 @@ export default function ManageAddressScreen({ navigation, route }) {
 
       {/* {!isKeyboardVisible ? ( */}
       <View style={styles.tabBarInfoContainer}>
-        <View style={{ marginHorizontal: 20 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+        >
           <TextInput
             style={getStyle().textInput}
             placeholder='Your address'
@@ -370,7 +375,7 @@ export default function ManageAddressScreen({ navigation, route }) {
               {t('Save')}
             </Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

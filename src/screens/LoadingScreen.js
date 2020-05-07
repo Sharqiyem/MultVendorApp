@@ -5,8 +5,15 @@ import Colors from '../constants/Colors';
 const LoadingScreen = () => {
   console.log('Loading screen');
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size='large' color={Colors.primary} />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.primary,
+      }}
+    >
+      <ActivityIndicator size='large' color={Colors.white} />
       <Text>Loading</Text>
     </View>
   );

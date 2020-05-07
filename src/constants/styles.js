@@ -72,7 +72,7 @@ export const globalStyles = StyleSheet.create({
   },
   error: {
     margin: 5,
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.errorColor,
     lineHeight: 24,
   },
@@ -117,25 +117,25 @@ const getStyle = () => {
     text: {
       textAlign: isRTL ? 'right' : 'left',
       // fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
-      fontSize: 14,
+      fontSize: 12,
     },
     textHeader: {
       textAlign: isRTL ? 'right' : 'left',
-      fontSize: 20,
+      fontSize: 14,
     },
     boldText: {
       // fontFamily: isRTL ? 'DroidKufi-Bold' : 'DroidKufi-Bold', //'space-mono-Bold'
     },
     screenTitle: {
       textAlign: 'center',
-      fontSize: 22,
+      fontSize: 14,
       color: '#fff',
       padding: 20,
     },
 
     error: {
       textAlign: isRTL ? 'right' : 'left',
-      fontSize: isRTL ? 18 : 16,
+      // fontSize: isRTL ? 18 : 16,
       color: 'red',
       paddingHorizontal: 5,
     },
@@ -162,11 +162,27 @@ const getStyle = () => {
       textAlign: 'center',
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
-      paddingVertical: 10,
+      paddingVertical: 5,
       paddingHorizontal: 15,
       color: Colors.darkGray,
       backgroundColor: '#fff',
-      fontSize: 16,
+      fontSize: 14,
+    },
+    textInputLight: {
+      width: '90%',
+      fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
+      height: inputTextHeight - 5,
+      // borderColor: Colors.primaryLight,
+      // borderWidth: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: (inputTextHeight - 5) / 2,
+      marginVertical: 5,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
+      color: Colors.darkGray,
+      backgroundColor: Colors.primaryLight,
+      fontSize: 14,
     },
     buttonPrimary: {
       height: inputTextHeight,
