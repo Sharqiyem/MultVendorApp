@@ -174,11 +174,11 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: '#F4F3F3' }}>
+      {/* <View style={{ backgroundColor: '#F4F3F3' }}>
         <Text style={{ marginVertical: 5 }}>
           Hello {state.userToken} - {state.role}
         </Text>
-      </View>
+      </View> */}
       {/*  <Button title={t('Sign out')} onPress={handleSignOut} />
       {renderBTNs()} */}
       {settings()}

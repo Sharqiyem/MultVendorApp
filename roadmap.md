@@ -66,7 +66,7 @@ UI design Checkout screens
 
 1.3 [Done] order history screen (1h)
 
-1.4 profile UI and [In progress] func
+1.4 [Done] profile UI func
 1.4.1 [Done] share app
 1.4.1 [Done] rate app
 1.4.1 [Done] contact us
@@ -90,6 +90,7 @@ UI design Checkout screens
 Delivery Live Tracking
 
 Stores Map View
+
 ## 3.2 Chats and contact
 
 [Done] Chat between customer and delivery for selected order
@@ -109,7 +110,9 @@ Notification {id, text, created date, is readed, sender id }
 
 # Ideas
 
-1.1 One restaurant (- stores)
-1.2 Food delivery (multi restaurant)
+1.1 Food delivery for one restaurant (- stores)
+1.2 Food delivery (multi restaurant or families)
 1.3 Services (Mahara) - there's some changes in pick maher
 1.4 Mostaql (Like Mahara) - (stores -> mostaql)
+
+for food families need two users (customer for ordering and chef who will manage menues, recive orders and change status (preparing order, in transit and delivered))
