@@ -35,7 +35,7 @@ const { Marker } = MapView;
 export default function ManageAddressScreen({ navigation, route }) {
   const { t } = React.useContext(LocalizationContext);
 
-  Location.setApiKey(MapConfig.key);
+  Location.setGoogleApiKey(MapConfig.key);
   const initialRegion = {
     // latitude: 3.169135,
     // longitude: 101.710714,
@@ -196,7 +196,7 @@ export default function ManageAddressScreen({ navigation, route }) {
 
   const getLocationAsync = async () => {
     try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      const { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
       if (status !== 'granted') {
         setErrorMessage('Permission to access location was denied');
         return;

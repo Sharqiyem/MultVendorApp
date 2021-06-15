@@ -1,5 +1,5 @@
 import { Platform, Vibration } from 'react-native';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import firebase from '../config/firebase.config';
 
@@ -15,6 +15,7 @@ export const registerForPushNotificationsAsync = async () => {
     // Android remote notification permissions are granted during the app
     // install, so this will only ask on iOS
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+   
     finalStatus = status;
   }
 

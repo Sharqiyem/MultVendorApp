@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Platform, StatusBar, AsyncStorage, YellowBox } from 'react-native';
+import { Platform, StatusBar, LogBox } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import AppLoading from 'expo-app-loading';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
@@ -7,13 +8,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import firebase from './src/config/firebase.config';
 import { setCustomText } from 'react-native-global-props';
-import RootNavigator from './src/navigation/BottomTabNavigator';
 import {
   StoreProvider,
   LocalizationContext,
 } from './src/context/cartContext/provider';
+import * as Notifications from 'expo-notifications';
+
+import RootNavigator from './src/navigation/BottomTabNavigator';
+import firebase from './src/config/firebase.config';
 import useLinking from './src/navigation/useLinking';
 import I18n from './src/i18n/i18n';
 import AnimationScreen from './src/screens/AnimationScreen';
@@ -26,7 +29,9 @@ import { UserProvider } from './src/context/userContext/provider';
 import ChatScreen from './src/screens/ChatScreen';
 import { navigationRef } from './src/navigation/NavigationRef';
 
-YellowBox.ignoreWarnings([
+
+
+LogBox.ignoreLogs([
   'VirtualizedLists should never be nested', // TODO: Remove when fixed
   'Setting a timer',
 ]);
@@ -34,6 +39,7 @@ YellowBox.ignoreWarnings([
 if (__DEV__) {
   import('./ReactotronConfig');
 }
+
 
 export default function App(props) {
   const { skipLoadingScreen } = props;
@@ -116,17 +122,17 @@ export default function App(props) {
     console.warn(error);
   }
 
-  function handleFinishLoading(setLoadingComplete) {
+  async function handleFinishLoading(setLoadingComplete) {
     setLoadingComplete(true);
 
-    SplashScreen.hide();
+   await SplashScreen.hideAsync();
   }
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
+        await SplashScreen.preventAutoHideAsync();
 
         // First method to get init state - Load our initial navigation state
         const initState = await getInitialState();
@@ -183,6 +189,7 @@ export default function App(props) {
     console.log('onAnimeFinished finished');
     setIsLoadedAnime(true);
   };
+  
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
