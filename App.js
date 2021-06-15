@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Platform, StatusBar, AsyncStorage, YellowBox } from 'react-native';
-import { SplashScreen, AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -237,7 +238,7 @@ export default function App(props) {
               <SafeAreaProvider>
                 <NavigationContainer
                   ref={containerRef}
-                  initialState={initialNavigationState}
+                  // initialState={initialNavigationState}
                 >
                   <RootNavigator />
                   {/* <AddressesScreen /> */}
