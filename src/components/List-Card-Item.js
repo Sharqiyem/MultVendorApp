@@ -1,19 +1,26 @@
-import * as React from 'react';
-import { Text, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import Colors from '../constants/Colors';
-import Fonts from '../constants/Fonts';
+import * as React from "react";
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+} from "react-native";
+import Colors from "../constants/Colors";
+import Fonts from "../constants/Fonts";
 
 export const ExListCardItem = () => {
   const item = {
     id: 1,
-    brand: 'Citizen',
-    title: 'CITIZEN ECO-DRIVE',
-    subtitle: 'Limited Edition',
-    price: '$129.99',
-    badge: 'NEW',
-    badgeColor: '#3cd39f',
+    brand: "Citizen",
+    title: "CITIZEN ECO-DRIVE",
+    subtitle: "Limited Edition",
+    price: "$129.99",
+    badge: "NEW",
+    badgeColor: "#3cd39f",
     image:
-      'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
+      "https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg",
   };
 
   return <ListCardItem item={item} />;
@@ -37,15 +44,15 @@ export const ListCardItem = ({ item }) => (
 const styles = StyleSheet.create({
   itemTwoContainer: {
     paddingBottom: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginBottom: 2,
     // marginTop: -2,
   },
   itemTwoContent: {
     padding: 20,
     paddingHorizontal: 30,
-    position: 'relative',
-    marginHorizontal: Platform.OS === 'ios' ? -15 : 0,
+    position: "relative",
+    marginHorizontal: Platform.OS === "ios" ? -15 : 0,
     height: 150,
   },
   itemTwoTitle: {
@@ -65,14 +72,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemTwoImage: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   },
   itemTwoOverlay: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,

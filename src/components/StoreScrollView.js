@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   View,
@@ -9,42 +9,39 @@ import {
   Button,
   TouchableOpacity,
   ActivityIndicator,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'react-native-expo-image-cache';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "react-native-expo-image-cache";
+import InvertibleScrollView from "react-native-invertible-scroll-view";
 
-import Colors from '../constants/Colors';
-import productHooks from '../hooks/useGetDataByCollection';
-import getStyle from '../constants/styles';
-import Layout from '../constants/Layout';
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles";
+import Layout from "../constants/Layout";
+import { useGetDataByCollection } from "../hooks";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const StoreScrollView = ({ navigation }) => {
   const { row, flexDir, text } = getStyle();
   const shopSubTitle = [text, styles.shopTitle];
-  const [data, isLoading] = productHooks.useGetDataByCollection('stores');
+  const [data, isLoading] = useGetDataByCollection("stores");
+  const { isRTL } = React.useContext(LocalizationContext);
 
   return (
-    <ScrollView
-      contentContainerStyle={[
-        styles.scrollViewContentContainer,
-        row,
-        flexDir,
-        text,
-      ]}
-      style={[styles.scrollViews]}
+    <InvertibleScrollView
+    key={isRTL}
+      inverted={!isRTL}
       horizontal
       showsHorizontalScrollIndicator={false}
-      pagingEnabled
     >
       {isLoading ? (
         <ActivityIndicator
           style={{
-            alignSelf: 'center',
+            alignSelf: "center",
             width: Layout.window.width,
           }}
-          size={'large'}
+          size={"large"}
           color={Colors.primary}
         />
       ) : (
@@ -55,7 +52,7 @@ const StoreScrollView = ({ navigation }) => {
             <TouchableOpacity
               key={id}
               onPress={() =>
-                navigation.navigate('Store', {
+                navigation.navigate("Store", {
                   item,
                 })
               }
@@ -63,7 +60,7 @@ const StoreScrollView = ({ navigation }) => {
               <View style={styles.imageContiner}>
                 <Image
                   style={styles.image}
-                  resizeMode='cover'
+                  resizeMode="cover"
                   // eslint-disable-next-line global-require
                   // source={{ uri: image }}
                   {...{ uri: image }}
@@ -75,7 +72,7 @@ const StoreScrollView = ({ navigation }) => {
           );
         })
       )}
-    </ScrollView>
+    </InvertibleScrollView>
   );
 };
 
@@ -87,20 +84,18 @@ const styles = StyleSheet.create({
 
     // transform: [{ scaleX: -1 }],
   },
-  scrollViewContentContainer: {},
 
   imageContiner: {
-    flex: 1,
     height: 150,
     width: width / 2 - 50,
-    overflow: 'hidden',
-    alignItems: 'stretch',
-    margin: 3,
-    // backgroundColor: 'red'
+    // overflow: "hidden",
+    // alignItems: "stretch",
+    // margin: 3,
+    backgroundColor: "red",
   },
   image: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     backgroundColor: Colors.primaryLight,
   },
   shopTitle: {

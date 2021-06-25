@@ -1,8 +1,8 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import reducer from './reducers';
-import initialState from './state';
+import React, { createContext, useReducer, useEffect } from "react";
+import reducer from "./reducers";
+import initialState from "./state";
 
-import types from './types';
+import types from "./types";
 
 const UserContext = createContext(initialState);
 

@@ -8,7 +8,7 @@
 
 [Done] Setup Global Styling
 
-Theming
+[] Theming
 
 [Done] UI design auth screens (register, login and forgot password)
 

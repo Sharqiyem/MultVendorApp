@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   StyleSheet,
@@ -6,16 +6,15 @@ import {
   View,
   // Image,
   FlatList,
-} from 'react-native';
-import { Image } from 'react-native-expo-image-cache';
+} from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
-import Colors from '../constants/Colors';
-import Fonts from '../constants/Fonts';
-import Layout from '../constants/Layout';
-import { StoreContext } from '../context/cartContext/provider';
-import types from '../context/cartContext/types';
-import PropTypes from 'prop-types';
-import productHooks from '../hooks/useGetDataByCollection';
+import Colors from "../constants/Colors";
+import Fonts from "../constants/Fonts";
+import Layout from "../constants/Layout";
+import { StoreContext } from "../context/cartContext/provider";
+import types from "../context/cartContext/types";
+import PropTypes from "prop-types";
 
 export const OrderProductCycleList = ({ data }) => {
   return (
@@ -54,13 +53,13 @@ const raduisWidth = width / 2;
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: Colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: margenHorizontal,
     marginVertical: 5,
   },
   button: {
-    position: 'absolute',
+    position: "absolute",
     top: -5,
     right: 5,
     width: 40,
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
 
     fontSize: 28,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   itemTwoSubTitle: {
     color: Colors.primary,
@@ -100,12 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemTwoImage: {
-    width: '100%',
+    width: "100%",
     height: width,
     borderRadius: raduisWidth,
   },
   itemTwoOverlay: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,

@@ -1,5 +1,5 @@
-import types from './types';
-import initialState from './state';
+import types from "./types";
+import initialState from "./state";
 
 const reducer = (state = initialState, action) => {
   // console.log({ oldState: state, type: action.type, payload: action.payload });

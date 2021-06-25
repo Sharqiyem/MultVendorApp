@@ -1,19 +1,24 @@
-import * as React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import Constants from 'expo-constants';
+import * as React from "react";
+import { StyleSheet, Dimensions } from "react-native";
+import Constants from "expo-constants";
 
-import Colors from './Colors';
-import I18n from '../i18n/i18n';
-import { LocalizationContext } from '../context/cartContext/provider';
+import Colors from "./Colors";
+import I18n from "../i18n/i18n";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
-const inputTextHeight = 38;
+const inputTextHeight = 40;
 export const globalStyles = StyleSheet.create({
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   logoImage: {
     width: 120,
     height: 120,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 20,
     borderRadius: 3,
   },
@@ -24,16 +29,16 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
     borderColor: Colors.WHITE,
     marginVertical: 5,
-    width: '80%',
-    alignSelf: 'center',
+    width: "80%",
+    alignSelf: "center",
   },
   mainButtonLabel: {
-    textAlign: 'center',
+    textAlign: "center",
     margin: 3,
     padding: 2,
     color: Colors.PRIMARYCOLOR,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   //transarent btn on non-white background
   secondButton: {
@@ -41,16 +46,16 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 20,
     borderColor: Colors.WHITE,
     marginVertical: 5,
-    width: '80%',
-    alignSelf: 'center',
+    width: "80%",
+    alignSelf: "center",
   },
   secondButtonLabel: {
-    textAlign: 'center',
+    textAlign: "center",
     margin: 3,
     padding: 2,
     color: Colors.WHITE,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   //red btn on white background
   primaryButton: {
@@ -59,16 +64,16 @@ export const globalStyles = StyleSheet.create({
     borderColor: Colors.PRIMARYCOLOR,
     backgroundColor: Colors.PRIMARYCOLOR,
     marginVertical: 5,
-    width: '80%',
-    alignSelf: 'center',
+    width: "80%",
+    alignSelf: "center",
   },
   primaryButtonLabel: {
-    textAlign: 'center',
+    textAlign: "center",
     margin: 3,
     padding: 2,
     color: Colors.WHITE,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   error: {
     margin: 5,
@@ -85,97 +90,99 @@ const getStyle = () => {
     locale,
   } = React.useContext(LocalizationContext);
 
-  const isRTL = locale === 'ar';
+  const isRTL = locale === "ar";
   return {
     container: {
       flex: 1,
     },
 
     box: {
-      backgroundColor: '#f8f8f8',
+      backgroundColor: "#f8f8f8",
       borderRadius: 5,
       width: width - 20,
       marginVertical: 5,
-      alignSelf: 'center',
+      alignSelf: "center",
     },
     shadow: {
-      shadowColor: '#000',
+      shadowColor: "#000",
       shadowOffset: {
         width: 0,
         height: 1,
       },
       shadowOpacity: 0.22,
       shadowRadius: 2.22,
-      elevation: 3,
+      elevation: 5,
     },
 
     row: {
-      flexDirection: isRTL ? 'row-reverse' : 'row',
+      flexDirection: isRTL ? "row-reverse" : "row",
     },
-    flexDir: { alignItems: isRTL ? 'flex-end' : 'flex-start' },
+    flexDir: { alignItems: isRTL ? "flex-end" : "flex-start" },
     transform: [{ scaleX: isRTL ? -1 : 1 }],
     text: {
-      textAlign: isRTL ? 'right' : 'left',
-      // fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
-      fontSize: 12,
+      textAlign: isRTL ? "right" : "left",
+      fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
+      fontSize: 14,
     },
     textHeader: {
-      textAlign: isRTL ? 'right' : 'left',
-      fontSize: 14,
+      textAlign: isRTL ? "right" : "left",
+      fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
+      fontSize: 16,
     },
     boldText: {
       // fontFamily: isRTL ? 'DroidKufi-Bold' : 'DroidKufi-Bold', //'space-mono-Bold'
     },
     screenTitle: {
-      textAlign: 'center',
+      textAlign: "center",
       fontSize: 14,
-      color: '#fff',
+      color: "#fff",
       padding: 20,
     },
 
     error: {
-      textAlign: isRTL ? 'right' : 'left',
+      textAlign: isRTL ? "right" : "left",
       // fontSize: isRTL ? 18 : 16,
-      color: 'red',
+      color: "red",
       paddingHorizontal: 5,
     },
     statusBar: {
       backgroundColor: Colors.primary,
       height: Constants.statusBarHeight,
     },
-    angleIcon: isRTL ? 'angle-left' : 'angle-right',
+    angleIcon: isRTL ? "angle-left" : "angle-right",
 
     textinputIcon: {
       marginHorizontal: 15,
-      alignSelf: 'center',
-      position: 'absolute',
+      alignSelf: "center",
+      position: "absolute",
       right: isRTL ? 0 : null,
       left: !isRTL ? 0 : null,
       zIndex: 10,
     },
     //Forms
     textInput: {
-      fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
+      fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
       height: inputTextHeight,
       borderColor: Colors.primaryLight,
       borderWidth: 1,
-      textAlign: 'center',
+      textAlign: "center",
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
       paddingVertical: 5,
       paddingHorizontal: 15,
       color: Colors.darkGray,
-      backgroundColor: '#fff',
-      fontSize: 14,
+      backgroundColor: "#fff",
+      fontSize: 16,
     },
     textInputLight: {
-      width: '90%',
-      fontFamily: isRTL ? 'DroidKufi' : 'DroidKufi',
+      width: "90%",
+      fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
       height: inputTextHeight - 5,
+      textAlign: "center",
       // borderColor: Colors.primaryLight,
       // borderWidth: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: "center",
+      alignItems: "center",
       borderRadius: (inputTextHeight - 5) / 2,
       marginVertical: 5,
       paddingVertical: 5,
@@ -189,20 +196,21 @@ const getStyle = () => {
 
       backgroundColor: Colors.primary,
 
-      textAlign: 'center',
+      textAlign: "center",
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
-      justifyContent: 'center',
+      justifyContent: "center",
+      alignItems: "center",
     },
     buttonOutline: {
       height: inputTextHeight,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       borderColor: Colors.primaryLight,
       borderWidth: 1,
-      textAlign: 'center',
+      textAlign: "center",
       borderRadius: inputTextHeight / 2,
       marginVertical: 5,
-      justifyContent: 'center',
+      justifyContent: "center",
     },
     link: {
       borderBottomColor: Colors.primary,

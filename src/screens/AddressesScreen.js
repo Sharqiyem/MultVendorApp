@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,21 +8,21 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-import Colors from '../constants/Colors';
-import { RadioButtons } from '../components/index';
-import getStyle from '../constants/styles';
+import Colors from "../constants/Colors";
+import { RadioButtons } from "../components/index";
+import getStyle from "../constants/styles";
 
-import Layout from '../constants/Layout';
-import { UserContext } from '../context/userContext/provider';
-import types from '../context/userContext/types';
-import { useGetUserAddresses } from '../hooks/useGetUserAddresses';
+import Layout from "../constants/Layout";
+import { UserContext } from "../context/userContext/provider";
+import types from "../context/userContext/types";
+import { useUserAddress } from "../hooks";
 
 export default function AddressesScreen({ navigation, route }) {
   const fromProfile = route.params?.fromProfile || false;
-  console.log('fromProfile', fromProfile);
+  console.log("fromProfile", fromProfile);
   const { row, text, textHeader, buttonOutline } = getStyle();
 
   const { state, dispatch } = React.useContext(UserContext);
@@ -30,7 +30,7 @@ export default function AddressesScreen({ navigation, route }) {
   const [addresses, setAddresses] = React.useState([]);
   const [refresh, setRefresh] = React.useState(false);
 
-  const [data, isLoading] = useGetUserAddresses();
+  const [data, isLoading] = useUserAddress.useGetUserAddresses();
   React.useEffect(() => {
     dispatch({ type: types.SAVE_ADDRESSES, payload: data });
   }, [data]);
@@ -51,7 +51,7 @@ export default function AddressesScreen({ navigation, route }) {
           style={[
             row,
             {
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               width: Layout.window.width - 100,
             },
           ]}
@@ -61,12 +61,12 @@ export default function AddressesScreen({ navigation, route }) {
           </Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('ManageAddress', { item });
+              navigation.navigate("ManageAddress", { item });
             }}
             style={{}}
           >
             <Feather
-              name='edit'
+              name="edit"
               size={20}
               style={{ marginHorizontal: 10 }}
               color={Colors.primaryLight}
@@ -87,43 +87,43 @@ export default function AddressesScreen({ navigation, route }) {
     const selectedAddress = addresses.filter(
       (addressItem) => addressItem.selected === true
     );
-    console.log('selectedAddress', selectedAddress);
+    console.log("selectedAddress", selectedAddress);
     dispatch({
       type: types.SET_SELECTED_DELIVERY_ADDRESS,
       payload: selectedAddress[0],
     });
 
     console.log(state.selectedDeliveryAddress);
-    navigation.navigate('Payment');
+    navigation.navigate("Payment");
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('ManageAddress');
+          navigation.navigate("ManageAddress");
         }}
         style={[
           row,
           buttonOutline,
           {
             height: 30,
-            width: '80%',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderStyle: 'dashed',
+            width: "80%",
+            alignSelf: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            borderStyle: "dashed",
             marginVertical: 20,
           },
         ]}
       >
         <Feather
-          name='plus'
+          name="plus"
           size={20}
           style={{ marginHorizontal: 10 }}
           color={Colors.primaryLight}
         />
-        <Text style={{ textAlign: 'center', color: Colors.primary }}>
+        <Text style={{ textAlign: "center", color: Colors.primary }}>
           Add new address
         </Text>
       </TouchableOpacity>
@@ -139,10 +139,10 @@ export default function AddressesScreen({ navigation, route }) {
         {!addresses && (
           <ActivityIndicator
             style={{
-              alignSelf: 'center',
+              alignSelf: "center",
               width: Layout.window.width,
             }}
-            size={'large'}
+            size={"large"}
             color={Colors.primary}
           />
         )}
@@ -153,7 +153,7 @@ export default function AddressesScreen({ navigation, route }) {
           >
             <RadioButtons
               key={refresh}
-              direction='column'
+              direction="column"
               data={addresses}
               radioButtons={addresses}
               onPress={onRadioButtonPress}
@@ -178,13 +178,13 @@ export default function AddressesScreen({ navigation, route }) {
               flex: 1,
               height: 30,
               width: Layout.window.width * 0.8,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
             onPress={continueHandler}
           >
             <Text
               style={{
-                textAlign: 'center',
+                textAlign: "center",
                 color: Colors.white,
               }}
             >
@@ -204,13 +204,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -219,8 +219,8 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 });

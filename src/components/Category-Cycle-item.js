@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   StyleSheet,
@@ -7,25 +7,25 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-} from 'react-native';
-import { LocalizationContext } from '../context/cartContext/provider';
+} from "react-native";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-import { Image } from 'react-native-expo-image-cache';
-import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
-import productHooks from '../hooks/useGetDataByCollection';
+import { Image } from "react-native-expo-image-cache";
+import Colors from "../constants/Colors";
+import Layout from "../constants/Layout";
+import { useGetDataByCollection } from "../hooks";
 
 export const ExCategoryCycleItem = ({ navigation }) => {
-  const [data, isLoading] = productHooks.useGetDataByCollection('categories');
+  const [data, isLoading] = useGetDataByCollection("categories");
 
   if (isLoading)
     return (
       <ActivityIndicator
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           width: Layout.window.width,
         }}
-        size={'large'}
+        size={"large"}
         color={Colors.primary}
       />
     );
@@ -50,7 +50,7 @@ export const CategoryCycleItem = ({ item, navigation }) => {
       style={styles.container}
       key={item.id}
       onPress={() => {
-        navigation.navigate('Category', { item });
+        navigation.navigate("Category", { item });
       }}
     >
       <View style={styles.itemTwoContainer}>
@@ -73,15 +73,15 @@ const raduisWidth = width / 2;
 const styles = StyleSheet.create({
   container: {
     // backgroundColor: Colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: margenHorizontal,
     marginVertical: 5,
   },
 
   itemTwoContainer: {
     // paddingBottom: 10,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     marginBottom: 2,
     width: width,
     // height: width,
@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 15,
     width: width,
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   itemTwoImage: {
-    width: '100%',
+    width: "100%",
     height: width,
     borderRadius: raduisWidth,
   },

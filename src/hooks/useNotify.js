@@ -1,9 +1,9 @@
-import { Vibration } from 'react-native';
-import { useState, useEffect } from 'react';
-import * as Notifications from 'expo-notifications';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { Vibration } from "react-native";
+import { useState, useEffect } from "react";
+import * as Notifications from "expo-notifications";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 
-import * as RootNavigation from '../navigation/NavigationRef';
+import * as RootNavigation from "../navigation/NavigationRef";
 export const useNotify = () => {
   const [notification, setNotification] = useState(null);
 
@@ -17,10 +17,8 @@ export const useNotify = () => {
     // const notificationSubscription = Notifications.addListener(
     //   handleNotification
     // );
-
     // const timer = setTimeout(() => {
     //   setNotification({ notification: '12', title: 'ti2' });
-
     //   RootNavigation.navigate('Chat');
     //   // navigation.navigate('Chat');
     //   // navigation.dispatch(
@@ -32,7 +30,6 @@ export const useNotify = () => {
     //   //   })
     //   // );
     // }, 6000);
-
     // return () => {
     //   clearTimeout(timer);
     // };

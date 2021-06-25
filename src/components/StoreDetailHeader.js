@@ -1,19 +1,20 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   StyleSheet,
   TouchableOpacity,
   View,
+  Platform,
   // Image
-} from 'react-native';
-import Constants from 'expo-constants';
+} from "react-native";
+import Constants from "expo-constants";
 
-import { Image } from 'react-native-expo-image-cache';
+import { Image } from "react-native-expo-image-cache";
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
-import Colors from '../constants/Colors';
-import Fonts from '../constants/Fonts';
+import Colors from "../constants/Colors";
+import Fonts from "../constants/Fonts";
 
 export const ExStoreDetailHeader = ({ item }) => {
   // const item = {
@@ -52,28 +53,28 @@ export const StoreDetailHeader = ({ item }) => (
       {/* <Text style={styles.itemTwoPrice}>{item.price}</Text> */}
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           // justifyContent: 'space-arround',
-          alignItems: 'center',
-          alignSelf: 'center',
+          alignItems: "center",
+          alignSelf: "center",
           marginHorizontal: 5,
         }}
       >
         <Text style={{ color: Colors.white }}>Social Media : </Text>
         <Ionicons
-          name='logo-facebook'
+          name="logo-facebook"
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
         />
         <Ionicons
-          name='logo-youtube'
+          name="logo-youtube"
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
         />
         <Ionicons
-          name='logo-instagram'
+          name="logo-instagram"
           size={25}
           style={{ marginHorizontal: 10 }}
           color={Colors.white}
@@ -81,8 +82,8 @@ export const StoreDetailHeader = ({ item }) => (
       </View>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          justifyContent: "space-between",
           marginHorizontal: 5,
           marginVertical: 10,
         }}
@@ -99,22 +100,22 @@ export const StoreDetailHeader = ({ item }) => (
 const styles = StyleSheet.create({
   itemTwoContainer: {
     paddingBottom: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginBottom: 2,
     // marginTop: -2,
   },
   itemTwoContent: {
     padding: 20,
     paddingHorizontal: 30,
-    position: 'relative',
-    marginHorizontal: Platform.OS === 'ios' ? -15 : 0,
+    position: "relative",
+    marginHorizontal: Platform.OS === "ios" ? -15 : 0,
     // height: 150,
   },
   itemTwoTitle: {
     color: Colors.white,
 
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     paddingTop: Constants.statusBarHeight,
   },
   itemTwoSubTitle: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginVertical: 10,
     marginHorizontal: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   addressTitle: {
     color: Colors.white,
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginVertical: 5,
 
-    textAlign: 'center',
+    textAlign: "center",
   },
   itemTwoPrice: {
     color: Colors.white,
@@ -139,14 +140,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemTwoImage: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   },
   itemTwoOverlay: {
-    position: 'absolute',
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,

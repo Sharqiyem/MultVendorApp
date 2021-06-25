@@ -10,7 +10,11 @@
     "lint": "eslint *.js **/*.js"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "verbose": true
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
@@ -40,12 +44,15 @@
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^7.8.8",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-expo-image-cache": "4.0.8",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-gifted-chat": "https://github.com/StagasaurusRex/react-native-gifted-chat.git#upgrade-action-sheet",
     "react-native-global-props": "^1.1.5",
     "react-native-google-places-autocomplete": "^1.4.1",
+    "react-native-invertible-scroll-view": "^2.0.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-maps": "0.27.1",
     "react-native-modal": "^11.5.6",
     "react-native-reanimated": "~2.1.0",
@@ -68,7 +75,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jest-expo": "^41.0.0",
+    "react-test-renderer": "^17.0.2",
     "reactotron-react-native": "^5.0.0",
     "typescript": "~4.0.0"
   },

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import * as Icon from '@expo/vector-icons';
-import Colors from '../constants/Colors';
+import React, { useState, useEffect, useContext } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import * as Icon from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 export default CartButton = ({ state, navigation, sourceScreen }) => {
   // console.log('CartButton', { state });
@@ -14,16 +14,16 @@ export default CartButton = ({ state, navigation, sourceScreen }) => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         marginHorizontal: 10,
       }}
-      onPress={() => navigation.navigate('Cart')}
+      onPress={() => navigation.navigate("Cart")}
     >
       <Icon.Feather
-        name='shopping-cart'
+        name="shopping-cart"
         size={26}
-        color='#fff'
+        color="#fff"
         style={{ marginHorizontal: 15 }}
       />
       <View
@@ -34,17 +34,17 @@ export default CartButton = ({ state, navigation, sourceScreen }) => {
           width: 25,
           height: 25,
           borderRadius: 25 / 2,
-          position: 'absolute',
+          position: "absolute",
           right: 0,
           top: -12,
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
         <Text
           style={{
             fontSize: 13,
             color: Colors.white,
-            alignSelf: 'center',
+            alignSelf: "center",
             // textAlign: 'center',
           }}
         >

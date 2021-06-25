@@ -1,31 +1,17 @@
-import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import Colors from '../constants/Colors';
-import {
-  StoreListItem,
-  CategoryListItem,
-  CategoryList,
-} from '../components/index';
-import { LocalizationContext } from '../context/cartContext/provider';
-import getStyle from '../constants/styles';
+import * as React from "react";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import Colors from "../constants/Colors";
+import { CategoryList } from "../components/index";
+import getStyle from "../constants/styles";
 export default function CategoriesScreen({ navigation }) {
-  const { t, changeLang } = React.useContext(LocalizationContext);
-
   return (
     <SafeAreaView style={styles.container}>
       <View
         style={{
           height: 50,
           backgroundColor: Colors.primary,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <View style={getStyle().textInputLight}>
@@ -38,12 +24,6 @@ export default function CategoriesScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-CategoriesScreen.navigationOptions = {
-  // header: null,
-  // headerShown: false,
-  title: 'sda',
-};
 
 const styles = StyleSheet.create({
   container: {

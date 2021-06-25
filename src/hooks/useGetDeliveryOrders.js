@@ -1,19 +1,18 @@
-import { useState, useEffect } from 'react';
-import firebase from '../config/firebase.config';
-import Colors from '../constants/Colors';
+import { useState, useEffect } from "react";
+import firebase from "../config/firebase.config";
+import Colors from "../constants/Colors";
 
-export const useGetDeliveryOrders = (storeId) => {
+export default useGetDeliveryOrders = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
-      .collection('orders')
-      .where('selectedStore', '==', storeId)
+      .collection("orders")
+      .where("selectedStore", "==", storeId)
       .onSnapshot((snapShot) => {
         const newData = snapShot.docs.map((doc) => ({
           id: doc.id,
@@ -37,8 +36,6 @@ export const useGetDeliveryOrders = (storeId) => {
         //       selectedStore: orderItem.selectedStore,
         //     });
         //   });
-
-        // console.log('useGetDataByCollection onSnapshot', addresssArr);
 
         if (!isCancelled) {
           setData(newData);

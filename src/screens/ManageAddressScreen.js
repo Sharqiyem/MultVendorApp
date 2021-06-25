@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -12,23 +12,23 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import { IntentLauncherAndroid } from 'expo';
-import * as Permissions from 'expo-permissions';
-import * as Location from 'expo-location';
-import Constants from 'expo-constants';
+} from "react-native";
+import { IntentLauncherAndroid } from "expo";
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
+import Constants from "expo-constants";
 
-import MapView from 'react-native-maps';
-import Modal from 'react-native-modal';
+import MapView from "react-native-maps";
+import Modal from "react-native-modal";
 
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles';
-import Layout from '../constants/Layout';
-import { LocalizationContext } from '../context/cartContext/provider';
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles";
+import Layout from "../constants/Layout";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-import { GooglePlacesInput } from '../components/GooglePlacesInput';
-import { MapConfig } from '../config/googlemap.config';
-import { manageUserAddresses } from '../hooks/useGetUserAddresses';
+import { GooglePlacesInput } from "../components/GooglePlacesInput";
+import { MapConfig } from "../config/googlemap.config";
+import { useUserAddress } from "../hooks";
 
 const { Marker } = MapView;
 
@@ -55,16 +55,15 @@ export default function ManageAddressScreen({ navigation, route }) {
   const [name, setName] = React.useState(item && item.label);
   const [tel, setTel] = React.useState(item && item.tel);
   const [address, setAddress] = React.useState(item && item.address);
-  const [, setSelectedAddress] = React.useState('');
+  const [, setSelectedAddress] = React.useState("");
 
   const [region, setRegion] = React.useState(initialRegion);
   const [markerCoord, setMarkerCoord] = React.useState(initialRegion);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [appState, setAppState] = React.useState(AppState.currentState);
   const [location, setLocation] = React.useState();
-  const [isLocationModalVisible, setIsLocationModalVisible] = React.useState(
-    false
-  );
+  const [isLocationModalVisible, setIsLocationModalVisible] =
+    React.useState(false);
   const [openSetting, setOpenSetting] = React.useState(false);
   const [pickedLocation, setPickedLocation] = React.useState({});
   const [, setKeyboardVisible] = React.useState(false);
@@ -143,12 +142,12 @@ export default function ManageAddressScreen({ navigation, route }) {
   };
 
   React.useEffect(() => {
-    AppState.addEventListener('change', handleAppStateChange);
+    AppState.addEventListener("change", handleAppStateChange);
 
     const fetchLocation = async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
+      if (Platform.OS === "android" && !Constants.isDevice) {
         setErrorMessage(
-          'Oops, this will not work on Sketch in an Android emulator. Try it on your device!'
+          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
         );
       } else if (!item) {
         getLocationAsync();
@@ -166,20 +165,20 @@ export default function ManageAddressScreen({ navigation, route }) {
 
     // Keyboard
     const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
+      "keyboardDidShow",
       () => {
         setKeyboardVisible(true); // or some other action
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
+      "keyboardDidHide",
       () => {
         setKeyboardVisible(false); // or some other action
       }
     );
 
     return () => {
-      AppState.removeEventListener('change', handleAppStateChange);
+      AppState.removeEventListener("change", handleAppStateChange);
 
       keyboardDidHideListener.remove();
       keyboardDidShowListener.remove();
@@ -187,7 +186,7 @@ export default function ManageAddressScreen({ navigation, route }) {
   }, []);
 
   const handleAppStateChange = (nextAppState) => {
-    if (appState.match(/inactive|background/) && nextAppState === 'active') {
+    if (appState.match(/inactive|background/) && nextAppState === "active") {
       // console.log('App has come to the foreground!');
       getLocationAsync();
     }
@@ -196,9 +195,11 @@ export default function ManageAddressScreen({ navigation, route }) {
 
   const getLocationAsync = async () => {
     try {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
-      if (status !== 'granted') {
-        setErrorMessage('Permission to access location was denied');
+      const { status } = await Permissions.askAsync(
+        Permissions.LOCATION_FOREGROUND
+      );
+      if (status !== "granted") {
+        setErrorMessage("Permission to access location was denied");
         return;
       }
 
@@ -222,8 +223,8 @@ export default function ManageAddressScreen({ navigation, route }) {
   };
 
   const openSettings = () => {
-    if (Platform.OS === 'ios') {
-      Linking.openURL('app-settings:');
+    if (Platform.OS === "ios") {
+      Linking.openURL("app-settings:");
     } else {
       IntentLauncherAndroid.startActivityAsync(
         IntentLauncherAndroid.ACTION_LOCATION_SOURCE_SETTINGS
@@ -232,7 +233,7 @@ export default function ManageAddressScreen({ navigation, route }) {
     setOpenSetting(false);
   };
 
-  let text = 'Waiting..';
+  let text = "Waiting..";
   if (errorMessage) {
     text = errorMessage;
   } else if (location) {
@@ -240,7 +241,7 @@ export default function ManageAddressScreen({ navigation, route }) {
   }
 
   const saveAddress = async () => {
-    console.log('saveAddress');
+    console.log("saveAddress");
     const newAddress = {
       name,
       tel,
@@ -250,9 +251,9 @@ export default function ManageAddressScreen({ navigation, route }) {
     // if edit
     if (item) {
       newAddress.id = item.id;
-      await manageUserAddresses(newAddress, true);
+      await useUserAddress.manageUserAddresses(newAddress, true);
     } else {
-      await manageUserAddresses(newAddress);
+      await useUserAddress.manageUserAddresses(newAddress);
     }
     // dispatch({ type: types.ADD_ADDRESS, payload: newAddress });
 
@@ -269,7 +270,7 @@ export default function ManageAddressScreen({ navigation, route }) {
         style={[
           // styles.textAddress,
           {
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             right: 0,
             left: 0,
@@ -289,10 +290,10 @@ export default function ManageAddressScreen({ navigation, route }) {
           style={{
             height: 300,
             width: Layout.window.width,
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignSelf: 'center',
+            backgroundColor: "white",
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
           }}
         >
           <Button
@@ -300,7 +301,7 @@ export default function ManageAddressScreen({ navigation, route }) {
               setIsLocationModalVisible(false);
               setOpenSetting(true);
             }}
-            title='Enable Location Services'
+            title="Enable Location Services"
           />
         </View>
       </Modal>
@@ -340,8 +341,8 @@ export default function ManageAddressScreen({ navigation, route }) {
         >
           <TextInput
             style={getStyle().textInput}
-            placeholder='Your address'
-            placeholderStyle={{ textAlign: 'center' }}
+            placeholder="Your address"
+            placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setAddress(text)}
             value={address}
             // multiline
@@ -350,16 +351,16 @@ export default function ManageAddressScreen({ navigation, route }) {
           />
           <TextInput
             style={getStyle().textInput}
-            placeholder='Your name'
-            placeholderStyle={{ textAlign: 'center' }}
+            placeholder="Your name"
+            placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setName(text)}
             value={name}
             autoCorrect={false}
           />
           <TextInput
             style={getStyle().textInput}
-            placeholder='Your Tel. number'
-            placeholderStyle={{ textAlign: 'center' }}
+            placeholder="Your Tel. number"
+            placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setTel(text)}
             value={tel}
             autoCorrect={false}
@@ -367,12 +368,12 @@ export default function ManageAddressScreen({ navigation, route }) {
           <TouchableOpacity
             style={[
               getStyle().textInput,
-              { justifyContent: 'center', backgroundColor: Colors.primary },
+              { justifyContent: "center", backgroundColor: Colors.primary },
             ]}
             onPress={saveAddress}
           >
-            <Text style={{ textAlign: 'center', color: Colors.white }}>
-              {t('Save')}
+            <Text style={{ textAlign: "center", color: Colors.white }}>
+              {t("Save")}
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -388,13 +389,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -404,19 +405,19 @@ const styles = StyleSheet.create({
       },
     }),
     // alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
     height: Layout.window.height * 0.33 - 50,
   },
 
   textAddress: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
       },
     }),
     // alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 

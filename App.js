@@ -1,45 +1,43 @@
-import * as React from 'react';
-import { Platform, StatusBar, LogBox } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import AppLoading from 'expo-app-loading';
-import * as SplashScreen from 'expo-splash-screen';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as React from "react";
+import { Platform, StatusBar, LogBox } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { setCustomText } from 'react-native-global-props';
+import { setCustomText } from "react-native-global-props";
 import {
   StoreProvider,
   LocalizationContext,
-} from './src/context/cartContext/provider';
-import * as Notifications from 'expo-notifications';
+} from "./src/context/cartContext/provider";
+import * as Notifications from "expo-notifications";
 
-import RootNavigator from './src/navigation/BottomTabNavigator';
-import firebase from './src/config/firebase.config';
-import useLinking from './src/navigation/useLinking';
-import I18n from './src/i18n/i18n';
-import AnimationScreen from './src/screens/AnimationScreen';
-import { AuthProvider } from './src/context/authContext/provider';
-import ProfileScreen from './src/screens/ProfileScreen';
-import AddressesScreen from './src/screens/AddressesScreen';
-import ManageAddressScreen from './src/screens/ManageAddressScreen';
-import OrdersScreen from './src/screens/OrdersScreen';
-import { UserProvider } from './src/context/userContext/provider';
-import ChatScreen from './src/screens/ChatScreen';
-import { navigationRef } from './src/navigation/NavigationRef';
-
-
+import RootNavigator from "./src/navigation/RootNavigator";
+import firebase from "./src/config/firebase.config";
+import useLinking from "./src/navigation/useLinking";
+import I18n from "./src/i18n/i18n";
+import AnimationScreen from "./src/screens/AnimationScreen";
+import { AuthProvider } from "./src/context/authContext/provider";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import AddressesScreen from "./src/screens/AddressesScreen";
+import ManageAddressScreen from "./src/screens/ManageAddressScreen";
+import OrdersScreen from "./src/screens/OrdersScreen";
+import { UserProvider } from "./src/context/userContext/provider";
+import ChatScreen from "./src/screens/ChatScreen";
+import { navigationRef } from "./src/navigation/NavigationRef";
+import Colors from "./src/constants/Colors";
 
 LogBox.ignoreLogs([
-  'VirtualizedLists should never be nested', // TODO: Remove when fixed
-  'Setting a timer',
+  "VirtualizedLists should never be nested", // TODO: Remove when fixed
+  "Setting a timer",
 ]);
 
 if (__DEV__) {
-  import('./ReactotronConfig');
+  import("./ReactotronConfig");
 }
-
 
 export default function App(props) {
   const { skipLoadingScreen } = props;
@@ -61,13 +59,15 @@ export default function App(props) {
 
       setLocale(I18n.locale);
       setIsRTL(I18n.isRTL);
-      console.log('I18n.isRTL', I18n.isRTL);
-      AsyncStorage.setItem('lang', I18n.locale)
+
+      setDefaultTextStyles(I18n.isRTL);
+      // console.log("I18n.isRTL", I18n.isRTL);
+      AsyncStorage.setItem("lang", I18n.locale)
         .then((lang) => {
-          console.log('change from', locale);
-          console.log('AsyncStorage.setItem', lang);
+          console.log("change from", locale);
+          // console.log("AsyncStorage.setItem", lang);
         })
-        .catch((err) => console.log('AsyncStorage.setItem', err));
+        .catch((err) => console.log("AsyncStorage.setItem", err));
     } catch (err) {
       console.log(err);
     }
@@ -83,16 +83,14 @@ export default function App(props) {
     [locale]
   );
 
-  const setDefaultTextStyles = () => {
+  const setDefaultTextStyles = (isRTL) => {
     const customTextProps = {
       style: {
-        fontSize: 12,
-        fontFamily: 'DroidKufi',
-        // color: 'white'
+        fontSize: 14,
+        fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
         // alignSelf: I18n.isRTL() ? "flex-end" : "flex-start"
       },
     };
-    //https://github.com/Ajackster/react-native-global-props
     setCustomText(customTextProps);
   };
 
@@ -108,8 +106,8 @@ export default function App(props) {
         ...Ionicons.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free to
         // remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        DroidKufi: require('./assets/fonts/DroidKufi-Regular.ttf'),
+        "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+        DroidKufi: require("./assets/fonts/DroidKufi-Regular.ttf"),
       }),
     ]);
 
@@ -125,7 +123,7 @@ export default function App(props) {
   async function handleFinishLoading(setLoadingComplete) {
     setLoadingComplete(true);
 
-   await SplashScreen.hideAsync();
+    await SplashScreen.hideAsync();
   }
 
   // Load any resources or data that we need prior to rendering the app
@@ -137,7 +135,7 @@ export default function App(props) {
         // First method to get init state - Load our initial navigation state
         const initState = await getInitialState();
         setInitialNavigationState(initState);
-        console.log('getInitialState', initState);
+        // console.log("getInitialState", initState);
 
         // Second method to get init state -
         // Promise.race([
@@ -161,7 +159,7 @@ export default function App(props) {
 
         // Restore language from storage
         try {
-          const lang = await AsyncStorage.getItem('lang');
+          const lang = await AsyncStorage.getItem("lang");
           I18n.changLanguage(lang);
 
           // await I18n.LoadSavedLanguage();
@@ -170,7 +168,7 @@ export default function App(props) {
             setIsRTL(I18n.isRTL);
           }
         } catch (e) {
-          console.log('Restoring lang failed', e);
+          console.log("Restoring lang failed", e);
         }
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -185,11 +183,12 @@ export default function App(props) {
   }, []);
 
   const onAnimeFinished = () => {
-    setDefaultTextStyles();
-    console.log('onAnimeFinished finished');
+    setDefaultTextStyles(true);
+    console.log("onAnimeFinished finished");
     setIsLoadedAnime(true);
   };
-  
+
+  // on Auth State Changed
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -201,10 +200,10 @@ export default function App(props) {
         const emailVerified = user.emailVerified;
         const uid = user.uid;
 
-        console.log('onAuthStateChanged', {
-          name,
-          email,
-        });
+        // console.log("onAuthStateChanged", {
+        //   name,
+        //   email,
+        // });
       }
       setIsFirebaseInit(true);
     });
@@ -231,13 +230,12 @@ export default function App(props) {
   }
   return (
     <>
-      {Platform.OS === 'ios' && (
-        <StatusBar
-          translucent
-          backgroundColor='#F2A458'
-          barStyle='light-content'
-        />
-      )}
+      <StatusBar
+        translucent
+        backgroundColor={Colors.primary}
+        barStyle="light-content"
+      />
+
       <LocalizationContext.Provider value={{ ...localizationContext, isRTL }}>
         <AuthProvider>
           <StoreProvider>

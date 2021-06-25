@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
-import Colors from '../constants/Colors';
-import { StoreListItem } from '../components/index';
-import productHooks from '../hooks/useGetDataByCollection';
-import { LocalizationContext } from '../context/cartContext/provider';
-import getStyle from '../constants/styles';
+import * as React from "react";
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
+import Colors from "../constants/Colors";
+import { StoreListItem } from "../components/index";
+import { LocalizationContext } from "../context/cartContext/provider";
+import getStyle from "../constants/styles";
+import { useGetDataByCollection } from "../hooks";
 
 export default function StoresScreen({ navigation }) {
-  const [data, isLoading] = productHooks.useGetDataByCollection('stores');
+  const [data, isLoading] = useGetDataByCollection("stores");
   const { t, changeLang } = React.useContext(LocalizationContext);
 
   return (
@@ -16,8 +16,8 @@ export default function StoresScreen({ navigation }) {
         style={{
           height: 50,
           backgroundColor: Colors.primary,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <View style={getStyle().textInputLight}>
@@ -42,7 +42,7 @@ export default function StoresScreen({ navigation }) {
 StoresScreen.navigationOptions = {
   // header: null,
   // headerShown: false,
-  title: 'sda',
+  title: "sda",
 };
 
 const styles = StyleSheet.create({

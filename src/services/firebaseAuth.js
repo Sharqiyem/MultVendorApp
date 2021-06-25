@@ -1,8 +1,8 @@
-import firebase from '../config/firebase.config';
+import firebase from "../config/firebase.config";
 import {
   registerForPushNotificationsAsync,
   updateUserPushNotificationToken,
-} from './pushNotification';
+} from "./pushNotification";
 
 export default class FirebaseAuth {
   static login(email, password) {
@@ -14,18 +14,18 @@ export default class FirebaseAuth {
           console.log(user);
           const userDoc = await firebase
             .firestore()
-            .collection('users')
+            .collection("users")
             .doc(firebase.auth().currentUser.uid)
             .get();
 
           // update push notification token
-          let token = '';
+          let token = "";
           try {
             token = await registerForPushNotificationsAsync();
             if (token) await updateUserPushNotificationToken(token);
           } catch (err) {
-            alert('Failed to get push token for push notification! ');
-            console.log('push notification err', err);
+            alert("Failed to get push token for push notification! ");
+            console.log("push notification err", err);
             // reject('Failed to get push token for push notification!');
           }
           const userObj = { ...userDoc.data(), pushNotificationToken: token };
@@ -45,20 +45,20 @@ export default class FirebaseAuth {
         .createUserWithEmailAndPassword(email, password)
         .then(async () => {
           const user = firebase.auth().currentUser;
-          console.log('user', user);
+          console.log("user", user);
 
-          let token = '';
+          let token = "";
 
           try {
             token = await registerForPushNotificationsAsync();
           } catch (err) {
-            alert('Failed to get push token for push notification!');
+            alert("Failed to get push token for push notification!");
           }
 
           const userData = {
             email,
             name,
-            role: 'user',
+            role: "user",
             pushNotificationToken: token,
           };
 
@@ -68,14 +68,14 @@ export default class FirebaseAuth {
                 displayName: name,
               })
               .then(function () {
-                console.log('Profile updated successful.');
+                console.log("Profile updated successful.");
               })
               .catch(function (error) {
-                console.log('Profile updated faild', error);
+                console.log("Profile updated faild", error);
               });
             firebase
               .firestore()
-              .collection('users')
+              .collection("users")
               .doc(user.uid)
               .set({
                 ...userData,
@@ -128,25 +128,25 @@ export default class FirebaseAuth {
           displayName: name,
         })
         .then(function () {
-          console.log('Profile updated successful.');
+          console.log("Profile updated successful.");
         })
         .catch(function (error) {
-          reject('Profile updated faild', error);
+          reject("Profile updated faild", error);
         });
 
       firebase
         .firestore()
-        .collection('users')
+        .collection("users")
         .doc(user.uid)
         .update({
           name,
         })
         .then(function () {
-          console.log('Profile updated successful.');
+          console.log("Profile updated successful.");
           resolve();
         })
         .catch(function (error) {
-          reject('Profile updated faild', error);
+          reject("Profile updated faild", error);
         });
     });
   };

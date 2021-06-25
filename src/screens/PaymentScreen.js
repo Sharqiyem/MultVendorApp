@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,20 +6,21 @@ import {
   SafeAreaView,
   Platform,
   TouchableOpacity,
-} from 'react-native';
-import firebase from '../config/firebase.config';
+} from "react-native";
+import firebase from "../config/firebase.config";
 
-import Colors from '../constants/Colors';
-import { RadioButtons } from '../components/index';
-import getStyle from '../constants/styles';
+import Colors from "../constants/Colors";
+import { RadioButtons } from "../components/index";
+import getStyle from "../constants/styles";
 
-import Layout from '../constants/Layout';
-import { UserContext } from '../context/userContext/provider';
-import types from '../context/userContext/types';
+import Layout from "../constants/Layout";
+import { UserContext } from "../context/userContext/provider";
+import types from "../context/userContext/types";
 
-import { StoreContext } from '../context/cartContext/provider';
-import { orderUUID } from '../core/stringHelper';
-import { useAddOrder } from '../hooks/useOrders';
+import { StoreContext } from "../context/cartContext/provider";
+import { orderUUID } from "../core/stringHelper";
+import { useAddOrder } from "../hooks/useOrders";
+import { sendPushNotification } from "../services/pushNotification";
 
 export default function PaymentScreen({ navigation }) {
   const { state } = React.useContext(StoreContext);
@@ -30,14 +31,14 @@ export default function PaymentScreen({ navigation }) {
 
   const _paymentMethod = [
     {
-      value: 'cashondelivery',
-      label: 'Cash on delivery',
+      value: "cashondelivery",
+      label: "Cash on delivery",
       selected: true,
       color: Colors.primary,
     },
     {
-      value: 'paypal',
-      label: 'Paypal',
+      value: "paypal",
+      label: "Paypal",
       selected: false,
       color: Colors.primary,
     },
@@ -47,11 +48,11 @@ export default function PaymentScreen({ navigation }) {
   const onRadioButtonPress = (address) => setPaymentMethod(address);
 
   const continueHandler = () => {
-    console.log('paymentMethods', paymentMethod);
+    // console.log('paymentMethods', paymentMethod);
     const selectedPaymentMethod = paymentMethod.filter(
       (item) => item.selected === true
     );
-    console.log('selectedPaymentMethod', selectedPaymentMethod[0]);
+    console.log("selectedPaymentMethod", selectedPaymentMethod[0]);
     dispatch({
       type: types.SET_SELECTED_PAYMENT_METHOD,
       payload: selectedPaymentMethod[0],
@@ -62,7 +63,7 @@ export default function PaymentScreen({ navigation }) {
 
   const placeOrder = async (selectedPaymentMethod) => {
     const date = Date.now(); //firebase.firestore.FieldValue.serverTimestamp(); //
-    console.log('firebase.database.ServerValue.TIMESTAMP', date);
+    console.log("firebase.database.ServerValue.TIMESTAMP", date);
     const id = orderUUID();
     const order = {
       userId: firebase.auth().currentUser?.uid,
@@ -74,12 +75,23 @@ export default function PaymentScreen({ navigation }) {
       createdAt: date,
       updatedAt: date,
       products: cartItems,
-      status: 'In progress',
+      status: "In progress",
     };
 
     await useAddOrder(order);
 
-    navigation.navigate('OrderDetails', { id });
+    await sendPushNotification(
+      "ExponentPushToken[PCy9duGk6YEpHw7wksY5DM]",
+      "New order",
+      "New order recived"
+    );
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "OrderDetails", params: { id } }],
+    });
+
+    // navigation.navigate("OrderDetails", { id });
   };
 
   return (
@@ -95,7 +107,7 @@ export default function PaymentScreen({ navigation }) {
         </Text>
 
         <RadioButtons
-          direction='column'
+          direction="column"
           data={paymentMethod}
           onPress={onRadioButtonPress}
           TextComponent={({ item }) => (
@@ -104,7 +116,7 @@ export default function PaymentScreen({ navigation }) {
                 padding: 15,
                 // backgroundColor: 'red',
                 flex: 1,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
             >
               <Text style={{}}> {item.label}</Text>
@@ -124,11 +136,11 @@ export default function PaymentScreen({ navigation }) {
             flex: 1,
             height: 30,
             width: Layout.window.width * 0.8,
-            justifyContent: 'center',
+            justifyContent: "center",
           }}
           onPress={continueHandler}
         >
-          <Text style={{ textAlign: 'center', color: Colors.white }}>
+          <Text style={{ textAlign: "center", color: Colors.white }}>
             Continue
           </Text>
         </TouchableOpacity>
@@ -144,13 +156,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -159,8 +171,8 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 });

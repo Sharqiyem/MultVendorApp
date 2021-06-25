@@ -1,8 +1,8 @@
 // Dependencies import
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import SettingsRowStyle from '../constants/SettingsRowStyle';
-import getStyle from '../constants/styles';
+import React, { Component } from "react";
+import { View, Text } from "react-native";
+import SettingsRowStyle from "../constants/SettingsRowStyle";
+import getStyle from "../constants/styles";
 
 // Styles deconstructing
 const { container, containerSection, textSection } = SettingsRowStyle;
@@ -15,7 +15,7 @@ const SectionRow = ({ text, children }) => {
         <Text
           style={[textSection, getStyle().text]}
           numberOfLines={1}
-          ellipsizeMode={'tail'}
+          ellipsizeMode={"tail"}
         >
           {text}
         </Text>

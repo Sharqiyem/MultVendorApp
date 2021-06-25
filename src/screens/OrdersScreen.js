@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,26 +8,28 @@ import {
   Platform,
   TouchableOpacity,
   FlatList,
-} from 'react-native';
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles';
+} from "react-native";
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles";
 import {
   StoreContext,
   LocalizationContext,
-} from '../context/cartContext/provider';
-import { UserContext } from '../context/userContext/provider';
-import productHooks from '../hooks/useGetDataByCollection';
+} from "../context/cartContext/provider";
+import { UserContext } from "../context/userContext/provider";
 
-import moment from 'moment';
-import types from '../context/cartContext/types';
-import { useGetOrders } from '../hooks/useOrders';
+import moment from "moment";
+import types from "../context/cartContext/types";
+import { useGetOrders } from "../hooks/useOrders";
+import Loading from "../components/Loading";
+import ListEmptyComponent from "../components/ListEmptyComponent";
+import { useGetDataByCollection } from "../hooks";
 
 export default function OrdersScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
   const { row, shadow } = getStyle();
   const { state, dispatch } = React.useContext(StoreContext);
 
-  const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
+  const [stores, isLoading] = useGetDataByCollection("stores");
 
   const [orders, isOrdersLoading] = useGetOrders();
 
@@ -39,15 +41,15 @@ export default function OrdersScreen({ navigation }) {
         const store = stores.find((store) => store.id === order.selectedStore);
         order.store = store;
       });
-      console.log('orders', orders);
+      // console.log("orders", orders);
       setIsReady(true);
     }
   }, [isLoading, isOrdersLoading]);
 
-  console.log('stores', stores);
+  // console.log("stores", stores);
 
   const reOrderPress = (item) => {
-    console.log('reOrderPress', item);
+    console.log("reOrderPress", item);
 
     // prepare cart from current order;
 
@@ -56,22 +58,25 @@ export default function OrdersScreen({ navigation }) {
       payload: { products: item.products, storeId: item.store.id },
     });
 
-    navigation.navigate('Cart');
+    navigation.navigate("Cart");
   };
 
   const renderItem = ({ item }) => {
     const orderItemStyle = [
       row,
-      { justifyContent: 'space-between', marginVertical: 3 },
+      { justifyContent: "space-between", marginVertical: 3 },
     ];
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("OrderDetails", { id: item.id });
+        }}
         key={item.id}
         style={[
           {
             marginVertical: 10,
             margin: 10,
-            backgroundColor: '#F4F3F3',
+            backgroundColor: "#F4F3F3",
             borderRadius: 10,
           },
           shadow,
@@ -79,7 +84,7 @@ export default function OrdersScreen({ navigation }) {
       >
         <View style={{ margin: 10 }}>
           <View style={orderItemStyle}>
-            <Text>{t('Order ID')}</Text>
+            <Text>{t("Order ID")}</Text>
             <Text style={{}}>{item.id}</Text>
           </View>
 
@@ -90,7 +95,7 @@ export default function OrdersScreen({ navigation }) {
 
           <View style={orderItemStyle}>
             <Text>Date</Text>
-            <Text>{moment(item.createdAt).format('YY-MM-DD hh:mm')}</Text>
+            <Text>{moment(item.createdAt).format("YY-MM-DD hh:mm")}</Text>
           </View>
 
           <View style={orderItemStyle}>
@@ -119,19 +124,19 @@ export default function OrdersScreen({ navigation }) {
                 flex: 1,
                 height: 30,
                 width: Layout.window.width * 0.8,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
               onPress={() => {
-                navigation.navigate('OrderDetails', { id: item.id });
+                navigation.navigate("OrderDetails", { id: item.id });
               }}
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: Colors.white,
                 }}
               >
-                {t('Details')}
+                {t("Details")}
               </Text>
             </TouchableOpacity>
 
@@ -146,7 +151,7 @@ export default function OrdersScreen({ navigation }) {
                 flex: 1,
                 height: 30,
                 width: Layout.window.width * 0.8,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
               onPress={() => {
                 reOrderPress(item);
@@ -154,11 +159,11 @@ export default function OrdersScreen({ navigation }) {
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: Colors.white,
                 }}
               >
-                Re order
+                {t("Re order")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -172,37 +177,43 @@ export default function OrdersScreen({ navigation }) {
                 flex: 1,
                 height: 30,
                 width: Layout.window.width * 0.8,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
               onPress={() => {
-                navigation.navigate('Chat', { orderId: item.id });
+                navigation.navigate("Chat", { orderId: item.id });
               }}
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: Colors.white,
                 }}
               >
-                Chat
+                {t("Chat")}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <SafeAreaView style={styles.container}>
       {!isReady ? (
-        <Text>Loading</Text>
+        <Loading />
       ) : (
         <FlatList
+          contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
           data={orders}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
+          ListEmptyComponent={
+            <View style={styles.container}>
+              <ListEmptyComponent />
+            </View>
+          }
         />
       )}
     </SafeAreaView>
@@ -212,20 +223,19 @@ export default function OrdersScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: Colors.white,
   },
   orderDetailContainer: {
     marginVertical: 10,
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -234,8 +244,8 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 });

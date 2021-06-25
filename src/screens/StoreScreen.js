@@ -1,22 +1,21 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 import {
   ExStoreDetailHeader,
   ExProductCycleList,
   StoreProducts,
-} from '../components';
-import Colors from '../constants/Colors';
+} from "../components";
+import Colors from "../constants/Colors";
 
 export default function StoreScreen({ navigation, route }) {
-  const [activeTab, setActiveTab] = React.useState('products');
+  const [activeTab, setActiveTab] = React.useState("products");
   const { item } = route.params;
-  // console.log('Store item', item);
 
   return (
     <View style={styles.container}>
@@ -26,7 +25,7 @@ export default function StoreScreen({ navigation, route }) {
       <View
         style={{
           marginTop: -12,
-          flexDirection: 'row',
+          flexDirection: "row",
         }}
       >
         <TouchableOpacity
@@ -36,13 +35,13 @@ export default function StoreScreen({ navigation, route }) {
             height: 50,
             // width: '100%',
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottomColor: '#fff',
-            borderBottomWidth: activeTab === 'products' ? 1 : 0,
+            alignItems: "center",
+            justifyContent: "center",
+            borderBottomColor: "#fff",
+            borderBottomWidth: activeTab === "products" ? 1 : 0,
           }}
           onPress={() => {
-            setActiveTab('products');
+            setActiveTab("products");
           }}
         >
           <Text style={styles.btnText}>Products</Text>
@@ -53,13 +52,13 @@ export default function StoreScreen({ navigation, route }) {
             backgroundColor: Colors.primary,
             height: 50,
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottomColor: '#fff',
-            borderBottomWidth: activeTab === 'reviews' ? 1 : 0,
+            alignItems: "center",
+            justifyContent: "center",
+            borderBottomColor: "#fff",
+            borderBottomWidth: activeTab === "reviews" ? 1 : 0,
           }}
           onPress={() => {
-            setActiveTab('reviews');
+            setActiveTab("reviews");
           }}
         >
           <Text style={styles.btnText}>Reviews</Text>
@@ -70,13 +69,13 @@ export default function StoreScreen({ navigation, route }) {
             backgroundColor: Colors.primary,
             height: 50,
             flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottomColor: '#fff',
-            borderBottomWidth: activeTab === 'about' ? 1 : 0,
+            alignItems: "center",
+            justifyContent: "center",
+            borderBottomColor: "#fff",
+            borderBottomWidth: activeTab === "about" ? 1 : 0,
           }}
           onPress={() => {
-            setActiveTab('about');
+            setActiveTab("about");
           }}
         >
           <Text style={styles.btnText}>About</Text>
@@ -84,25 +83,25 @@ export default function StoreScreen({ navigation, route }) {
       </View>
 
       {/* TABS */}
-      {activeTab === 'products' && (
+      {activeTab === "products" && (
         <View style={{ margin: 5, marginVertical: 15 }}>
           <View
             style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
             <StoreProducts storeId={item.id} />
           </View>
         </View>
       )}
-      {activeTab === 'reviews' && (
+      {activeTab === "reviews" && (
         <View style={{ margin: 5, marginVertical: 15 }}>
           <Text>Reviews</Text>
         </View>
       )}
-      {activeTab === 'about' && (
+      {activeTab === "about" && (
         <View style={{ margin: 10, marginVertical: 15 }}>
           <Text>{item.description}</Text>
         </View>
@@ -119,23 +118,23 @@ export default function StoreScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 20,
   },
 
   tabBarInfoText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    color: "rgba(96,100,109, 1)",
+    textAlign: "center",
   },
   btnText: {
     fontSize: 17,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
   },
 });

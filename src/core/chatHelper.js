@@ -1,5 +1,5 @@
-import firebase from '../config/firebase.config';
-import React from 'react';
+import firebase from "../config/firebase.config";
+import React from "react";
 export default class ChatHelper {
   //Create chat
   static create() {
@@ -9,7 +9,7 @@ export default class ChatHelper {
       createdAt: Date.now(),
       messages: [],
     };
-    firebase.firestore().collection('chats').add(data);
+    firebase.firestore().collection("chats").add(data);
   }
 
   static sendMessage(chatId, data) {
@@ -20,7 +20,7 @@ export default class ChatHelper {
     //   createdAt: Date.now(),
     // };
     const db = firebase.firestore();
-    const ref = db.collection('chats').doc(chatId);
+    const ref = db.collection("chats").doc(chatId);
 
     return ref.update({
       messages: firebase.firestore.FieldValue.arrayUnion(data[0]),
@@ -36,13 +36,11 @@ export default class ChatHelper {
 
       let unsubscribe;
       try {
-        // console.log('useGetDataByCollection useEffect');
         unsubscribe = firebase
           .firestore()
-          .collection('chats')
+          .collection("chats")
           .doc(chatId)
           .onSnapshot((snapShot) => {
-            // console.log('useGetDataByCollection onSnapshot');
             let messages = snapShot.data()?.messages;
             // .orderBy('createdAt', 'asc');
 
@@ -77,14 +75,14 @@ export default class ChatHelper {
           });
       } catch (err) {
         //TODO : try to catch error on use logout
-        alert(`useGetDataByCollection chat err` + err);
+        alert(`useGetMessages err` + err);
       }
       return () => {
-        console.log(`unsubscribe useGetDataByCollection chat`);
+        console.log(`unsubscribe useGetMessages`);
         isCancelled = true;
         if (unsubscribe) {
           unsubscribe();
-          console.log(`unsubscribe useGetDataByCollection chat`);
+          console.log(`unsubscribe useGetMessages`);
         }
       };
     }, []);

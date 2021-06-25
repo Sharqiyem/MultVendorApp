@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   View,
@@ -8,28 +8,28 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
-} from 'react-native';
+} from "react-native";
 
-import productHooks from '../hooks/useGetDataByCollection';
-import getStyle from '../constants/styles';
-import Layout from '../constants/Layout';
-import Colors from '../constants/Colors';
-import { FontAwesome } from '@expo/vector-icons';
-import { LocalizationContext } from '../context/cartContext/provider';
+import getStyle from "../constants/styles";
+import Layout from "../constants/Layout";
+import Colors from "../constants/Colors";
+import { FontAwesome } from "@expo/vector-icons";
+import { LocalizationContext } from "../context/cartContext/provider";
+import { useGetDataByCollection } from "../hooks";
 
-const widowWidth = Dimensions.get('window').width;
+const widowWidth = Dimensions.get("window").width;
 
 export const CategoryList = ({ navigation }) => {
-  const [data, isLoading] = productHooks.useGetDataByCollection('categories');
+  const [data, isLoading] = useGetDataByCollection("categories");
 
   if (isLoading)
     return (
       <ActivityIndicator
         style={{
-          alignSelf: 'center',
+          alignSelf: "center",
           width: Layout.window.width,
         }}
-        size={'large'}
+        size={"large"}
         color={Colors.primary}
       />
     );
@@ -56,13 +56,13 @@ export const CategoryListItem = ({ item, navigation }) => {
     <TouchableOpacity
       style={[styles.container, getStyle().row]}
       onPress={() => {
-        navigation.navigate('Category', { item });
+        navigation.navigate("Category", { item });
       }}
     >
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode='cover'
+          resizeMode="cover"
           source={{ uri: item.image }}
         />
       </View>
@@ -73,10 +73,10 @@ export const CategoryListItem = ({ item, navigation }) => {
           </Text>
         </View>
 
-        <View style={[getStyle().row, { alignItems: 'center' }]}>
+        <View style={[getStyle().row, { alignItems: "center" }]}>
           <Text style={[getStyle().text, styles.shopSubTitle]}>(35)</Text>
           <Text style={[getStyle().text, styles.shopSubTitle]}>
-            {t('Products')}
+            {t("Product")}
           </Text>
         </View>
         {/* <Text style={styles.timeText}>07:00AM:08PM</Text>  */}
@@ -84,7 +84,7 @@ export const CategoryListItem = ({ item, navigation }) => {
       <FontAwesome
         name={angleIcon}
         size={25}
-        style={{ alignSelf: 'center' }}
+        style={{ alignSelf: "center" }}
         color={Colors.grey}
       />
     </TouchableOpacity>
@@ -96,7 +96,7 @@ const width = widowWidth / 3 - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginHorizontal: 5,
     marginVertical: 10,
     backgroundColor: Colors.white,
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: width,
     width: width,
-    overflow: 'hidden',
-    alignItems: 'stretch',
+    overflow: "hidden",
+    alignItems: "stretch",
 
     // backgroundColor: 'red'
   },
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   image: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
 
     // borderRadius: width / 2,
   },

@@ -1,10 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Text, ActivityIndicator, Button } from 'react-native';
-import LottieView from 'lottie-react-native';
+import React, { useRef, useEffect } from "react";
+import { View, Text, ActivityIndicator, Button } from "react-native";
+import LottieView from "lottie-react-native";
 
-import Colors from '../constants/Colors';
+import Colors from "../constants/Colors";
 
-const animPath = require('../../assets/anime/logo-data.json');
+const animPath = require("../../assets/anime/logo-data.json");
 
 const AnimationScreen = ({ onFinished }) => {
   const ref = useRef(null);
@@ -18,13 +18,13 @@ const AnimationScreen = ({ onFinished }) => {
     ref.current.reset();
     ref.current.play(120);
   };
-  console.log('Animation Screen');
+  console.log("Animation Screen");
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: Colors.primary,
       }}
     >

@@ -1,20 +1,21 @@
-import * as React from 'react';
-import { StyleSheet, View, Share, Linking, Text } from 'react-native';
+import * as React from "react";
+import { StyleSheet, View, Share, Linking, Text } from "react-native";
 
-import Colors from '../constants/Colors';
+import Colors from "../constants/Colors";
 
-import firebase from '../config/firebase.config';
-import { AuthContext } from '../context/authContext/provider';
-import { LocalizationContext } from '../context/cartContext/provider';
-import SettingsNavigateRow from '../components/SettingsNavigateRow';
-import SectionRow from '../components/SettingsSectionRow';
-import SettingsPage from '../components/SettingsPage';
+import firebase from "../config/firebase.config";
+import { AuthContext } from "../context/authContext/provider";
+import { LocalizationContext } from "../context/cartContext/provider";
+import SettingsNavigateRow from "../components/SettingsNavigateRow";
+import SectionRow from "../components/SettingsSectionRow";
+import SettingsPage from "../components/SettingsPage";
+import getStyle from "../constants/styles";
 
 export default function ProfileScreen({ navigation }) {
   const { state, signOut } = React.useContext(AuthContext);
   const { t, changeLang, locale } = React.useContext(LocalizationContext);
 
-  console.log('AuthContext state', state);
+  // console.log("AuthContext state", state);
   const [] = React.useState(false);
   const [] = React.useState(40);
   const [] = React.useState(false);
@@ -27,9 +28,9 @@ export default function ProfileScreen({ navigation }) {
   const onShareApp = async () => {
     try {
       const result = await Share.share({
-        title: 'Share App',
-        url: 'www.youtube.com',
-        message: 'A Store | A Mobile app for online multi vender shopping',
+        title: "Share App",
+        url: "www.youtube.com",
+        message: "A Store | A Mobile app for online multi vender shopping",
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -47,7 +48,7 @@ export default function ProfileScreen({ navigation }) {
 
   const onRateApp = () => {
     //TODO: rewrite links and content
-    const APP_STORE_LINK_ID = 'id375380948';
+    const APP_STORE_LINK_ID = "id375380948";
     const link = `itms-apps://itunes.apple.com/us/app/id${APP_STORE_LINK_ID}?mt=8`;
 
     Linking.canOpenURL(link)
@@ -85,86 +86,86 @@ export default function ProfileScreen({ navigation }) {
     navigation.navigate(screen, params);
   };
 
-  const settings = () => {
+  const renderSections = () => {
     return (
       <SettingsPage key={locale}>
-        <SectionRow text={t('Account')}>
+        <SectionRow text={t("Account")}>
           <SettingsNavigateRow
-            text={t('Edit profile')}
-            iconName='user'
+            text={t("Edit profile")}
+            iconName="user"
             onPressCallback={() => {
-              navigateToScreen('EditProfile');
+              navigateToScreen("EditProfile");
             }}
           />
 
           <SettingsNavigateRow
-            text={t('Change password')}
-            iconName='edit'
+            text={t("Change password")}
+            iconName="edit"
             onPressCallback={() => {
-              navigateToScreen('ChangePassword');
+              navigateToScreen("ChangePassword");
             }}
           />
 
           <SettingsNavigateRow
             onPressCallback={handleSignOut}
-            iconName='sign-out'
-            text={t('Sign out')}
+            iconName="sign-out"
+            text={t("Sign out")}
           />
         </SectionRow>
 
-        {!state.isDelivery && (
-          <SectionRow text='Usage'>
+        {!state.isDelivery && !state.isVendor && (
+          <SectionRow text={t("Usage")}>
             <SettingsNavigateRow
-              text={t('Orders')}
-              iconName='edit'
+              text={t("Orders")}
+              iconName="edit"
               onPressCallback={() => {
-                navigateToScreen('Orders');
+                navigateToScreen("Orders");
               }}
             />
             <SettingsNavigateRow
-              text={t('Addresses')}
-              iconName='edit'
+              text={t("Addresses")}
+              iconName="edit"
               onPressCallback={() => {
-                navigateToScreen('Address', { fromProfile: true });
+                navigateToScreen("Address", { fromProfile: true });
               }}
             />
           </SectionRow>
         )}
-        <SectionRow text='App'>
+        <SectionRow text={t("App")}>
           <SettingsNavigateRow
-            text={t('Change language')}
-            iconName='edit'
+            text={t("Change language")}
+            iconName="edit"
             onPressCallback={() => {
               changeLang();
             }}
           />
           <SettingsNavigateRow
-            text={t('Rate App')}
-            iconName='edit'
+            text={t("Rate App")}
+            iconName="edit"
             onPressCallback={() => {
               onRateApp();
             }}
           />
           <SettingsNavigateRow
-            text={t('Share App')}
-            iconName='edit'
+            text={t("Share App")}
+            iconName="edit"
             onPressCallback={() => {
               onShareApp();
             }}
           />
           <SettingsNavigateRow
-            text={t('Contact Us')}
-            iconName='edit'
+            text={t("Contact Us")}
+            iconName="edit"
             onPressCallback={() => {
-              navigateToScreen('ContactUs');
+              navigateToScreen("ContactUs");
             }}
           />
 
           <SettingsNavigateRow
-            text={t('About US')}
-            iconName='edit'
+            text={t("About Us")}
+            iconName="edit"
             onPressCallback={() => {
-              navigateToScreen('AboutUs');
+              navigateToScreen("AboutUs");
             }}
           />
         </SectionRow>
@@ -174,14 +175,10 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <View style={{ backgroundColor: '#F4F3F3' }}>
-        <Text style={{ marginVertical: 5 }}>
-          Hello {state.userToken} - {state.role}
-        </Text>
-      </View> */}
-      {/*  <Button title={t('Sign out')} onPress={handleSignOut} />
-      {renderBTNs()} */}
-      {settings()}
+      <Text style={[getStyle().text, { paddingHorizontal: 15 }]}>
+        {t("Hello")} {state?.userData?.name}
+      </Text>
+      {renderSections()}
     </View>
   );
 }

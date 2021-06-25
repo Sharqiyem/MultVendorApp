@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import firebase from '../config/firebase.config';
-import Colors from '../constants/Colors';
+import { useState, useEffect } from "react";
+import firebase from "../config/firebase.config";
+import Colors from "../constants/Colors";
 
 export const useGetOrders = () => {
   const [data, setData] = useState([]);
@@ -9,11 +9,10 @@ export const useGetOrders = () => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
-      .collection('orders')
-      .where('userId', '==', firebase.auth().currentUser?.uid)
+      .collection("orders")
+      .where("userId", "==", firebase.auth().currentUser?.uid)
       // .doc(firebase.auth().currentUser?.uid)
 
       .onSnapshot((snapShot) => {
@@ -21,8 +20,6 @@ export const useGetOrders = () => {
           id: doc.id,
           ...doc.data(),
         }));
-
-        // console.log('useGetDataByCollection onSnapshot', addresssArr);
 
         if (!isCancelled) {
           setData(newData);
@@ -45,11 +42,10 @@ export const useGetOrderById = (orderId) => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
 
-    // console.log('useGetDataByCollection useEffect');
     const unsubscribe = firebase
       .firestore()
-      .collection('orders')
-      .where('id', '==', orderId)
+      .collection("orders")
+      .where("id", "==", orderId)
       // .doc(firebase.auth().currentUser?.uid)
 
       .onSnapshot((snapShot) => {
@@ -57,8 +53,6 @@ export const useGetOrderById = (orderId) => {
           id: doc.id,
           ...doc.data(),
         }));
-
-        // console.log('useGetDataByCollection onSnapshot', addresssArr);
 
         if (!isCancelled) {
           setData(newData);
@@ -78,11 +72,11 @@ export const useAddOrder = async (order) => {
   try {
     const db = firebase.firestore();
     const userId = firebase.auth().currentUser.uid;
-    db.collection('orders').add(order);
-    db.collection('chats')
+    db.collection("orders").add(order);
+    db.collection("chats")
       .doc(order.id)
       .set({ createdAt: new Date(), messages: [] });
   } catch (err) {
-    console.log('useAddOrder', err);
+    console.log("useAddOrder", err);
   }
 };

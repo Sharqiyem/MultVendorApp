@@ -1,18 +1,18 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable max-classes-per-file */
-import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import Colors from '../constants/Colors';
+import Colors from "../constants/Colors";
 
-import I18n from '../i18n/i18n';
-import getStyle from '../constants/styles';
+import I18n from "../i18n/i18n";
+import getStyle from "../constants/styles";
 
 export const RadioButtons = (props) => {
   let { data, onPress, textStyle, color, direction, TextComponent } = props;
 
   color = color || Colors.primary;
-  if (!direction) direction = I18n.isRTL ? 'row-reverse' : 'row';
+  if (!direction) direction = I18n.isRTL ? "row-reverse" : "row";
   data.map((d) => (d.color = color));
 
   return (
@@ -39,10 +39,10 @@ export class RadioGroup extends Component {
   validate(data) {
     let selected = false; // Variable to check if "selected: true" for more than one button.
     data.map((e) => {
-      e.color = e.color ? e.color : '#fff';
+      e.color = e.color ? e.color : "#fff";
       e.disabled = e.disabled ? e.disabled : false;
-      e.label = e.label ? e.label : 'You forgot to give label';
-      e.layout = e.layout ? e.layout : 'row';
+      e.label = e.label ? e.label : "You forgot to give label";
+      e.layout = e.layout ? e.layout : "row";
       e.selected = e.selected ? e.selected : false;
       if (e.selected) {
         if (selected) {
@@ -100,10 +100,10 @@ const RadioButton = (props) => {
   const { textStyle, buttonContainer, data, onPress, TextComponent } = props;
 
   const opacity = data.disabled ? 0.2 : 1;
-  let layout = { flexDirection: 'row' };
+  let layout = { flexDirection: "row" };
   let margin = { marginLeft: 10 };
-  if (data.layout === 'column') {
-    layout = { alignItems: 'center' };
+  if (data.layout === "column") {
+    layout = { alignItems: "center" };
     margin = { marginTop: 10 };
   }
   return (
@@ -129,7 +129,7 @@ const RadioButton = (props) => {
             width: data.size,
             height: data.size,
             borderRadius: data.size / 2,
-            alignSelf: 'center',
+            alignSelf: "center",
           },
         ]}
       >
@@ -147,7 +147,7 @@ const RadioButton = (props) => {
       {TextComponent ? (
         <TextComponent item={data} />
       ) : (
-        <Text style={[{ alignSelf: 'center' }, margin, textStyle]}>
+        <Text style={[{ alignSelf: "center" }, margin, textStyle]}>
           {data.label}
         </Text>
       )}
@@ -157,13 +157,13 @@ const RadioButton = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: "center",
     // alignItems: 'center',
     marginHorizontal: 10,
   },
   border: {
     borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

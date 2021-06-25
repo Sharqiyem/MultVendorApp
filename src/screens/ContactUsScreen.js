@@ -1,102 +1,196 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Button,
-  Image,
-  SafeAreaView,
-  KeyboardAvoidingView,
   TextInput,
   Platform,
   TouchableOpacity,
-} from 'react-native';
-import Colors from '../constants/Colors';
-import { Logo } from '../components';
+} from "react-native";
+import { useForm, Controller } from "react-hook-form";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Constants from "expo-constants";
 
-import getStyle from '../constants/styles';
+import Colors from "../constants/Colors";
 
-import Layout from '../constants/Layout';
-import { Ionicons } from '@expo/vector-icons';
-import firebase from '../config/firebase.config';
-import { LocalizationContext } from '../context/cartContext/provider';
-import Textarea from '../components/TextArea';
+import getStyle from "../constants/styles";
+
+import firebase from "../config/firebase.config";
+import { LocalizationContext } from "../context/cartContext/provider";
+import { AuthContext } from "../context/authContext/provider";
 
 export default function ContactUsScreen({ navigation }) {
+  //useForm
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const [error, setError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const { t, isRTL } = React.useContext(LocalizationContext);
+  const { state } = React.useContext(AuthContext);
 
-  const [email, setEmail] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [title, setTitle] = React.useState('');
+  // const msgInpuRef = React.useRef();
 
-  const [error, setError] = React.useState('');
+  const handleSend = async (data) => {
+    const userId = firebase.auth().currentUser.uid;
+    const msg = {
+      email: data.email,
+      title: data.title,
+      message: data.message,
+      userId,
+      user: state.userData,
+    };
+    console.log("msg", msg);
 
-  const handleSend = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        navigation.navigate('Profile');
-      })
-      .catch((err) => setError(err));
+    try {
+      setIsLoading(true);
+      const db = firebase.firestore();
+      await db.collection("messages").add(msg);
+      alert(
+        "Your message sent successfully. we will contact you as soon as possible"
+      );
+      reset();
+    } catch (err) {
+      console.log("messages err", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{ flex: 1, margin: 20 }}>
-        <TextInput
-          style={getStyle().textInput}
-          placeholder='Email'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          autoCorrect={false}
-          autoCapitalize='none'
+    <KeyboardAwareScrollView
+      enableOnAndroid={true}
+      extraHeight={40}
+      extraScrollHeight={130}
+      contentContainerStyle={{ backgroundColor: "#fff" }}
+      style={{ backgroundColor: "#fff" }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      scrollEnabled
+    >
+      <View style={styles.formContainer}>
+        {/* <View style={{ height: 500 }} /> */}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={getStyle().textInput}
+              placeholder={t("Email")}
+              placeholderStyle={{ textAlign: "center" }}
+              autoCorrect={false}
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="email"
+          rules={{ required: true }}
+          defaultValue=""
         />
-        <TextInput
-          style={getStyle().textInput}
-          placeholder='Title'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setTitle(text)}
-          value={title}
+        {errors.email && (
+          <Text style={getStyle().error}>
+            {t("Errors.This field is required")}
+          </Text>
+        )}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={[getStyle().textInput, { marginTop: 10 }]}
+              placeholder={t("Title")}
+              placeholderStyle={{ textAlign: "center" }}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="title"
+          rules={{ required: true }}
+          defaultValue=""
         />
-
-        <Textarea
-          style={styles.textarea}
-          isRTL={isRTL}
-          onChangeText={(text) => setMessage(text)}
-          defaultValue={message}
-          maxLength={100}
-          textStyle={[getStyle().text, { textAlign: 'center' }]}
-          placeholder={t('Message content')}
-          placeholderTextColor={'#c7c7c7'}
-          containerStyle={styles.textareaContainer}
-          underlineColorAndroid={'transparent'}
+        {errors.title && (
+          <Text style={getStyle().error}>
+            {t("Errors.This field is required")}
+          </Text>
+        )}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              multiline
+              style={[getStyle().textInput, styles.textarea]}
+              isRTL={isRTL}
+              maxLength={100}
+              placeholder={t("Message content")}
+              placeholderTextColor={"#c7c7c7"}
+              containerStyle={styles.textareaContainer}
+              underlineColorAndroid={"transparent"}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+              defaultValue=""
+              // ref={msgInpuRef}
+            />
+          )}
+          // onFocus={() => msgInpuRef.current.focus()}
+          name="message"
+          rules={{ required: true }}
+          defaultValue=""
         />
-
-        <TouchableOpacity onPress={handleSend} style={getStyle().buttonPrimary}>
-          <Text style={{ textAlign: 'center', color: Colors.white }}>SEND</Text>
+        {errors.message && (
+          <Text style={getStyle().error}>
+            {t("Errors.This field is required")}
+          </Text>
+        )}
+        <TouchableOpacity
+          disabled={isLoading}
+          onPress={handleSubmit(handleSend)}
+          style={getStyle().buttonPrimary}
+        >
+          <Text style={{ textAlign: "center", color: Colors.white }}>
+            {t("SEND")}
+          </Text>
         </TouchableOpacity>
         {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
+    justifyContent: "center",
+    // paddingTop: Constants.statusBarHeight,
+    backgroundColor: "#fff",
+    flexGrow: 1,
+  },
+  formContainer: {
+    padding: 8,
     flex: 1,
-    backgroundColor: Colors.white,
   },
 
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -105,13 +199,17 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
+    alignItems: "center",
     // backgroundColor: '#fbfbfb',
     paddingVertical: 30,
   },
   textarea: {
-    textAlignVertical: 'top', // hack android
     height: 80,
-    fontSize: 20,
+    textAlign: "center",
+    textAlignVertical: "top", // hack android
+    fontSize: 16,
+  },
+  textareaContainer: {
+    marginVertical: 10,
   },
 });

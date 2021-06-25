@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import getStyle from '../constants/styles';
-import { FontAwesome } from '@expo/vector-icons';
-import SettingsRowStyle from '../constants/SettingsRowStyle';
-import Colors from '../constants/Colors';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import getStyle from "../constants/styles";
+import { FontAwesome } from "@expo/vector-icons";
+import SettingsRowStyle from "../constants/SettingsRowStyle";
+import Colors from "../constants/Colors";
 
 const SettingsNavigateRow = ({ onPressCallback, iconName, text }) => {
   const {
@@ -29,7 +29,7 @@ const SettingsNavigateRow = ({ onPressCallback, iconName, text }) => {
           <Text
             style={[textStyle, getStyle().text]}
             numberOfLines={1}
-            ellipsizeMode={'tail'}
+            ellipsizeMode={"tail"}
           >
             {text}
           </Text>

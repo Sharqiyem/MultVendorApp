@@ -1,7 +1,7 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import reducer from './reducers';
+import React, { createContext, useReducer, useEffect } from "react";
+import reducer from "./reducers";
 // import { useActions } from "./actions";
-import initialState from './state';
+import initialState from "./state";
 
 const StoreContext = createContext(initialState);
 export const LocalizationContext = createContext();

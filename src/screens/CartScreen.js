@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -7,21 +7,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-} from 'react-native';
-import { FlatGrid } from 'react-native-super-grid';
-import { Image } from 'react-native-expo-image-cache';
+  Platform,
+} from "react-native";
+import { FlatGrid } from "react-native-super-grid";
+import { Image } from "react-native-expo-image-cache";
 
-import * as Icon from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
+import * as Icon from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 
-import { StoreContext } from '../context/cartContext/provider';
-import types from '../context/cartContext/types';
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles';
+import { StoreContext } from "../context/cartContext/provider";
+import types from "../context/cartContext/types";
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles";
 
 const preview = {
-  uri:
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+  uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
 };
 
 const CartScreen = ({ navigation }) => {
@@ -52,8 +52,8 @@ const CartScreen = ({ navigation }) => {
         <View
           style={{
             flex: 1,
-            flexDirection: 'row',
-            alignSelf: 'flex-start',
+            flexDirection: "row",
+            alignSelf: "flex-start",
             margin: 5,
           }}
         >
@@ -61,11 +61,11 @@ const CartScreen = ({ navigation }) => {
             {name}
           </Text>
         </View>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
+              flexDirection: "row",
             }}
           >
             {images && images[0] ? (
@@ -89,24 +89,23 @@ const CartScreen = ({ navigation }) => {
               <Image
                 style={{ width: 70, height: 70, margin: 5 }}
                 source={{
-                  uri:
-                    'https://facebook.github.io/react-native/img/tiny_logo.png',
+                  uri: "https://facebook.github.io/react-native/img/tiny_logo.png",
                 }}
               />
             )}
             <View
               style={{
                 flex: 1,
-                flexDirection: 'column',
-                alignItems: 'flex-start',
+                flexDirection: "column",
+                alignItems: "flex-start",
               }}
             >
               <View
                 style={{
                   marginVertical: 5,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
                 <View style={{ flex: 1 }}>
@@ -115,7 +114,7 @@ const CartScreen = ({ navigation }) => {
                 <View
                   style={{
                     flex: 1,
-                    alignItems: 'flex-end',
+                    alignItems: "flex-end",
                     marginHorizontal: 5,
                   }}
                 >
@@ -126,17 +125,17 @@ const CartScreen = ({ navigation }) => {
               <View
                 style={{
                   marginVertical: 5,
-                  flexDirection: 'row',
-                  alignItems: 'space-between',
+                  flexDirection: "row",
+                  alignItems: "space-between",
                   // backgroundColor: 'red',
                 }}
               >
                 <View
                   style={{
                     flex: 1,
-                    justifyContent: 'center',
+                    justifyContent: "center",
                     // alignItems: 'center',
-                    alignSelf: 'center',
+                    alignSelf: "center",
                   }}
                 >
                   <Text numberOfLines={2}>Quantity</Text>
@@ -144,8 +143,8 @@ const CartScreen = ({ navigation }) => {
                 <View
                   style={{
                     // flex: 1,
-                    flexDirection: 'row',
-                    alignItems: 'flex-end',
+                    flexDirection: "row",
+                    alignItems: "flex-end",
                   }}
                 >
                   <TouchableOpacity
@@ -155,13 +154,13 @@ const CartScreen = ({ navigation }) => {
                     }}
                   >
                     <Icon.Feather
-                      name='minus-square'
+                      name="minus-square"
                       size={26}
                       color={Colors.primary}
                       style={{ marginHorizontal: 5 }}
                     />
                   </TouchableOpacity>
-                  <Text style={{ marginHorizontal: 3, alignSelf: 'center' }}>
+                  <Text style={{ marginHorizontal: 3, alignSelf: "center" }}>
                     {quantity}
                   </Text>
                   <TouchableOpacity
@@ -171,7 +170,7 @@ const CartScreen = ({ navigation }) => {
                     }}
                   >
                     <Icon.Feather
-                      name='plus-square'
+                      name="plus-square"
                       size={26}
                       color={Colors.primary}
                       style={{ marginHorizontal: 5 }}
@@ -183,13 +182,13 @@ const CartScreen = ({ navigation }) => {
           </View>
         </View>
         <TouchableOpacity
-          style={{ alignSelf: 'flex-end' }}
+          style={{ alignSelf: "flex-end" }}
           onPress={() => {
             removeItem(item.item);
           }}
         >
           <Icon.MaterialIcons
-            name='delete'
+            name="delete"
             size={26}
             color={Colors.secondary}
             style={{ marginHorizontal: 5 }}
@@ -229,17 +228,17 @@ const CartScreen = ({ navigation }) => {
         <Text
           style={{
             margin: 10,
-            textAlign: 'left',
+            textAlign: "left",
             marginHorizontal: 20,
             fontSize: 18,
           }}
         >
-          Total Amount:{'   '}
+          Total Amount:{"   "}
           <Text style={[text, { color: Colors.primary, fontSize: 18 }]}>
             {total}
           </Text>
         </Text>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={{
               backgroundColor: Colors.white,
@@ -249,8 +248,8 @@ const CartScreen = ({ navigation }) => {
               borderColor: Colors.primary,
               flex: 1,
               height: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
             }}
             onPress={() => {
               navigation.goBack();
@@ -259,7 +258,7 @@ const CartScreen = ({ navigation }) => {
             <Text
               style={{
                 color: Colors.primary,
-                textAlign: 'center',
+                textAlign: "center",
                 marginHorizontal: 20,
               }}
             >
@@ -276,18 +275,18 @@ const CartScreen = ({ navigation }) => {
               borderRadius: 100,
               flex: 1,
               height: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
             }}
             onPress={() => {
-              navigation.navigate('Address');
+              navigation.navigate("Address");
             }}
           >
             <Text
               style={{
-                color: '#fff',
+                color: "#fff",
                 // fontSize: 18,
-                textAlign: 'center',
+                textAlign: "center",
                 marginHorizontal: 20,
               }}
             >
@@ -310,7 +309,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemContainer: {
-    justifyContent: 'center',
+    justifyContent: "center",
     borderRadius: 10,
     borderColor: Colors.primaryLight,
     borderWidth: 0.3,
@@ -323,17 +322,17 @@ const styles = StyleSheet.create({
 
     padding: 10,
 
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -342,8 +341,8 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 });

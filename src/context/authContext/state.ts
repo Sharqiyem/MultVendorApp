@@ -1,6 +1,6 @@
 const initialState = {
-  currentUser: { name: 'ali' },
-  isLogged: false
+  currentUser: { name: "ali" },
+  isLogged: false,
 };
 
 export default initialState;

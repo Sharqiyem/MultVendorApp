@@ -1,34 +1,27 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
-  Button,
-  Platform,
-} from 'react-native';
-import types from '../context/cartContext/types';
-import {
-  StoreContext,
-  LocalizationContext,
-} from '../context/cartContext/provider';
+} from "react-native";
+import { LocalizationContext } from "../context/cartContext/provider";
 import {
   ExProductCycleList,
   BannerScrollView,
   StoreScrollView,
   ExCategoryCycleItem,
-} from '../components/index';
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles.js';
-import productHooks from '../hooks/useGetDataByCollection';
-import firebase from '../config/firebase.config';
+} from "../components/index";
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles.js";
+import { useGetDataByCollection } from "../hooks";
 
 export default function HomeScreen({ navigation, route }) {
   //Test firebase
 
   const { t, changeLang } = React.useContext(LocalizationContext);
-  const [data, isLoading] = productHooks.useGetDataByCollection('products');
+  const [data, isLoading] = useGetDataByCollection("products");
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -61,25 +54,25 @@ export default function HomeScreen({ navigation, route }) {
           style={[
             getStyle().row,
             {
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               marginVertical: 15,
             },
           ]}
         >
           <View styles={{}}>
             <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
-              {t('Shop by Stores')}
+              {t("Shop by Stores")}
             </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Stores');
+              navigation.navigate("Stores");
             }}
             style={{
               backgroundColor: Colors.primary,
               borderRadius: 15,
               height: 30,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Text
@@ -90,7 +83,7 @@ export default function HomeScreen({ navigation, route }) {
                 color: Colors.white,
               }}
             >
-              {t('See All')}
+              {t("See All")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -103,25 +96,25 @@ export default function HomeScreen({ navigation, route }) {
           style={[
             getStyle().row,
             {
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               marginVertical: 15,
             },
           ]}
         >
           <View styles={{}}>
             <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
-              {t('Shop by Categories')}
+              {t("Shop by Categories")}
             </Text>
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Categories');
+              navigation.navigate("Categories");
             }}
             style={{
               backgroundColor: Colors.primary,
               borderRadius: 15,
               height: 30,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Text
@@ -132,15 +125,15 @@ export default function HomeScreen({ navigation, route }) {
                 color: Colors.white,
               }}
             >
-              {t('See All')}
+              {t("See All")}
             </Text>
           </TouchableOpacity>
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
           }}
         >
           <ExCategoryCycleItem navigation={navigation} />
@@ -152,14 +145,14 @@ export default function HomeScreen({ navigation, route }) {
           style={[
             getStyle().row,
             {
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               marginVertical: 15,
             },
           ]}
         >
           <View styles={{}}>
             <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
-              {t('Past orders')}
+              {t("Past orders")}
             </Text>
           </View>
           <TouchableOpacity
@@ -167,7 +160,7 @@ export default function HomeScreen({ navigation, route }) {
               height: 30,
               backgroundColor: Colors.primary,
               borderRadius: 15,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Text
@@ -178,7 +171,7 @@ export default function HomeScreen({ navigation, route }) {
                 color: Colors.white,
               }}
             >
-              {t('See All')}
+              {t("See All")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -190,8 +183,8 @@ export default function HomeScreen({ navigation, route }) {
 }
 
 HomeScreen.navigationOptions = {
-  title: 'TITLE',
-  headerTitleStyle: { textAlign: 'center', alignSelf: 'center' },
+  title: "TITLE",
+  headerTitleStyle: { textAlign: "center", alignSelf: "center" },
   headerStyle: {
     // backgroundColor: 'red',
   },
@@ -200,18 +193,18 @@ HomeScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
   },
 
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 20,
   },
 
   tabBarInfoText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    color: "rgba(96,100,109, 1)",
+    textAlign: "center",
   },
 });

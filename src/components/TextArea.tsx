@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, View, Text, TextInput, ViewPropTypes } from 'react-native';
-import Colors from '../constants/Colors';
+import React, { PureComponent } from "react";
+import { StyleSheet, View, Text, TextInput, ViewPropTypes } from "react-native";
+import Colors from "../constants/Colors";
 // import propTypes from 'prop-types'
 type Props = {
   containerStyle?: viewPropTypes.style;
@@ -62,11 +62,11 @@ export default class Textarea extends PureComponent<Props, State> {
     return (
       <View style={[styles.container, containerStyle]}>
         <TextInput
-          style={textStyle}
+          style={style}
           multiline
           {...rest}
-          onChangeText={this._onChangeText}
-          ref='textarea'
+          // onChangeText={this._onChangeText}
+          ref="textarea"
         />
         {/* <TextField
           multiline
@@ -83,27 +83,27 @@ export default class Textarea extends PureComponent<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 5,
     height: 100,
     paddingHorizontal: 10,
     // margin: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderColor: Colors.primaryLight,
     borderWidth: 1,
     borderRadius: 35 / 2,
   },
   count: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 8,
     right: 15,
     fontSize: 14,
-    color: '#ccc',
+    color: "#ccc",
   },
   countRTL: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 8,
     left: 15,
     fontSize: 14,
-    color: '#ccc',
+    color: "#ccc",
   },
 });

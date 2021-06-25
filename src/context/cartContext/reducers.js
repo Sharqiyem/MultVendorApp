@@ -1,5 +1,5 @@
-import types from './types';
-import initialState from './state';
+import types from "./types";
+import initialState from "./state";
 const reducer = (state = initialState, action) => {
   // console.log({ oldState: state, type: action.type, payload: action.payload });
   switch (action.type) {
@@ -88,7 +88,7 @@ const reducer = (state = initialState, action) => {
       return { ...state, totalAmount: calcTotalAmount(state.cartItems) };
 
     default:
-      throw new Error('Unexpected action');
+      throw new Error("Unexpected action");
   }
 };
 
@@ -97,7 +97,7 @@ const calcTotalAmount = (cartItems) => {
     (sum, item) => sum + item.quantity * item.item.price,
     0
   );
-  console.log('calcTotalAmount', cartItems);
+  console.log("calcTotalAmount", cartItems.length);
   return total;
 };
 export default reducer;

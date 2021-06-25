@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,19 +6,19 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
-} from 'react-native';
+} from "react-native";
 import {
   ExStoreDetailHeader,
   ExProductCycleList,
   ProductCycleItem,
-} from '../components';
-import Colors from '../constants/Colors';
-import productHooks from '../hooks/useGetDataByCollection';
+} from "../components";
+import Colors from "../constants/Colors";
+import { useGetProductsByCatId } from "../hooks";
 
 export default function CategoryScreen({ navigation, route }) {
   const { item } = route.params;
 
-  const [data, isLoading] = productHooks.useGetProductsByCatId(item.id);
+  const [data, isLoading] = useGetProductsByCatId(item.id);
 
   if (isLoading) return <Text> Loading </Text>;
 
@@ -42,30 +42,30 @@ export default function CategoryScreen({ navigation, route }) {
 
 CategoryScreen.navigationOptions = {
   // header: null,
-  title: 's',
+  title: "s",
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingVertical: 20,
   },
 
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 20,
   },
 
   tabBarInfoText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    color: "rgba(96,100,109, 1)",
+    textAlign: "center",
   },
   btnText: {
     fontSize: 17,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
   },
 });

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleSheet,
   Text,
@@ -9,22 +9,21 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
-} from 'react-native';
-import moment from 'moment';
+} from "react-native";
+import moment from "moment";
 
-import Colors from '../../constants/Colors';
-import getStyle from '../../constants/styles';
+import Colors from "../../constants/Colors";
+import getStyle from "../../constants/styles";
 import {
   StoreContext,
   LocalizationContext,
-} from '../../context/cartContext/provider';
+} from "../../context/cartContext/provider";
 
-import productHooks from '../../hooks/useGetDataByCollection';
-
-import types from '../../context/cartContext/types';
-import { useGetDeliveryOrders } from '../../hooks/useGetDeliveryOrders';
-import { AuthContext } from '../../context/authContext/provider';
-import Layout from '../../constants/Layout';
+import types from "../../context/cartContext/types";
+import useGetDeliveryOrders from "../../hooks/useGetDeliveryOrders";
+import { AuthContext } from "../../context/authContext/provider";
+import Layout from "../../constants/Layout";
+import { useGetDataByCollection } from "../../hooks";
 export default function DeliveryOrdersScreen({ navigation }) {
   const { t } = React.useContext(LocalizationContext);
   const { state: authState } = React.useContext(AuthContext);
@@ -32,7 +31,7 @@ export default function DeliveryOrdersScreen({ navigation }) {
   const { state, dispatch } = React.useContext(StoreContext);
   const { row, shadow } = getStyle();
 
-  const [stores, isLoading] = productHooks.useGetDataByCollection('stores');
+  const [stores, isLoading] = useGetDataByCollection("stores");
 
   const [orders, isOrdersLoading] = useGetDeliveryOrders(authState.storeId);
 
@@ -45,17 +44,17 @@ export default function DeliveryOrdersScreen({ navigation }) {
         const store = stores.find((store) => store.id === order.selectedStore);
         order.store = store;
       });
-      console.log('orders', orders);
+      // console.log("orders", orders);
       setIsReady(true);
     }
   }, [isLoading, isOrdersLoading]);
 
-  console.log('stores', stores);
+  // console.log('stores', stores);
 
   const renderItem = ({ item }) => {
     const orderItemStyle = [
       row,
-      { justifyContent: 'space-between', marginVertical: 3 },
+      { justifyContent: "space-between", marginVertical: 3 },
     ];
     return (
       <View
@@ -64,7 +63,7 @@ export default function DeliveryOrdersScreen({ navigation }) {
           {
             marginVertical: 10,
             margin: 10,
-            backgroundColor: '#F4F3F3',
+            backgroundColor: "#F4F3F3",
             borderRadius: 10,
           },
           shadow,
@@ -72,7 +71,7 @@ export default function DeliveryOrdersScreen({ navigation }) {
       >
         <View style={{ margin: 10 }}>
           <View style={orderItemStyle}>
-            <Text>{t('Order ID')}</Text>
+            <Text>{t("Order ID")}</Text>
             <Text style={{}}>{item.id}</Text>
           </View>
 
@@ -83,7 +82,7 @@ export default function DeliveryOrdersScreen({ navigation }) {
 
           <View style={orderItemStyle}>
             <Text>Date</Text>
-            <Text>{moment(item.createdAt).format('YY-MM-DD hh:mm')}</Text>
+            <Text>{moment(item.createdAt).format("YY-MM-DD hh:mm")}</Text>
           </View>
 
           <View style={orderItemStyle}>
@@ -112,19 +111,19 @@ export default function DeliveryOrdersScreen({ navigation }) {
                 flex: 1,
                 height: 30,
                 width: Layout.window.width * 0.8,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
               onPress={() => {
-                navigation.navigate('OrderDetails', { id: item.id });
+                navigation.navigate("OrderDetails", { id: item.id });
               }}
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: Colors.white,
                 }}
               >
-                {t('Details')}
+                {t("Details")}
               </Text>
             </TouchableOpacity>
 
@@ -139,15 +138,15 @@ export default function DeliveryOrdersScreen({ navigation }) {
                 flex: 1,
                 height: 30,
                 width: Layout.window.width * 0.8,
-                justifyContent: 'center',
+                justifyContent: "center",
               }}
               onPress={() => {
-                navigation.navigate('Chat', { orderId: item.id });
+                navigation.navigate("Chat", { orderId: item.id });
               }}
             >
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   color: Colors.white,
                 }}
               >
@@ -185,10 +184,10 @@ export default function DeliveryOrdersScreen({ navigation }) {
         <ActivityIndicator
           style={{
             flex: 1,
-            alignSelf: 'center',
+            alignSelf: "center",
             width: Layout.window.width,
           }}
-          size={'large'}
+          size={"large"}
           color={Colors.primary}
         />
       ) : (
@@ -215,13 +214,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -230,8 +229,8 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
     paddingVertical: 20,
   },
 });

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Text,
   View,
@@ -8,13 +8,13 @@ import {
   Dimensions,
   Button,
   TouchableOpacity,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import Colors from '../constants/Colors';
-import getStyle from '../constants/styles';
+import Colors from "../constants/Colors";
+import getStyle from "../constants/styles";
 
-const widowWidth = Dimensions.get('window').width;
+const widowWidth = Dimensions.get("window").width;
 
 export const StoreListItem = ({ item, navigation }) => {
   const { name, image, description, status, city, openTime, closeTime } = item;
@@ -22,13 +22,13 @@ export const StoreListItem = ({ item, navigation }) => {
     <TouchableOpacity
       style={[styles.container, getStyle().row]}
       onPress={() => {
-        navigation.navigate('Store', { item });
+        navigation.navigate("Store", { item });
       }}
     >
       <View style={styles.imageContiner}>
         <Image
           style={styles.image}
-          resizeMode='cover'
+          resizeMode="cover"
           source={{ uri: image }}
         />
       </View>
@@ -36,7 +36,7 @@ export const StoreListItem = ({ item, navigation }) => {
         <View
           style={[
             {
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
             },
             getStyle().row,
           ]}
@@ -65,30 +65,30 @@ const Rating = () => {
   return (
     <View
       style={{
-        justifyContent: 'center',
-        flexDirection: 'row',
+        justifyContent: "center",
+        flexDirection: "row",
       }}
     >
       <Ionicons
-        name='ios-star'
+        name="ios-star"
         size={20}
         style={{}}
         color={Colors.primaryLight}
       />
       <Ionicons
-        name='ios-star'
+        name="ios-star"
         size={20}
         style={{}}
         color={Colors.primaryLight}
       />
       <Ionicons
-        name='ios-star'
+        name="ios-star"
         size={20}
         style={{}}
         color={Colors.primaryLight}
       />
       <Ionicons
-        name='ios-star-half'
+        name="ios-star-half"
         size={20}
         style={{}}
         color={Colors.primaryLight}
@@ -115,8 +115,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: width,
     width: width,
-    overflow: 'hidden',
-    alignItems: 'stretch',
+    overflow: "hidden",
+    alignItems: "stretch",
 
     // backgroundColor: 'red'
   },
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   image: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
 
     borderRadius: width / 2,
   },

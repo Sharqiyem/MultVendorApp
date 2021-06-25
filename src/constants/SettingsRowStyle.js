@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 const SettingsRowStyle = StyleSheet.create({
   container: {
     marginBottom: 8,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
@@ -15,9 +15,9 @@ const SettingsRowStyle = StyleSheet.create({
   },
   containerSection: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     height: 50,
   },
   containerInSection: {
@@ -28,36 +28,36 @@ const SettingsRowStyle = StyleSheet.create({
   },
   containerInnerSection: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   containerInnerSectionMiddle: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   textStyle: {
     flex: 6,
-    flexDirection: 'row',
+    flexDirection: "row",
     fontSize: 15,
-    color: 'black',
+    color: "black",
   },
   textSection: {
     flex: 1,
-    textAlign: 'left',
+    textAlign: "left",
     fontSize: 15,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
     paddingHorizontal: 15,
   },
   iconRightStyle: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   iconLeftStyle: {
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   switchSt: {
     flex: 1,
