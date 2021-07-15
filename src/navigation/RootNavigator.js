@@ -52,7 +52,19 @@ export default RootNavigator = () => {
   return (
     <Stack.Navigator
       // ref={navigationRef}
-      screenOptions={{ headerShown: false, gestureEnabled: false }}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: false,
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
+        },
+      }}
     >
       {isLoading ? (
         <Stack.Screen name="Loading" component={LoadingScreen} />

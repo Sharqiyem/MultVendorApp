@@ -37,7 +37,13 @@ function CartStack({ navigation }) {
           elevation: 0,
         },
         headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
           fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
         },
         //Header text color
         headerTintColor: "#fff",

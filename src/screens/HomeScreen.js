@@ -20,8 +20,9 @@ import { useGetDataByCollection } from "../hooks";
 export default function HomeScreen({ navigation, route }) {
   //Test firebase
 
-  const { t, changeLang } = React.useContext(LocalizationContext);
   const [data, isLoading] = useGetDataByCollection("products");
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const { row, text, textHeader } = getStyle(locale === "ar");
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -52,7 +53,7 @@ export default function HomeScreen({ navigation, route }) {
       <View style={{ margin: 5 }}>
         <View
           style={[
-            getStyle().row,
+            row,
             {
               justifyContent: "space-between",
               marginVertical: 15,
@@ -60,7 +61,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
+            <Text style={[textHeader, { marginHorizontal: 5 }]}>
               {t("Shop by Stores")}
             </Text>
           </View>
@@ -94,7 +95,7 @@ export default function HomeScreen({ navigation, route }) {
       <View style={{ margin: 5, marginVertical: 15 }}>
         <View
           style={[
-            getStyle().row,
+            row,
             {
               justifyContent: "space-between",
               marginVertical: 15,
@@ -102,7 +103,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
+            <Text style={[textHeader, { marginHorizontal: 5 }]}>
               {t("Shop by Categories")}
             </Text>
           </View>
@@ -143,7 +144,7 @@ export default function HomeScreen({ navigation, route }) {
       <View style={{ margin: 5, marginVertical: 15 }}>
         <View
           style={[
-            getStyle().row,
+            row,
             {
               justifyContent: "space-between",
               marginVertical: 15,
@@ -151,7 +152,7 @@ export default function HomeScreen({ navigation, route }) {
           ]}
         >
           <View styles={{}}>
-            <Text style={[getStyle().textHeader, { marginHorizontal: 5 }]}>
+            <Text style={[textHeader, { marginHorizontal: 5 }]}>
               {t("Past orders")}
             </Text>
           </View>

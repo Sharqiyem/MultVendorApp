@@ -86,7 +86,6 @@ const width =
 const raduisWidth = width / 2;
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: Colors.primary,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: margenHorizontal,

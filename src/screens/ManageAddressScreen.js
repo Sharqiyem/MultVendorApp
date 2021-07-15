@@ -33,7 +33,12 @@ import { useUserAddress } from "../hooks";
 const { Marker } = MapView;
 
 export default function ManageAddressScreen({ navigation, route }) {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    error: errorStyle,
+    buttonPrimary,
+  } = getStyle(locale === "ar");
 
   Location.setGoogleApiKey(MapConfig.key);
   const initialRegion = {
@@ -262,19 +267,15 @@ export default function ManageAddressScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {errorMessage ? (
-        <Text style={getStyle().error}>{errorMessage}</Text>
-      ) : null}
+      {errorMessage ? <Text style={errorStyle}>{errorMessage}</Text> : null}
       {/* <Text>{text}</Text> */}
       <View
         style={[
-          // styles.textAddress,
           {
             position: "absolute",
             top: 0,
             right: 0,
             left: 0,
-            // height: 100,
             zindex: 100,
           },
         ]}
@@ -340,7 +341,7 @@ export default function ManageAddressScreen({ navigation, route }) {
           contentContainerStyle={{ paddingHorizontal: 20 }}
         >
           <TextInput
-            style={getStyle().textInput}
+            style={textInput}
             placeholder="Your address"
             placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setAddress(text)}
@@ -350,7 +351,7 @@ export default function ManageAddressScreen({ navigation, route }) {
             autoCorrect={false}
           />
           <TextInput
-            style={getStyle().textInput}
+            style={textInput}
             placeholder="Your name"
             placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setName(text)}
@@ -358,7 +359,7 @@ export default function ManageAddressScreen({ navigation, route }) {
             autoCorrect={false}
           />
           <TextInput
-            style={getStyle().textInput}
+            style={textInput}
             placeholder="Your Tel. number"
             placeholderStyle={{ textAlign: "center" }}
             onChangeText={(text) => setTel(text)}
@@ -367,7 +368,7 @@ export default function ManageAddressScreen({ navigation, route }) {
           />
           <TouchableOpacity
             style={[
-              getStyle().textInput,
+              textInput,
               { justifyContent: "center", backgroundColor: Colors.primary },
             ]}
             onPress={saveAddress}

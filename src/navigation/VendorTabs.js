@@ -18,12 +18,15 @@ import AddressesScreen from "../screens/AddressesScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 import ManageAddressScreen from "../screens/ManageAddressScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import AboutUsScreen from "../screens/AboutUsScreen";
+import AboutUsScreen from "../screens/shared/AboutUsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import DeliveryOrdersScreen from "../screens/vendor/VendorOrdersScreen";
 import VendorHomeScreen from "../screens/vendor/VendorHomeScreen";
 import ProductsScreen from "../screens/vendor/ProductsScreen";
+import NewProductScreen from "../screens/vendor/NewProductScreen";
+import Fonts from "../constants/Fonts";
+import CategorySelectorScreen from "../screens/vendor/CategorySelectorScreen";
 
 const BottomTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -39,6 +42,15 @@ function ProfileStack({ navigation }) {
           backgroundColor: Colors.headerBG,
           shadowColor: "transparent",
           elevation: 0,
+        },
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
         },
         headerTintColor: "#fff",
       }}
@@ -98,6 +110,15 @@ function OrdersStack({ navigation }) {
           shadowColor: "transparent",
           elevation: 0,
         },
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
+        },
         headerTintColor: "#fff",
       }}
     >
@@ -127,6 +148,15 @@ function HomeStack({ navigation }) {
           shadowColor: "transparent",
           elevation: 0,
         },
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
+        },
         headerTintColor: "#fff",
       }}
     >
@@ -151,6 +181,15 @@ function ProductsStack({ navigation }) {
           shadowColor: "transparent",
           elevation: 0,
         },
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
+        },
         headerTintColor: "#fff",
       }}
     >
@@ -158,6 +197,16 @@ function ProductsStack({ navigation }) {
         name="Products"
         options={{ title: t("Products") }}
         component={ProductsScreen}
+      />
+      <Stack.Screen
+        name="NewProduct"
+        options={{ title: t("New product") }}
+        component={NewProductScreen}
+      />
+      <Stack.Screen
+        name="CategorySelector"
+        options={{ title: t("Select category") }}
+        component={CategorySelectorScreen}
       />
     </Stack.Navigator>
   );

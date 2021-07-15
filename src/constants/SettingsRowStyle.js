@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import Fonts from "./Fonts";
 
 const SettingsRowStyle = StyleSheet.create({
   container: {
@@ -18,11 +19,11 @@ const SettingsRowStyle = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
+    height: 40,
   },
   containerInSection: {
     flex: 1,
-    height: 50,
+    height: 40,
     borderRadius: 1,
     // borderBottomWidth: 0.2,
   },
@@ -45,9 +46,8 @@ const SettingsRowStyle = StyleSheet.create({
   },
   textSection: {
     flex: 1,
-    textAlign: "left",
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: Fonts.primaryBold,
     color: "black",
     paddingHorizontal: 15,
   },

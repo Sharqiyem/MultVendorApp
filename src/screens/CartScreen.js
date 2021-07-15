@@ -15,7 +15,7 @@ import { Image } from "react-native-expo-image-cache";
 import * as Icon from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 
-import { StoreContext } from "../context/cartContext/provider";
+import { LocalizationContext, StoreContext } from "../context/cartContext/provider";
 import types from "../context/cartContext/types";
 import Colors from "../constants/Colors";
 import getStyle from "../constants/styles";
@@ -25,7 +25,9 @@ const preview = {
 };
 
 const CartScreen = ({ navigation }) => {
-  const { text } = getStyle();
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { text, shadow } = getStyle(locale === "ar");
+
   const { state, dispatch } = useContext(StoreContext);
   const data = state.cartItems;
   const total = state.totalAmount;
@@ -47,7 +49,7 @@ const CartScreen = ({ navigation }) => {
   const RenderItem = ({ name, price, images, quantity, item }) => {
     const uri = images[0];
     return (
-      <View style={[styles.itemContainer, getStyle().shadow]}>
+      <View style={[styles.itemContainer, shadow]}>
         {/* <StatusBar backgroundColor='red' barStyle='dark-content' /> */}
         <View
           style={{

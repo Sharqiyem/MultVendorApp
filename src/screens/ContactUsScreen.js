@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import Constants from "expo-constants";
 
 import Colors from "../constants/Colors";
 
@@ -30,10 +29,14 @@ export default function ContactUsScreen({ navigation }) {
   const [error, setError] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { t, isRTL } = React.useContext(LocalizationContext);
-  const { state } = React.useContext(AuthContext);
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    error: errorStyle,
+    buttonPrimary,
+  } = getStyle(locale === "ar");
 
-  // const msgInpuRef = React.useRef();
+  const { state } = React.useContext(AuthContext);
 
   const handleSend = async (data) => {
     const userId = firebase.auth().currentUser.uid;
@@ -80,7 +83,7 @@ export default function ContactUsScreen({ navigation }) {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={getStyle().textInput}
+              style={textInput}
               placeholder={t("Email")}
               placeholderStyle={{ textAlign: "center" }}
               autoCorrect={false}
@@ -95,9 +98,7 @@ export default function ContactUsScreen({ navigation }) {
           defaultValue=""
         />
         {errors.email && (
-          <Text style={getStyle().error}>
-            {t("Errors.This field is required")}
-          </Text>
+          <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
         )}
         <Controller
           control={control}
@@ -106,7 +107,7 @@ export default function ContactUsScreen({ navigation }) {
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={[getStyle().textInput, { marginTop: 10 }]}
+              style={[textInput, { marginTop: 10 }]}
               placeholder={t("Title")}
               placeholderStyle={{ textAlign: "center" }}
               onBlur={onBlur}
@@ -119,9 +120,7 @@ export default function ContactUsScreen({ navigation }) {
           defaultValue=""
         />
         {errors.title && (
-          <Text style={getStyle().error}>
-            {t("Errors.This field is required")}
-          </Text>
+          <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
         )}
         <Controller
           control={control}
@@ -131,7 +130,7 @@ export default function ContactUsScreen({ navigation }) {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               multiline
-              style={[getStyle().textInput, styles.textarea]}
+              style={[textInput, styles.textarea]}
               isRTL={isRTL}
               maxLength={100}
               placeholder={t("Message content")}
@@ -142,29 +141,25 @@ export default function ContactUsScreen({ navigation }) {
               onChangeText={(value) => onChange(value)}
               value={value}
               defaultValue=""
-              // ref={msgInpuRef}
             />
           )}
-          // onFocus={() => msgInpuRef.current.focus()}
           name="message"
           rules={{ required: true }}
           defaultValue=""
         />
         {errors.message && (
-          <Text style={getStyle().error}>
-            {t("Errors.This field is required")}
-          </Text>
+          <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
         )}
         <TouchableOpacity
           disabled={isLoading}
           onPress={handleSubmit(handleSend)}
-          style={getStyle().buttonPrimary}
+          style={buttonPrimary}
         >
           <Text style={{ textAlign: "center", color: Colors.white }}>
             {t("SEND")}
           </Text>
         </TouchableOpacity>
-        {error ? <Text style={getStyle().error}>{error.message}</Text> : null}
+        {error ? <Text style={errorStyle}>{error.message}</Text> : null}
       </View>
     </KeyboardAwareScrollView>
   );
@@ -172,9 +167,7 @@ export default function ContactUsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: "center",
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#fff",
     flexGrow: 1,
   },
@@ -200,7 +193,6 @@ const styles = StyleSheet.create({
       },
     }),
     alignItems: "center",
-    // backgroundColor: '#fbfbfb',
     paddingVertical: 30,
   },
   textarea: {

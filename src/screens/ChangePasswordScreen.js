@@ -24,11 +24,16 @@ import FirebaseAuth, {
   reauthenticate,
   changePassword,
 } from "../services/firebaseAuth";
+import { LocalizationContext } from "../context/cartContext/provider";
 export default function ChangePasswordScreen({ navigation }) {
   const [password, setPassword] = React.useState("");
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const { t, locale } = React.useContext(LocalizationContext);
+
+  const { textInput, buttonPrimary, error: errorStyle } = getStyle(locale === "ar");
 
   const handleChangePassword = () => {
     setIsLoading(true);
@@ -47,7 +52,7 @@ export default function ChangePasswordScreen({ navigation }) {
     <View style={styles.container}>
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
-          style={getStyle().textInput}
+          style={textInput}
           placeholder="Current Password"
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setCurrentPassword(text)}
@@ -57,7 +62,7 @@ export default function ChangePasswordScreen({ navigation }) {
           secureTextEntry
         />
         <TextInput
-          style={getStyle().textInput}
+          style={textInput}
           placeholder="Password"
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setPassword(text)}
@@ -70,7 +75,7 @@ export default function ChangePasswordScreen({ navigation }) {
         <TouchableOpacity
           disabled={isLoading}
           onPress={handleChangePassword}
-          style={getStyle().buttonPrimary}
+          style={buttonPrimary}
         >
           <Text style={{ textAlign: "center", color: Colors.white }}>SAVE</Text>
         </TouchableOpacity>
@@ -84,7 +89,7 @@ export default function ChangePasswordScreen({ navigation }) {
             color={Colors.primary}
           />
         )}
-        {error ? <Text style={getStyle().error}>{error}</Text> : null}
+        {error ? <Text style={errorStyle}>{error}</Text> : null}
       </View>
     </View>
   );

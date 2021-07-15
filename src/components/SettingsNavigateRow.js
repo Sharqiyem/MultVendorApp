@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import getStyle from "../constants/styles";
-import { FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import SettingsRowStyle from "../constants/SettingsRowStyle";
 import Colors from "../constants/Colors";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-const SettingsNavigateRow = ({ onPressCallback, iconName, text }) => {
+const SettingsNavigateRow = ({ onPressCallback, iconName, label }) => {
   const {
     containerInSection,
     containerInnerSection,
@@ -13,29 +14,30 @@ const SettingsNavigateRow = ({ onPressCallback, iconName, text }) => {
     iconRightStyle,
     textStyle,
   } = SettingsRowStyle;
+  const { t, locale } = React.useContext(LocalizationContext);
 
-  const angleIcon = getStyle().angleIcon;
-  //   console.log('angleIcon'.angleIcon);
+  const { angleIcon, text, row } = getStyle(locale === "ar");
+
   return (
     <TouchableOpacity onPress={onPressCallback}>
       <View style={containerInSection}>
-        <View style={[containerInnerSection, getStyle().row]}>
-          <FontAwesome
+        <View style={[containerInnerSection, row, {   }]}>
+          <Feather
             name={iconName}
-            size={25}
+            size={20}
             style={iconLeftStyle}
             color={Colors.primary}
           />
           <Text
-            style={[textStyle, getStyle().text]}
+            style={[textStyle, text]}
             numberOfLines={1}
             ellipsizeMode={"tail"}
           >
-            {text}
+            {label}
           </Text>
           <FontAwesome
             name={angleIcon}
-            size={25}
+            size={20}
             style={iconRightStyle}
             color={Colors.grey}
           />

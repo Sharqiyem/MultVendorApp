@@ -25,11 +25,12 @@ import { AuthContext } from "../../context/authContext/provider";
 import Layout from "../../constants/Layout";
 import { useGetDataByCollection } from "../../hooks";
 export default function DeliveryOrdersScreen({ navigation }) {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, loacel } = React.useContext(LocalizationContext);
+  const { row, shadow } = getStyle(locale === "ar");
+  
   const { state: authState } = React.useContext(AuthContext);
 
   const { state, dispatch } = React.useContext(StoreContext);
-  const { row, shadow } = getStyle();
 
   const [stores, isLoading] = useGetDataByCollection("stores");
 

@@ -5,92 +5,16 @@ import Constants from "expo-constants";
 import Colors from "./Colors";
 import I18n from "../i18n/i18n";
 import { LocalizationContext } from "../context/cartContext/provider";
+import Fonts from "./Fonts";
 
 const { width } = Dimensions.get("window");
 
 const inputTextHeight = 40;
-export const globalStyles = StyleSheet.create({
-  centerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logoImage: {
-    width: 120,
-    height: 120,
-    alignSelf: "center",
-    marginVertical: 20,
-    borderRadius: 3,
-  },
-  //white btn on non-white background
-  mainButton: {
-    borderWidth: 1,
-    borderRadius: 20,
-    backgroundColor: Colors.WHITE,
-    borderColor: Colors.WHITE,
-    marginVertical: 5,
-    width: "80%",
-    alignSelf: "center",
-  },
-  mainButtonLabel: {
-    textAlign: "center",
-    margin: 3,
-    padding: 2,
-    color: Colors.PRIMARYCOLOR,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  //transarent btn on non-white background
-  secondButton: {
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: Colors.WHITE,
-    marginVertical: 5,
-    width: "80%",
-    alignSelf: "center",
-  },
-  secondButtonLabel: {
-    textAlign: "center",
-    margin: 3,
-    padding: 2,
-    color: Colors.WHITE,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  //red btn on white background
-  primaryButton: {
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: Colors.PRIMARYCOLOR,
-    backgroundColor: Colors.PRIMARYCOLOR,
-    marginVertical: 5,
-    width: "80%",
-    alignSelf: "center",
-  },
-  primaryButtonLabel: {
-    textAlign: "center",
-    margin: 3,
-    padding: 2,
-    color: Colors.WHITE,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  error: {
-    margin: 5,
-    fontSize: 12,
-    color: Colors.errorColor,
-    lineHeight: 24,
-  },
-});
 
-const getStyle = () => {
-  const {
-    // isRTL,
+const getStyle = (isRTL = true) => {
+  // const { locale } = React.useContext(LocalizationContext);
 
-    locale,
-  } = React.useContext(LocalizationContext);
-
-  const isRTL = locale === "ar";
+  // const isRTL = locale === "ar";
   return {
     container: {
       flex: 1,
@@ -123,6 +47,13 @@ const getStyle = () => {
       textAlign: isRTL ? "right" : "left",
       fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
       fontSize: 14,
+      // backgroundColor:'red'
+    },
+    primaryText: {
+      textAlign: isRTL ? "right" : "left",
+      fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
+      fontSize: 14,
+      color: Colors.primary,
     },
     textHeader: {
       textAlign: isRTL ? "right" : "left",
@@ -130,7 +61,8 @@ const getStyle = () => {
       fontSize: 16,
     },
     boldText: {
-      // fontFamily: isRTL ? 'DroidKufi-Bold' : 'DroidKufi-Bold', //'space-mono-Bold'
+      textAlign: isRTL ? "right" : "left",
+      fontFamily: Fonts.primaryBold,
     },
     screenTitle: {
       textAlign: "center",
@@ -215,6 +147,41 @@ const getStyle = () => {
     link: {
       borderBottomColor: Colors.primary,
       borderBottomWidth: 1,
+    },
+
+    bottomContainer: {
+      backgroundColor: "#fff",
+      borderTopLeftRadius: 15,
+      borderTopRightRadius: 15,
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: 0,
+      paddingHorizontal: 15,
+      paddingVertical: 5,
+    },
+    fieldContainer: {
+      backgroundColor: "rgba(0,0,0,0.03)",
+      marginVertical: 0,
+      paddingVertical: 10,
+      marginVertical: 5,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+    },
+
+    categoryContainer: {
+      backgroundColor: "rgba(0,0,0,0.03)",
+      paddingVertical: 15,
+      paddingHorizontal: 10,
+      borderRadius: 10,
+      // backgroundColor:'red',
+      // marginVertical: 0,
+      // marginVertical: 5,
+    },
+    centerContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
     },
   };
 };

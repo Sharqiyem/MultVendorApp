@@ -19,11 +19,14 @@ import Layout from "../constants/Layout";
 import { UserContext } from "../context/userContext/provider";
 import types from "../context/userContext/types";
 import { useUserAddress } from "../hooks";
+import { LocalizationContext } from "../context/cartContext/provider";
 
 export default function AddressesScreen({ navigation, route }) {
   const fromProfile = route.params?.fromProfile || false;
   console.log("fromProfile", fromProfile);
-  const { row, text, textHeader, buttonOutline } = getStyle();
+  
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { row, text, textHeader, buttonOutline } = getStyle(locale === "ar");
 
   const { state, dispatch } = React.useContext(UserContext);
 

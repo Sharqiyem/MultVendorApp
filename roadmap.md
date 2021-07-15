@@ -46,7 +46,7 @@ UI design Checkout screens
 1. [Done]delivery address screen
 2. [Done] UI - add new address screen and edit screen (2h)
 3. [V2.0] logic location service (3h) (It took 2 days for map, auto complete address and config location)
-4. [V2.0] get and save user addresses (2h)
+4. [DONE] get and save user addresses (2h)
 5. [Done] payment screen
 
 # 2 REALESE V2.0 (12 April)
@@ -75,10 +75,11 @@ UI design Checkout screens
 
 # 3 REALESE V3.0 (18 April)
 
-[Done] Fix orders [make order collection instead of user collection][some] Backend Localization
+[Done] Fix orders [make order collection instead of user collection]
+[In] Backend Localization
 
-- stores and categories names (stores [name and description])
-- categories and products [name]
+[-] stores and categories names (stores [name and description])
+[-] categories and products [name]
 
 ## 3.1 Delivery App Section
 

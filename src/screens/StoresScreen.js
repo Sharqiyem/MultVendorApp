@@ -8,8 +8,9 @@ import { useGetDataByCollection } from "../hooks";
 
 export default function StoresScreen({ navigation }) {
   const [data, isLoading] = useGetDataByCollection("stores");
-  const { t, changeLang } = React.useContext(LocalizationContext);
-
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { textInputLight } = getStyle(locale === "ar");
+  
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -20,7 +21,7 @@ export default function StoresScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <View style={getStyle().textInputLight}>
+        <View style={textInputLight}>
           <Text style={{ color: Colors.white }}>Search your store</Text>
         </View>
       </View>

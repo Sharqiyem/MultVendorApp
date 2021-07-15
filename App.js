@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Platform, StatusBar, LogBox } from "react-native";
+import { StatusBar, LogBox } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 import * as SplashScreen from "expo-splash-screen";
@@ -7,28 +7,23 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import { setCustomText } from "react-native-global-props";
 import {
   StoreProvider,
   LocalizationContext,
 } from "./src/context/cartContext/provider";
-import * as Notifications from "expo-notifications";
 
 import RootNavigator from "./src/navigation/RootNavigator";
 import firebase from "./src/config/firebase.config";
 import useLinking from "./src/navigation/useLinking";
 import I18n from "./src/i18n/i18n";
-import AnimationScreen from "./src/screens/AnimationScreen";
+import AnimationScreen from "./src/screens/shared/AnimationScreen";
 import { AuthProvider } from "./src/context/authContext/provider";
-import ProfileScreen from "./src/screens/ProfileScreen";
-import AddressesScreen from "./src/screens/AddressesScreen";
-import ManageAddressScreen from "./src/screens/ManageAddressScreen";
-import OrdersScreen from "./src/screens/OrdersScreen";
 import { UserProvider } from "./src/context/userContext/provider";
-import ChatScreen from "./src/screens/ChatScreen";
-import { navigationRef } from "./src/navigation/NavigationRef";
 import Colors from "./src/constants/Colors";
+import { ProductsProvider } from "./src/context/productsContext/provider";
 
 LogBox.ignoreLogs([
   "VirtualizedLists should never be nested", // TODO: Remove when fixed
@@ -61,11 +56,9 @@ export default function App(props) {
       setIsRTL(I18n.isRTL);
 
       setDefaultTextStyles(I18n.isRTL);
-      // console.log("I18n.isRTL", I18n.isRTL);
       AsyncStorage.setItem("lang", I18n.locale)
         .then((lang) => {
           console.log("change from", locale);
-          // console.log("AsyncStorage.setItem", lang);
         })
         .catch((err) => console.log("AsyncStorage.setItem", err));
     } catch (err) {
@@ -88,7 +81,8 @@ export default function App(props) {
       style: {
         fontSize: 14,
         fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
-        // alignSelf: I18n.isRTL() ? "flex-end" : "flex-start"
+        textAlign: isRTL ? "right" : "left",
+        // alignSelf: isRTL ? "flex-end" : "flex-start"
       },
     };
     setCustomText(customTextProps);
@@ -108,6 +102,7 @@ export default function App(props) {
         // remove this if you are not using it in your app
         "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
         DroidKufi: require("./assets/fonts/DroidKufi-Regular.ttf"),
+        DroidKufiBold: require("./assets/fonts/DroidKufi-Bold.ttf"),
       }),
     ]);
 
@@ -115,8 +110,6 @@ export default function App(props) {
   }
 
   function handleLoadingError(error) {
-    // In this case, you might want to report the error to your error reporting
-    // service, for example Sentry
     console.warn(error);
   }
 
@@ -192,22 +185,9 @@ export default function App(props) {
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log('user changed..', user);
-        // setIsFirebaseInit(true);
-        const name = user.displayName;
-        const email = user.email;
-        const photoUrl = user.photoURL;
-        const emailVerified = user.emailVerified;
-        const uid = user.uid;
-
-        // console.log("onAuthStateChanged", {
-        //   name,
-        //   email,
-        // });
       }
       setIsFirebaseInit(true);
     });
-    // setIsFirebaseInit(true);
   });
 
   if (
@@ -240,18 +220,21 @@ export default function App(props) {
         <AuthProvider>
           <StoreProvider>
             <UserProvider>
-              <SafeAreaProvider>
-                <NavigationContainer
-                  ref={containerRef}
-                  // initialState={initialNavigationState}
+              <ProductsProvider>
+                <RootSiblingParent
+                  position={50}
+                  backgroundColor={Colors.primary}
                 >
-                  <RootNavigator />
-                  {/* <AddressesScreen /> */}
-                  {/* <OrdersScreen /> */}
-                  {/* <ChatScreen /> */}
-                  {/* <LoadingScreen /> */}
-                </NavigationContainer>
-              </SafeAreaProvider>
+                  <SafeAreaProvider>
+                    <NavigationContainer
+                      ref={containerRef}
+                      // initialState={initialNavigationState}
+                    >
+                      <RootNavigator />
+                    </NavigationContainer>
+                  </SafeAreaProvider>
+                </RootSiblingParent>
+              </ProductsProvider>
             </UserProvider>
           </StoreProvider>
         </AuthProvider>

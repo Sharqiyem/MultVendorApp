@@ -17,12 +17,18 @@ import Layout from "../constants/Layout";
 import { UserContext } from "../context/userContext/provider";
 import types from "../context/userContext/types";
 
-import { StoreContext } from "../context/cartContext/provider";
+import {
+  LocalizationContext,
+  StoreContext,
+} from "../context/cartContext/provider";
 import { orderUUID } from "../core/stringHelper";
 import { useAddOrder } from "../hooks/useOrders";
 import { sendPushNotification } from "../services/pushNotification";
 
 export default function PaymentScreen({ navigation }) {
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { textHeader } = getStyle(locale === "ar");
+
   const { state } = React.useContext(StoreContext);
   const { cartItems, totalAmount, selectedStore } = state;
 
@@ -98,10 +104,7 @@ export default function PaymentScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, margin: 20 }}>
         <Text
-          style={[
-            getStyle().textHeader,
-            { marginHorizontal: 20, marginVertical: 10 },
-          ]}
+          style={[textHeader, { marginHorizontal: 20, marginVertical: 10 }]}
         >
           Select your payment method
         </Text>

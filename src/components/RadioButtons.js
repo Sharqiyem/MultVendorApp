@@ -7,9 +7,13 @@ import Colors from "../constants/Colors";
 
 import I18n from "../i18n/i18n";
 import getStyle from "../constants/styles";
+import { LocalizationContext } from "../context/cartContext/provider";
 
 export const RadioButtons = (props) => {
   let { data, onPress, textStyle, color, direction, TextComponent } = props;
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+
+  const {text, row} = getStyle(locale === "ar");
 
   color = color || Colors.primary;
   if (!direction) direction = I18n.isRTL ? "row-reverse" : "row";
@@ -21,8 +25,8 @@ export const RadioButtons = (props) => {
       radioButtons={data}
       onPress={onPress}
       flexDirection={direction}
-      textStyle={[getStyle().text, { marginHorizontal: 20 }, textStyle]}
-      buttonContainer={getStyle().row}
+      textStyle={[ text, { marginHorizontal: 20 }, textStyle]}
+      buttonContainer={row}
       TextComponent={TextComponent}
     />
   );

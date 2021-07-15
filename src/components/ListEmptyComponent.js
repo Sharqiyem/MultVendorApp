@@ -2,15 +2,16 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import Colors from "../constants/Colors";
-import getStyle, { globalStyles } from "../constants/styles";
+import getStyle from "../constants/styles";
 import { LocalizationContext } from "../context/cartContext/provider";
 
 const ListEmptyComponent = () => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { text, centerContainer } = getStyle(locale === "ar");
 
   return (
-    <View style={globalStyles.centerContainer}>
-      <Text style={getStyle().text}>{t("No data")}</Text>
+    <View style={centerContainer}>
+      <Text style={text}>{t("No data")}</Text>
     </View>
   );
 };

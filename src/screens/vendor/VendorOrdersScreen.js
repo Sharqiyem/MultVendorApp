@@ -3,8 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
-  ScrollView,
   Platform,
   TouchableOpacity,
   FlatList,
@@ -15,28 +13,23 @@ import moment from "moment";
 import Colors from "../../constants/Colors";
 import getStyle from "../../constants/styles";
 import {
-  StoreContext,
   LocalizationContext,
 } from "../../context/cartContext/provider";
 
-import types from "../../context/cartContext/types";
 import useGetDeliveryOrders from "../../hooks/useGetDeliveryOrders";
 import { AuthContext } from "../../context/authContext/provider";
 import Layout from "../../constants/Layout";
 import useGetDataByCollection from "../../hooks/useGetDataByCollection";
-export default function VendorOrdersScreen({ navigation }) {
-  const { t } = React.useContext(LocalizationContext);
-  const { state: authState } = React.useContext(AuthContext);
 
-  const { state, dispatch } = React.useContext(StoreContext);
-  const { row, shadow } = getStyle();
+export default function VendorOrdersScreen({ navigation }) {
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { state: authState } = React.useContext(AuthContext);
+  const getStyles = getStyle(locale === "ar");
 
   const [stores, isLoading] = useGetDataByCollection("stores");
-
   const [orders, isOrdersLoading] = useGetDeliveryOrders(
     authState.storeId || ""
   );
-
   const [isReady, setIsReady] = React.useState(false);
 
   React.useEffect(() => {
@@ -46,16 +39,14 @@ export default function VendorOrdersScreen({ navigation }) {
         const store = stores.find((store) => store.id === order.selectedStore);
         order.store = store;
       });
-      // console.log("orders", orders);
+     
       setIsReady(true);
     }
   }, [isLoading, isOrdersLoading]);
-
-  // console.log('stores', stores);
-
+ 
   const renderItem = ({ item }) => {
     const orderItemStyle = [
-      row,
+      getStyles.row,
       { justifyContent: "space-between", marginVertical: 3 },
     ];
     return (
@@ -68,7 +59,7 @@ export default function VendorOrdersScreen({ navigation }) {
             backgroundColor: "#F4F3F3",
             borderRadius: 10,
           },
-          shadow,
+          getStyles.shadow,
         ]}
       >
         <View style={{ margin: 10 }}>
@@ -78,22 +69,22 @@ export default function VendorOrdersScreen({ navigation }) {
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Store name</Text>
+            <Text>{t("Store name")}</Text>
             {item.store && <Text>{item.store.name}</Text>}
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Date</Text>
+            <Text>{t("Order date")}</Text>
             <Text>{moment(item.createdAt).format("YY-MM-DD hh:mm")}</Text>
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Total amount</Text>
-            <Text>{item.totalAmount}</Text>
+            <Text>{t("Total amount")}</Text>
+            <Text>{item.totalAmount}$</Text>
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Payment method</Text>
+            <Text>{t("Payment method")}</Text>
 
             <Text>{item.selectedPaymentMethod.label}</Text>
           </View>
@@ -103,18 +94,7 @@ export default function VendorOrdersScreen({ navigation }) {
           {/* Actions */}
           <View style={orderItemStyle}>
             <TouchableOpacity
-              style={{
-                backgroundColor: Colors.primary,
-                // padding: 10,
-                margin: 10,
-                borderRadius: 100,
-                borderWidth: 1,
-                borderColor: Colors.primary,
-                flex: 1,
-                height: 30,
-                width: Layout.window.width * 0.8,
-                justifyContent: "center",
-              }}
+              style={[getStyles.buttonPrimary, { width: "45%" }]}
               onPress={() => {
                 navigation.navigate("OrderDetails", { id: item.id });
               }}
@@ -130,18 +110,7 @@ export default function VendorOrdersScreen({ navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{
-                backgroundColor: Colors.primary,
-                // padding: 10,
-                margin: 10,
-                borderRadius: 100,
-                borderWidth: 1,
-                borderColor: Colors.primary,
-                flex: 1,
-                height: 30,
-                width: Layout.window.width * 0.8,
-                justifyContent: "center",
-              }}
+              style={[getStyles.buttonPrimary, { width: "45%" }]}
               onPress={() => {
                 navigation.navigate("Chat", { orderId: item.id });
               }}
@@ -152,7 +121,7 @@ export default function VendorOrdersScreen({ navigation }) {
                   color: Colors.white,
                 }}
               >
-                Chat
+                {t("Chat")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -163,25 +132,6 @@ export default function VendorOrdersScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <View
-        style={{
-          backgroundColor: Colors.primary,
-          height: 90,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            textAlign: 'center',
-            paddingTop: 40,
-            color: Colors.white,
-            fontSize: 16,
-          }}
-        >
-          Orders
-        </Text>
-      </View> */}
       {!isReady ? (
         <ActivityIndicator
           style={{

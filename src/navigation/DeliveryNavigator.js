@@ -18,7 +18,7 @@ import AddressesScreen from "../screens/AddressesScreen";
 import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 import ManageAddressScreen from "../screens/ManageAddressScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import AboutUsScreen from "../screens/AboutUsScreen";
+import AboutUsScreen from "../screens/shared/AboutUsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 import DeliveryOrdersScreen from "../screens/delivery/DeliveryOrdersScreen";
@@ -37,6 +37,15 @@ function ProfileStack({ navigation }) {
           backgroundColor: Colors.headerBG,
           shadowColor: "transparent",
           elevation: 0,
+        },
+        headerTitleStyle: {
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
+          fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
         },
         headerTintColor: "#fff",
       }}

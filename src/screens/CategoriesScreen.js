@@ -3,7 +3,11 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import Colors from "../constants/Colors";
 import { CategoryList } from "../components/index";
 import getStyle from "../constants/styles";
+import { LocalizationContext } from "../context/cartContext/provider";
 export default function CategoriesScreen({ navigation }) {
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { textInputLight } = getStyle(locale === "ar");
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -14,7 +18,7 @@ export default function CategoriesScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <View style={getStyle().textInputLight}>
+        <View style={textInputLight}>
           <Text style={{ color: Colors.white }}>Search your category</Text>
         </View>
       </View>

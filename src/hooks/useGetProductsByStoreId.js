@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import firebase from "../config/firebase.config";
+import { ProductsContext } from "../context/productsContext/provider";
 
 export default useGetProductsByStoreId = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { refreshProducts } = useContext(ProductsContext);
+  console.log("refreshProducts", refreshProducts);
   useEffect(() => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
+    console.log("useGetProductsByStoreId useEffect");
     let isCancelled = false;
     let unsubscribe;
     try {
@@ -14,11 +18,14 @@ export default useGetProductsByStoreId = (storeId) => {
         .collection("products")
         .where("storeId", "==", storeId)
         .onSnapshot((snapShot) => {
+          console.log("snap", snapShot.docs.length);
           const newData = snapShot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
+
           if (!isCancelled) {
+            console.log(newData.map((s) => s.name).join("=="));
             setData(newData);
             setIsLoading(false);
           }
@@ -28,14 +35,14 @@ export default useGetProductsByStoreId = (storeId) => {
       alert("useGetProductsByStoreId err" + err);
     }
     return () => {
-      console.log("unsubscribe useGetProductsByStoreId");
+      console.log("unsubscribe 1 useGetProductsByStoreId");
       isCancelled = true;
       if (unsubscribe) {
         unsubscribe();
-        console.log("unsubscribe useGetProductsByStoreId");
+        console.log("unsubscribe 2 useGetProductsByStoreId");
       }
     };
-  }, [storeId]);
+  }, [storeId, refreshProducts]);
 
   return [data, isLoading];
 };

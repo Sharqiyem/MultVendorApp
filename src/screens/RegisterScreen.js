@@ -25,7 +25,7 @@ import { AuthContext } from "../context/authContext/provider";
 import { LocalizationContext } from "../context/cartContext/provider";
 import FirebaseAuth from "../services/firebaseAuth";
 export default function RegisterScreen({ navigation }) {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const {
     textInput,
     row,
@@ -33,7 +33,7 @@ export default function RegisterScreen({ navigation }) {
     buttonPrimary,
     statusBar,
     textinputIcon,
-  } = getStyle();
+  } = getStyle(locale === "ar");
 
   const { state, signIn } = React.useContext(AuthContext);
 
@@ -76,7 +76,7 @@ export default function RegisterScreen({ navigation }) {
           <Feather
             name="user"
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput
@@ -93,7 +93,7 @@ export default function RegisterScreen({ navigation }) {
           <Feather
             name="mail"
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput
@@ -111,7 +111,7 @@ export default function RegisterScreen({ navigation }) {
           <Feather
             name="lock"
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput
@@ -130,7 +130,7 @@ export default function RegisterScreen({ navigation }) {
           <Feather
             name="lock"
             size={20}
-            style={getStyle().textinputIcon}
+            style={textinputIcon}
             color={Colors.primaryLight}
           />
           <TextInput

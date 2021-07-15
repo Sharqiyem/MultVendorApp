@@ -23,14 +23,16 @@ import { LocalizationContext } from "../context/cartContext/provider";
 const { width } = Dimensions.get("window");
 
 const StoreScrollView = ({ navigation }) => {
-  const { row, flexDir, text } = getStyle();
+  const { t, locale } = React.useContext(LocalizationContext);
+
+  const { row, flexDir, text } = getStyle(locale === "ar");
   const shopSubTitle = [text, styles.shopTitle];
   const [data, isLoading] = useGetDataByCollection("stores");
   const { isRTL } = React.useContext(LocalizationContext);
 
   return (
     <InvertibleScrollView
-    key={isRTL}
+      key={isRTL}
       inverted={!isRTL}
       horizontal
       showsHorizontalScrollIndicator={false}

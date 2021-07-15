@@ -1,24 +1,20 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import firebase from "../config/firebase.config";
-import { ProductsContext } from "../context/productsContext/provider";
 
-export default useGetDataByCollection = (collectionName = "products") => {
+export default useGetCategoriesByStoreId = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { refreshProducts } = useContext(ProductsContext);
-
   useEffect(() => {
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
-
     let unsubscribe;
+
     try {
-      // console.log('useGetDataByCollection useEffect');
       unsubscribe = firebase
         .firestore()
-        .collection(collectionName)
+        .collection("categories")
+        .where("storeId", "==", storeId)
         .onSnapshot((snapShot) => {
-          // console.log('useGetDataByCollection onSnapshot');
           const newData = snapShot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -30,21 +26,17 @@ export default useGetDataByCollection = (collectionName = "products") => {
         });
     } catch (err) {
       //TODO : try to catch error on use logout
-      alert(`useGetDataByCollection ${collectionName} err` + err);
+      alert("useGetCategoriesByStoreId err" + err);
     }
     return () => {
-      console.log(`unsubscribe useGetDataByCollection ${collectionName}`);
+      console.log("unsubscribe useGetCategoriesByStoreId");
       isCancelled = true;
       if (unsubscribe) {
         unsubscribe();
-        console.log(`unsubscribe useGetDataByCollection ${collectionName}`);
+        console.log("unsubscribe useGetCategoriesByStoreId");
       }
     };
-  }, [collectionName, refreshProducts]);
+  }, [storeId]);
 
   return [data, isLoading];
 };
-
-// const useNewMessage = (collName, object) => {
-//   return firebase.firestore().collection(collName).add(object);
-// };

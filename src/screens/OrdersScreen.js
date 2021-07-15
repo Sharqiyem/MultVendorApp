@@ -25,8 +25,8 @@ import ListEmptyComponent from "../components/ListEmptyComponent";
 import { useGetDataByCollection } from "../hooks";
 
 export default function OrdersScreen({ navigation }) {
-  const { t } = React.useContext(LocalizationContext);
-  const { row, shadow } = getStyle();
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { row, shadow } = getStyle(locale === "ar");
   const { state, dispatch } = React.useContext(StoreContext);
 
   const [stores, isLoading] = useGetDataByCollection("stores");

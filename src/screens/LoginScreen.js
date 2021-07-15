@@ -23,7 +23,7 @@ import { LocalizationContext } from "../context/cartContext/provider";
 import FirebaseAuth from "../services/firebaseAuth";
 
 export default function LoginScreen({ navigation }) {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const {
     textInput,
     row,
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }) {
     statusBar,
     textinputIcon,
     flexDir,
-  } = getStyle();
+  } = getStyle(locale === "ar");
 
   const { state, signIn } = React.useContext(AuthContext);
 

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/storage"
 import "firebase/firebase-auth";
 
 // Your web app's Firebase configuration
@@ -18,6 +19,9 @@ var firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-// firebase.firestore.setLogLevel('debug');
+// firebase.firestore.setLogLevel("debug");
+firebase.firestore().settings({
+  experimentalForceLongPolling: true,
+});
 console.log("firebase.SDK_VERSION", firebase.SDK_VERSION);
 export default firebase;

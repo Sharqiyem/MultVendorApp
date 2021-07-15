@@ -18,16 +18,23 @@ import getStyle from "../constants/styles";
 
 import Layout from "../constants/Layout";
 import { Ionicons } from "@expo/vector-icons";
+import { LocalizationContext } from "../context/cartContext/provider";
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    error: errorStyle,
+    buttonPrimary,
+  } = getStyle(locale === "ar");
 
   return (
     <View style={styles.container}>
       {/* <Logo style={{ marginVertical: 100 }} /> */}
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
-          style={getStyle().textInput}
+          style={textInput}
           placeholder="Email"
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setEmail(text)}
@@ -36,7 +43,7 @@ export default function ForgotPasswordScreen({ navigation }) {
           autoCapitalize="none"
         />
 
-        <TouchableOpacity onPress={() => {}} style={getStyle().buttonPrimary}>
+        <TouchableOpacity onPress={() => {}} style={buttonPrimary}>
           <Text style={{ textAlign: "center", color: Colors.white }}>
             RESET PASSWORD
           </Text>

@@ -1,18 +1,19 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { LocalizationContext } from "../context/cartContext/provider";
-import { Logo } from "../components";
-import getStyle from "../constants/styles";
+import { LocalizationContext } from "../../context/cartContext/provider";
+import { Logo } from "../../components";
+import getStyle from "../../constants/styles";
 
 const AboutUsScreen = () => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { text } = getStyle(locale === "ar");
 
   return (
     <View>
       <Logo style={{ marginTop: 100, marginBottom: 20 }} />
       <Text
         style={[
-          getStyle().text,
+          text,
           {
             marginVertical: 10,
             marginHorizontal: 20,

@@ -13,14 +13,18 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 import getStyle from "../constants/styles";
+import { LocalizationContext } from "../context/cartContext/provider";
 
 const widowWidth = Dimensions.get("window").width;
 
 export const StoreListItem = ({ item, navigation }) => {
   const { name, image, description, status, city, openTime, closeTime } = item;
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { text, row, textHeader } = getStyle(locale === "ar");
+
   return (
     <TouchableOpacity
-      style={[styles.container, getStyle().row]}
+      style={[styles.container, row]}
       onPress={() => {
         navigation.navigate("Store", { item });
       }}
@@ -38,11 +42,11 @@ export const StoreListItem = ({ item, navigation }) => {
             {
               justifyContent: "space-between",
             },
-            getStyle().row,
+            row,
           ]}
         >
           <View styles={{}}>
-            <Text style={[getStyle().textHeader, { color: Colors.primary }]}>
+            <Text style={[textHeader, { color: Colors.primary }]}>
               {name}
             </Text>
           </View>
@@ -50,10 +54,10 @@ export const StoreListItem = ({ item, navigation }) => {
           <Rating />
         </View>
 
-        <Text style={[getStyle().text, styles.shopSubTitle]}>
+        <Text style={[text, styles.shopSubTitle]}>
           {description}
         </Text>
-        <Text style={[getStyle().text, styles.timeText]}>
+        <Text style={[text, styles.timeText]}>
           {openTime} : {closeTime}
         </Text>
       </View>

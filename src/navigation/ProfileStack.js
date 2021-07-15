@@ -17,7 +17,7 @@ import OrderDetailsScreen from "../screens/OrderDetailsScreen";
 import ManageAddressScreen from "../screens/ManageAddressScreen";
 import OrdersScreen from "../screens/OrdersScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
-import AboutUsScreen from "../screens/AboutUsScreen";
+import AboutUsScreen from "../screens/shared/AboutUsScreen";
 import EditProfileScreen from "../screens/EditProfileScreen";
 import ChangePasswordScreen from "../screens/ChangePasswordScreen";
 const BottomTab = createMaterialTopTabNavigator();
@@ -35,9 +35,13 @@ function ProfileStack({ navigation }) {
       screenOptions={{
         headerTitleAlign: "center",
         headerTitleStyle: {
-          fontWeight: "200",
-          fontFamily: "DroidKufi",
+          textAlign: "center",
+          alignSelf: "center",
+          flex: 1,
+          width: "100%",
           fontSize: 14,
+          // fontWeight:"200",
+          fontFamily: Fonts.primaryRegular,
         },
         headerStyle: {
           backgroundColor: Colors.headerBG,

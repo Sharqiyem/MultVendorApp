@@ -15,6 +15,8 @@ export default function ProfileScreen({ navigation }) {
   const { state, signOut } = React.useContext(AuthContext);
   const { t, changeLang, locale } = React.useContext(LocalizationContext);
 
+  const { text } = getStyle(locale === "ar");
+
   // console.log("AuthContext state", state);
   const [] = React.useState(false);
   const [] = React.useState(40);
@@ -89,9 +91,9 @@ export default function ProfileScreen({ navigation }) {
   const renderSections = () => {
     return (
       <SettingsPage key={locale}>
-        <SectionRow text={t("Account")}>
+        <SectionRow label={t("Account")}>
           <SettingsNavigateRow
-            text={t("Edit profile")}
+            label={t("Edit profile")}
             iconName="user"
             onPressCallback={() => {
               navigateToScreen("EditProfile");
@@ -99,8 +101,8 @@ export default function ProfileScreen({ navigation }) {
           />
 
           <SettingsNavigateRow
-            text={t("Change password")}
-            iconName="edit"
+            label={t("Change password")}
+            iconName="lock"
             onPressCallback={() => {
               navigateToScreen("ChangePassword");
             }}
@@ -108,22 +110,37 @@ export default function ProfileScreen({ navigation }) {
 
           <SettingsNavigateRow
             onPressCallback={handleSignOut}
-            iconName="sign-out"
-            text={t("Sign out")}
+            iconName="log-out"
+            label={t("Sign out")}
           />
         </SectionRow>
 
-        {!state.isDelivery && !state.isVendor && (
-          <SectionRow text={t("Usage")}>
+        {state.isVendor && (
+          <SectionRow label={t("My store")}>
             <SettingsNavigateRow
-              text={t("Orders")}
+              label={t("Change store")}
+              iconName="shopping-bag"
+              onPressCallback={() => {}}
+            />
+            <SettingsNavigateRow
+              label={t("Disable store")}
+              iconName="edit"
+              onPressCallback={() => {}}
+            />
+          </SectionRow>
+        )}
+
+        {!state.isDelivery && !state.isVendor && (
+          <SectionRow label={t("Usage")}>
+            <SettingsNavigateRow
+              label={t("Orders")}
               iconName="edit"
               onPressCallback={() => {
                 navigateToScreen("Orders");
               }}
             />
             <SettingsNavigateRow
-              text={t("Addresses")}
+              label={t("Addresses")}
               iconName="edit"
               onPressCallback={() => {
                 navigateToScreen("Address", { fromProfile: true });
@@ -131,39 +148,39 @@ export default function ProfileScreen({ navigation }) {
             />
           </SectionRow>
         )}
-        <SectionRow text={t("App")}>
+        <SectionRow label={t("App")}>
           <SettingsNavigateRow
-            text={t("Change language")}
-            iconName="edit"
+            label={t("Change language")}
+            iconName="globe"
             onPressCallback={() => {
               changeLang();
             }}
           />
           <SettingsNavigateRow
-            text={t("Rate App")}
-            iconName="edit"
+            label={t("Rate App")}
+            iconName="star"
             onPressCallback={() => {
               onRateApp();
             }}
           />
           <SettingsNavigateRow
-            text={t("Share App")}
-            iconName="edit"
+            label={t("Share App")}
+            iconName="share"
             onPressCallback={() => {
               onShareApp();
             }}
           />
           <SettingsNavigateRow
-            text={t("Contact Us")}
-            iconName="edit"
+            label={t("Contact Us")}
+            iconName="mail"
             onPressCallback={() => {
               navigateToScreen("ContactUs");
             }}
           />
 
           <SettingsNavigateRow
-            text={t("About Us")}
-            iconName="edit"
+            label={t("About Us")}
+            iconName="info"
             onPressCallback={() => {
               navigateToScreen("AboutUs");
             }}
@@ -175,7 +192,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={[getStyle().text, { paddingHorizontal: 15 }]}>
+      <Text style={[text, { paddingHorizontal: 15, }]}>
         {t("Hello")} {state?.userData?.name}
       </Text>
       {renderSections()}

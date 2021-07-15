@@ -22,6 +22,7 @@ import { Ionicons } from "@expo/vector-icons";
 import firebase from "../config/firebase.config";
 import { AuthContext } from "../context/authContext/provider";
 import FirebaseAuth from "../services/firebaseAuth";
+import { LocalizationContext } from "../context/cartContext/provider";
 
 export default function EditProfileScreen({ navigation }) {
   const { state, updateUser } = React.useContext(AuthContext);
@@ -30,6 +31,13 @@ export default function EditProfileScreen({ navigation }) {
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const {
+    textInput,
+    error: errorStyle,
+    buttonPrimary,
+  } = getStyle(locale === "ar");
 
   const handleEditProfile = () => {
     setIsLoading(true);
@@ -50,7 +58,7 @@ export default function EditProfileScreen({ navigation }) {
     <View style={styles.container}>
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
-          style={getStyle().textInput}
+          style={textInput}
           placeholder="Name"
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setName(text)}
@@ -58,20 +66,8 @@ export default function EditProfileScreen({ navigation }) {
           autoCorrect={false}
           autoCapitalize="none"
         />
-        {/* <TextInput
-          style={getStyle().textInput}
-          placeholder='Email'
-          placeholderStyle={{ textAlign: 'center' }}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          autoCorrect={false}
-          autoCapitalize='none'
-        /> */}
 
-        <TouchableOpacity
-          onPress={handleEditProfile}
-          style={getStyle().buttonPrimary}
-        >
+        <TouchableOpacity onPress={handleEditProfile} style={buttonPrimary}>
           <Text style={{ textAlign: "center", color: Colors.white }}>SAVE</Text>
         </TouchableOpacity>
         {isLoading && (
@@ -84,7 +80,7 @@ export default function EditProfileScreen({ navigation }) {
             color={Colors.primary}
           />
         )}
-        {error ? <Text style={getStyle().error}>{error}</Text> : null}
+        {error ? <Text style={errorStyle}>{error}</Text> : null}
       </View>
     </View>
   );

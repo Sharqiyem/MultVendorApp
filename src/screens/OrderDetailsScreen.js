@@ -28,8 +28,8 @@ import { useGetOrderById } from "../hooks/useOrders";
 import { useGetDataByCollection } from "../hooks";
 
 export default function OrderDetailsScreen({ navigation, route }) {
-  const { textHeader, row } = getStyle();
-  const { t } = React.useContext(LocalizationContext);
+  const { t, isRTL, locale } = React.useContext(LocalizationContext);
+  const { textHeader, row } = getStyle(locale === "ar");
 
   const orderId = route.params.id;
 

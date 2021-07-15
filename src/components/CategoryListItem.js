@@ -50,11 +50,11 @@ export const CategoryList = ({ navigation }) => {
 export const CategoryListItem = ({ item, navigation }) => {
   const { t, locale } = React.useContext(LocalizationContext);
 
-  const angleIcon = getStyle().angleIcon;
+  const {angleIcon, row, textHeader, text } = getStyle(locale === "ar");
 
   return (
     <TouchableOpacity
-      style={[styles.container, getStyle().row]}
+      style={[styles.container,  row]}
       onPress={() => {
         navigation.navigate("Category", { item });
       }}
@@ -68,14 +68,14 @@ export const CategoryListItem = ({ item, navigation }) => {
       </View>
       <View style={styles.textContiner}>
         <View styles={{}}>
-          <Text style={[getStyle().textHeader, { color: Colors.primary }]}>
+          <Text style={[ textHeader, { color: Colors.primary }]}>
             {item.names[locale]}
           </Text>
         </View>
 
-        <View style={[getStyle().row, { alignItems: "center" }]}>
-          <Text style={[getStyle().text, styles.shopSubTitle]}>(35)</Text>
-          <Text style={[getStyle().text, styles.shopSubTitle]}>
+        <View style={[ row, { alignItems: "center" }]}>
+          <Text style={[ text, styles.shopSubTitle]}>(35)</Text>
+          <Text style={[ text, styles.shopSubTitle]}>
             {t("Product")}
           </Text>
         </View>
