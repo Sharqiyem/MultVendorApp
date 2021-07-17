@@ -53,16 +53,23 @@ const reducer = (state = initialState, action) => {
           const cartItems = state.cartItems.filter(
             (item) => item.item.id !== itemExist1.item.id
           );
+          const selectedStore = state.selectedStore;
+          if (cartItems.length === 0) selectedStore = null;
           return {
             ...state,
             cartItems: [...cartItems],
             totalAmount: calcTotalAmount(cartItems),
+            selectedStore,
           };
         }
         const cartItemIndex = state.cartItems.findIndex(
           (item) => item.item.id === itemExist1.item.id
         );
         state.cartItems[cartItemIndex].quantity -= 1;
+
+        const selectedStore = state.selectedStore;
+        if (state.cartItems.length === 0) selectedStore = null;
+
         return {
           ...state,
           cartItems: [...state.cartItems],
@@ -79,6 +86,9 @@ const reducer = (state = initialState, action) => {
           (item) => item.item.id !== itemExist2.item.id
         );
 
+        const selectedStore = state.selectedStore;
+        if (cartItems2.length === 0) selectedStore = null;
+
         return {
           ...state,
           cartItems: [...cartItems2],
@@ -86,6 +96,11 @@ const reducer = (state = initialState, action) => {
         };
       }
       return { ...state, totalAmount: calcTotalAmount(state.cartItems) };
+
+    case types.CART_CLEAR:
+      return {
+        ...initialState,
+      };
 
     default:
       throw new Error("Unexpected action");

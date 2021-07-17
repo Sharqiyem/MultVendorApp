@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { LocalizationContext } from "../context/cartContext/provider";
 import {
   ExProductCycleList,
@@ -13,44 +7,18 @@ import {
   StoreScrollView,
   ExCategoryCycleItem,
 } from "../components/index";
-import Colors from "../constants/Colors";
 import getStyle from "../constants/styles.js";
 import { useGetDataByCollection } from "../hooks";
+import Link from "../components/Link";
 
 export default function HomeScreen({ navigation, route }) {
-  //Test firebase
-
   const [data, isLoading] = useGetDataByCollection("products");
   const { t, isRTL, locale } = React.useContext(LocalizationContext);
   const { row, text, textHeader } = getStyle(locale === "ar");
 
-  return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* <TouchableOpacity
-        style={{ height: 30 }}
-        onPress={() => {
-          changeLang();
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: 'DroidKufi',
-            color: 'red',
-            fontSize: 16, marginHorizontal: 5,
-            textAlign: 'center',
-          }}
-        >
-          اللغه
-        </Text>
-      </TouchableOpacity> */}
-
-      {/* Banner */}
-      <View style={{ marginVertical: 5 }}>
-        <BannerScrollView />
-      </View>
-
-      {/* Shop By Stores */}
-      <View style={{ margin: 5 }}>
+  const renderShopByStores = () => {
+    return (
+      <View style={{ margin: 10 }}>
         <View
           style={[
             row,
@@ -65,34 +33,20 @@ export default function HomeScreen({ navigation, route }) {
               {t("Shop by Stores")}
             </Text>
           </View>
-          <TouchableOpacity
+          <Link
             onPress={() => {
               navigation.navigate("Stores");
             }}
-            style={{
-              backgroundColor: Colors.primary,
-              borderRadius: 15,
-              height: 30,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                // padding: 5,
-                paddingHorizontal: 10,
-                color: Colors.white,
-              }}
-            >
-              {t("See All")}
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
-        <StoreScrollView navigation={navigation} />
+        <StoreScrollView />
       </View>
+    );
+  };
 
-      {/* Shop By categories */}
-      <View style={{ margin: 5, marginVertical: 15 }}>
+  const renderShopByCategories = () => {
+    return (
+      <View style={{ margin: 10 }}>
         <View
           style={[
             row,
@@ -107,28 +61,11 @@ export default function HomeScreen({ navigation, route }) {
               {t("Shop by Categories")}
             </Text>
           </View>
-          <TouchableOpacity
+          <Link
             onPress={() => {
               navigation.navigate("Categories");
             }}
-            style={{
-              backgroundColor: Colors.primary,
-              borderRadius: 15,
-              height: 30,
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                // padding: 5,
-                paddingHorizontal: 10,
-                color: Colors.white,
-              }}
-            >
-              {t("See All")}
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
         <View
           style={{
@@ -140,8 +77,12 @@ export default function HomeScreen({ navigation, route }) {
           <ExCategoryCycleItem navigation={navigation} />
         </View>
       </View>
+    );
+  };
 
-      <View style={{ margin: 5, marginVertical: 15 }}>
+  const renderMyLastOrders = () => {
+    return (
+      <View style={{ margin: 10 }}>
         <View
           style={[
             row,
@@ -156,29 +97,32 @@ export default function HomeScreen({ navigation, route }) {
               {t("Past orders")}
             </Text>
           </View>
-          <TouchableOpacity
-            style={{
-              height: 30,
-              backgroundColor: Colors.primary,
-              borderRadius: 15,
-              justifyContent: "center",
+          <Link
+            onPress={() => {
+              navigation.navigate("Orders");
             }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                // padding: 5,
-                paddingHorizontal: 10,
-                color: Colors.white,
-              }}
-            >
-              {t("See All")}
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
 
-        <ExProductCycleList />
+        <ExProductCycleList limit={6} />
       </View>
+    );
+  };
+
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Banner */}
+      <View style={{ marginVertical: 0 }}>
+        <BannerScrollView />
+      </View>
+
+      {/* Shop By Stores */}
+      {renderShopByStores()}
+
+      {/* Shop By categories */}
+      {renderShopByCategories()}
+
+      {renderMyLastOrders()}
     </ScrollView>
   );
 }
@@ -194,6 +138,7 @@ HomeScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: "red",
     backgroundColor: "#FFF",
   },
 

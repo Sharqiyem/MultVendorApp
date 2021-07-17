@@ -32,6 +32,7 @@ export default function ContactUsScreen({ navigation }) {
   const { t, isRTL, locale } = React.useContext(LocalizationContext);
   const {
     textInput,
+    textArea,
     error: errorStyle,
     buttonPrimary,
   } = getStyle(locale === "ar");
@@ -130,7 +131,7 @@ export default function ContactUsScreen({ navigation }) {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               multiline
-              style={[textInput, styles.textarea]}
+              style={[textInput, textArea]}
               isRTL={isRTL}
               maxLength={100}
               placeholder={t("Message content")}
@@ -195,12 +196,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 30,
   },
-  textarea: {
-    height: 80,
-    textAlign: "center",
-    textAlignVertical: "top", // hack android
-    fontSize: 16,
-  },
+
   textareaContainer: {
     marginVertical: 10,
   },

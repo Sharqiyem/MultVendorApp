@@ -2,10 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import * as Icon from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import { useNavigation } from "@react-navigation/native";
+import { StoreContext } from "../context/cartContext/provider";
 
-export default CartButton = ({ state, navigation, sourceScreen }) => {
+export default CartButton = ({}) => {
   // console.log('CartButton', { state });
   //   const cartCount = state.cartCount;
+  const navigation = useNavigation();
+  const { state, dispatch } = React.useContext(StoreContext);
+
   state.cartCount;
   const cartCount = state.cartItems.reduce(
     (sum, item) => sum + item.quantity,

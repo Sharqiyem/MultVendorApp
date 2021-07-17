@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import * as Icon from "@expo/vector-icons";
 
 import getStyle from "../constants/styles";
 import Layout from "../constants/Layout";
@@ -16,70 +17,77 @@ import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { LocalizationContext } from "../context/cartContext/provider";
 import { useGetDataByCollection } from "../hooks";
+import { useNavigation } from "@react-navigation/native";
+import Loading from "./Loading";
 
 const widowWidth = Dimensions.get("window").width;
 
-export const CategoryList = ({ navigation }) => {
+export const CategoryList = ({}) => {
   const [data, isLoading] = useGetDataByCollection("categories");
 
-  if (isLoading)
-    return (
-      <ActivityIndicator
-        style={{
-          alignSelf: "center",
-          width: Layout.window.width,
-        }}
-        size={"large"}
-        color={Colors.primary}
-      />
-    );
+  if (isLoading) return <Loading />;
 
   return (
     <FlatList
+      style={{ flex: 1 }}
+      showsVerticalScrollIndicator={false}
       data={data}
-      renderItem={({ item }) => (
-        <CategoryListItem item={item} navigation={navigation} />
-      )}
+      renderItem={({ item }) => <CategoryListItem item={item} />}
       keyExtractor={(item) => item.id}
     />
   );
-
-  // return <CategoryCycleItem item={item} />;
 };
 
-export const CategoryListItem = ({ item, navigation }) => {
+export const CategoryListItem = ({ item }) => {
+  const [data] = useGetProductsByCatId(item.id);
+  const navigation = useNavigation();
   const { t, locale } = React.useContext(LocalizationContext);
 
-  const {angleIcon, row, textHeader, text } = getStyle(locale === "ar");
+  const { angleIcon, row, textHeader, text } = getStyle(locale === "ar");
 
   return (
     <TouchableOpacity
-      style={[styles.container,  row]}
+      style={[styles.container, row]}
       onPress={() => {
         navigation.navigate("Category", { item });
       }}
     >
       <View style={styles.imageContiner}>
-        <Image
-          style={styles.image}
-          resizeMode="cover"
-          source={{ uri: item.image }}
-        />
+        {item.image ? (
+          <Image
+            style={styles.image}
+            resizeMode="cover"
+            source={{ uri: item.image }}
+          />
+        ) : (
+          <View
+            style={{
+              ...styles.image,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#e6ebfd",
+            }}
+          >
+            <Icon.Feather
+              name="image"
+              size={25}
+              color={Colors.primaryLight}
+              style={{ marginHorizontal: 5 }}
+            />
+          </View>
+        )}
       </View>
       <View style={styles.textContiner}>
         <View styles={{}}>
-          <Text style={[ textHeader, { color: Colors.primary }]}>
+          <Text style={[textHeader, { color: Colors.primary }]}>
             {item.names[locale]}
           </Text>
         </View>
 
-        <View style={[ row, { alignItems: "center" }]}>
-          <Text style={[ text, styles.shopSubTitle]}>(35)</Text>
-          <Text style={[ text, styles.shopSubTitle]}>
-            {t("Product")}
-          </Text>
+        <View style={[row, { alignItems: "center" }]}>
+          <Text style={[text, styles.shopSubTitle]}>({data?.length})</Text>
+          <Text style={[text, styles.shopSubTitle]}>{t("Product")}</Text>
         </View>
-        {/* <Text style={styles.timeText}>07:00AM:08PM</Text>  */}
       </View>
       <FontAwesome
         name={angleIcon}
@@ -96,14 +104,9 @@ const width = widowWidth / 3 - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
     marginHorizontal: 5,
-    marginVertical: 10,
-    backgroundColor: Colors.white,
     paddingHorizontal: 5,
     paddingVertical: 10,
-    borderBottomColor: Colors.grey,
-    borderBottomWidth: 0.5,
   },
   imageContiner: {
     // flex: 1,
@@ -111,6 +114,7 @@ const styles = StyleSheet.create({
     width: width,
     overflow: "hidden",
     alignItems: "stretch",
+    borderRadius: 10,
 
     // backgroundColor: 'red'
   },

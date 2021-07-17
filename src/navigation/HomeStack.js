@@ -14,11 +14,13 @@ import {
 import HomeScreen from "../screens/HomeScreen";
 import StoreScreen from "../screens/StoreScreen";
 import Fonts from "../constants/Fonts";
+import OrdersScreen from "../screens/OrdersScreen";
+import CategoryScreen from "../screens/CategoryScreen";
 
 const Stack = createStackNavigator();
 
 const HomeStack = ({ navigation }) => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
 
   const { state } = React.useContext(StoreContext);
 
@@ -33,7 +35,7 @@ const HomeStack = ({ navigation }) => {
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
           // fontWeight:"200",
@@ -46,8 +48,8 @@ const HomeStack = ({ navigation }) => {
         headerRight: () => (
           <CartButton
             navigation={navigation}
-            state={state}
-            sourceScreen="CartHome"
+            // state={state}
+            // sourceScreen="CartHome"
           />
         ),
       }}
@@ -61,6 +63,14 @@ const HomeStack = ({ navigation }) => {
       />
 
       <Stack.Screen
+        options={{
+          title: t("Home"),
+        }}
+        name="Orders"
+        component={OrdersScreen}
+      />
+
+      <Stack.Screen
         name="Store"
         options={({ route }) => ({
           title: route.params.item.name,
@@ -68,6 +78,16 @@ const HomeStack = ({ navigation }) => {
           header: null,
         })}
         component={StoreScreen}
+      />
+
+      <Stack.Screen
+        name="Category"
+        options={({ route }) => ({
+          title: route.params.item.names[locale] || route.params.item.name,
+          // headerShown: false,
+          // header: null,
+        })}
+        component={CategoryScreen}
       />
     </Stack.Navigator>
   );

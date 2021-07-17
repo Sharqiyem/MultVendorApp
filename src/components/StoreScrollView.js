@@ -19,16 +19,17 @@ import getStyle from "../constants/styles";
 import Layout from "../constants/Layout";
 import { useGetDataByCollection } from "../hooks";
 import { LocalizationContext } from "../context/cartContext/provider";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
-const StoreScrollView = ({ navigation }) => {
-  const { t, locale } = React.useContext(LocalizationContext);
+const StoreScrollView = ({}) => {
+  const navigation = useNavigation();
+  const { t, locale, isRTL } = React.useContext(LocalizationContext);
 
   const { row, flexDir, text } = getStyle(locale === "ar");
   const shopSubTitle = [text, styles.shopTitle];
   const [data, isLoading] = useGetDataByCollection("stores");
-  const { isRTL } = React.useContext(LocalizationContext);
 
   return (
     <InvertibleScrollView
@@ -48,10 +49,18 @@ const StoreScrollView = ({ navigation }) => {
         />
       ) : (
         data.map((item) => {
-          const { id, name, image, description } = item;
+          const { id, name, names, image, description } = item;
 
+          const storeName = names[locale] || name;
           return (
             <TouchableOpacity
+              style={{
+                backgroundColor: Colors.primaryLighter,
+                margin: 2,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                overflow: "hidden",
+              }}
               key={id}
               onPress={() =>
                 navigation.navigate("Store", {
@@ -68,8 +77,8 @@ const StoreScrollView = ({ navigation }) => {
                   {...{ uri: image }}
                 />
               </View>
-              <Text style={[text, styles.shopTitle]}>{name}</Text>
-              <Text style={shopSubTitle}>{description}</Text>
+              <Text numberOfLines={1} style={[text, styles.shopTitle]}>{storeName}</Text>
+              {/* <Text style={shopSubTitle}>{description}</Text> */}
             </TouchableOpacity>
           );
         })
@@ -93,6 +102,7 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
     // alignItems: "stretch",
     // margin: 3,
+
     backgroundColor: "red",
   },
   image: {
@@ -102,7 +112,8 @@ const styles = StyleSheet.create({
   },
   shopTitle: {
     fontSize: 14,
-    marginHorizontal: 5,
+    paddingHorizontal: 5,
+    paddingVertical:3,
     width: width / 2 - 50,
   },
   shopSubTitle: {

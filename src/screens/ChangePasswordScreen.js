@@ -33,7 +33,11 @@ export default function ChangePasswordScreen({ navigation }) {
 
   const { t, locale } = React.useContext(LocalizationContext);
 
-  const { textInput, buttonPrimary, error: errorStyle } = getStyle(locale === "ar");
+  const {
+    textInput,
+    buttonPrimary,
+    error: errorStyle,
+  } = getStyle(locale === "ar");
 
   const handleChangePassword = () => {
     setIsLoading(true);
@@ -53,7 +57,7 @@ export default function ChangePasswordScreen({ navigation }) {
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
           style={textInput}
-          placeholder="Current Password"
+          placeholder={t("Current password")}
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setCurrentPassword(text)}
           value={currentPassword}
@@ -63,7 +67,7 @@ export default function ChangePasswordScreen({ navigation }) {
         />
         <TextInput
           style={textInput}
-          placeholder="Password"
+          placeholder={t("New password")}
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setPassword(text)}
           value={password}
@@ -77,7 +81,9 @@ export default function ChangePasswordScreen({ navigation }) {
           onPress={handleChangePassword}
           style={buttonPrimary}
         >
-          <Text style={{ textAlign: "center", color: Colors.white }}>SAVE</Text>
+          <Text style={{ textAlign: "center", color: Colors.white }}>
+            {t("SAVE")}
+          </Text>
         </TouchableOpacity>
         {isLoading && (
           <ActivityIndicator

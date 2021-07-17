@@ -10,13 +10,13 @@ const AboutUsScreen = () => {
 
   return (
     <View>
-      <Logo style={{ marginTop: 100, marginBottom: 20 }} />
+      <Logo style={{ marginVertical: 20 }} />
       <Text
         style={[
           text,
           {
             marginVertical: 10,
-            marginHorizontal: 20,
+            marginHorizontal: 15,
             // textAlign: "justify",
             lineHeight: 25,
           },

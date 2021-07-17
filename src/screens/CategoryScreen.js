@@ -12,6 +12,7 @@ import {
   ExProductCycleList,
   ProductCycleItem,
 } from "../components";
+import Loading from "../components/Loading";
 import Colors from "../constants/Colors";
 import { useGetProductsByCatId } from "../hooks";
 
@@ -20,14 +21,10 @@ export default function CategoryScreen({ navigation, route }) {
 
   const [data, isLoading] = useGetProductsByCatId(item.id);
 
-  if (isLoading) return <Text> Loading </Text>;
-
-  if (isLoading) return <Text> Loading </Text>;
+  if (isLoading) return <Loading />;
 
   return (
     <View style={styles.container}>
-      {/* <ExProductCycleList /> */}
-
       <FlatList
         numColumns={3}
         data={data}

@@ -8,12 +8,15 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import * as Icon from "@expo/vector-icons";
+
 import { LocalizationContext } from "../context/cartContext/provider";
 
 import { Image } from "react-native-expo-image-cache";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { useGetDataByCollection } from "../hooks";
+import { FlatGrid } from "react-native-super-grid";
 
 export const ExCategoryCycleItem = ({ navigation }) => {
   const [data, isLoading] = useGetDataByCollection("categories");
@@ -31,8 +34,11 @@ export const ExCategoryCycleItem = ({ navigation }) => {
     );
 
   return (
-    <FlatList
-      numColumns={3}
+    <FlatGrid
+      itemDimension={100}
+      spacing={10}
+      // style={{ backgroundColor: "red" }}
+      // numColumns={3}
       data={data}
       renderItem={({ item }) => (
         <CategoryCycleItem item={item} navigation={navigation} />
@@ -54,11 +60,25 @@ export const CategoryCycleItem = ({ item, navigation }) => {
       }}
     >
       <View style={styles.itemTwoContainer}>
-        <Image
-          style={styles.itemTwoImage}
-          // source={{ uri: item.image }}
-          {...{ uri: item.image }}
-        />
+        {item.image ? (
+          <Image style={styles.itemTwoImage} {...{ uri: item.image }} />
+        ) : (
+          <View
+            style={{
+              ...styles.itemTwoImage,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#e6ebfd",
+            }}
+          >
+            <Icon.Feather
+              name="image"
+              size={25}
+              color={Colors.primaryLight}
+              style={{ marginHorizontal: 5 }}
+            />
+          </View>
+        )}
       </View>
       <Text style={styles.itemTwoTitle}>{item.names[locale]}</Text>
     </TouchableOpacity>
@@ -81,7 +101,7 @@ const styles = StyleSheet.create({
 
   itemTwoContainer: {
     // paddingBottom: 10,
-    backgroundColor: "red",
+    // backgroundColor: "red",
     marginBottom: 2,
     width: width,
     // height: width,

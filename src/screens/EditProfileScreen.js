@@ -59,7 +59,7 @@ export default function EditProfileScreen({ navigation }) {
       <View style={{ flex: 1, margin: 20 }}>
         <TextInput
           style={textInput}
-          placeholder="Name"
+          placeholder={t("Name")}
           placeholderStyle={{ textAlign: "center" }}
           onChangeText={(text) => setName(text)}
           value={name}
@@ -68,7 +68,9 @@ export default function EditProfileScreen({ navigation }) {
         />
 
         <TouchableOpacity onPress={handleEditProfile} style={buttonPrimary}>
-          <Text style={{ textAlign: "center", color: Colors.white }}>SAVE</Text>
+          <Text style={{ textAlign: "center", color: Colors.white }}>
+            {t("SAVE")}
+          </Text>
         </TouchableOpacity>
         {isLoading && (
           <ActivityIndicator

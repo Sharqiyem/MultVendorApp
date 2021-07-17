@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,20 +6,59 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import * as Icon from "@expo/vector-icons";
+
 import {
   ExStoreDetailHeader,
   ExProductCycleList,
   StoreProducts,
 } from "../components";
 import Colors from "../constants/Colors";
+import CartButton from "../components/CartButton";
+import { StoreDetailHeader } from "../components/StoreDetailHeader";
+import { useGetStoreByStoreId } from "../hooks";
+import { LocalizationContext } from "../context/cartContext/provider";
+import Loading from "../components/Loading";
 
 export default function StoreScreen({ navigation, route }) {
-  const [activeTab, setActiveTab] = React.useState("products");
   const { item } = route.params;
+  const { locale } = React.useContext(LocalizationContext);
+  const [store, isLoading] = useGetStoreByStoreId(item?.id);
+
+  const [activeTab, setActiveTab] = React.useState("products");
+
+  if (isLoading) return <Loading />;
+
+  const storeDescription = store?.descriptions[locale] || store?.description;
 
   return (
     <View style={styles.container}>
-      <ExStoreDetailHeader item={item} />
+      <StoreDetailHeader store={store} />
+
+      <View
+        style={{
+          position: "absolute",
+          top: 50,
+          left: 0,
+          right: 0,
+
+          padding: 5,
+          zIndex: 999,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon.Feather
+            name="arrow-left"
+            size={26}
+            color="#fff"
+            style={{ marginHorizontal: 15 }}
+          />
+        </TouchableOpacity>
+        <CartButton />
+      </View>
 
       {/* BUTTONS */}
       <View
@@ -84,41 +123,31 @@ export default function StoreScreen({ navigation, route }) {
 
       {/* TABS */}
       {activeTab === "products" && (
-        <View style={{ margin: 5, marginVertical: 15 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            <StoreProducts storeId={item.id} />
-          </View>
+        <View style={{ margin: 5, marginVertical: 15, flex: 1 }}>
+          <StoreProducts storeId={item.id} />
         </View>
       )}
+
       {activeTab === "reviews" && (
         <View style={{ margin: 5, marginVertical: 15 }}>
           <Text>Reviews</Text>
         </View>
       )}
+
       {activeTab === "about" && (
         <View style={{ margin: 10, marginVertical: 15 }}>
-          <Text>{item.description}</Text>
+          <Text>{storeDescription}</Text>
         </View>
       )}
     </View>
   );
 }
 
-// StoreScreen.navigationOptions = {
-//   // header: null,
-//   title: 's',
-// };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    // paddingTop: 30,
   },
 
   welcomeContainer: {

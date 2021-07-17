@@ -4,10 +4,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  // Image,
+  Alert,
   FlatList,
   ActivityIndicator,
 } from "react-native";
+import * as Icon from "@expo/vector-icons";
+
 import { Image } from "react-native-expo-image-cache";
 
 import Colors from "../constants/Colors";
@@ -18,7 +20,7 @@ import types from "../context/cartContext/types";
 import PropTypes from "prop-types";
 import { useGetDataByCollection } from "../hooks";
 
-export const ExProductCycleList = () => {
+export const ExProductCycleList = ({ limit }) => {
   const [data, isLoading] = useGetDataByCollection("products");
 
   if (isLoading)
@@ -36,7 +38,7 @@ export const ExProductCycleList = () => {
   return (
     <FlatList
       numColumns={3}
-      data={data}
+      data={data.slice(0, limit)}
       renderItem={({ item }) => <ProductCycleItem item={item} />}
       keyExtractor={(item) => item.id}
     />
@@ -44,20 +46,57 @@ export const ExProductCycleList = () => {
 };
 
 export const ProductCycleItem = ({ item }) => {
-  const { dispatch } = React.useContext(StoreContext);
+  const { dispatch, state } = React.useContext(StoreContext);
 
   const addToCart = (productItem) => {
-    dispatch({ type: types.CART_ADD, payload: productItem });
+    if (state.selectedStore && state.selectedStore !== item.storeId) {
+      // alert user to change store
+      Alert.alert(
+        "Change store",
+        "This product from different store, do you want to clear cart and start shopping from this store?",
+        [
+          {
+            text: "Yes",
+            onPress: () => {
+              dispatch({ type: types.CART_CLEAR });
+              dispatch({ type: types.CART_ADD, payload: productItem });
+            },
+          },
+          { text: "No", onPress: () => {}, style: "cancel" },
+        ]
+      );
+    } else {
+      //not items in cart yet
+      dispatch({ type: types.CART_ADD, payload: productItem });
+    }
   };
 
   return (
     <View style={styles.container} key={item.id}>
       <View style={styles.itemTwoContainer}>
-        <Image
-          style={styles.itemTwoImage}
-          // source={{ uri: item.images[0] }}
-          {...{ uri: item.images[0] }}
-        />
+        {item.images?.length > 0 ? (
+          <Image
+            style={styles.itemTwoImage}
+            // source={{ uri: item.images[0] }}
+            {...{ uri: item.images[0] }}
+          />
+        ) : (
+          <View
+            style={{
+              ...styles.itemTwoImage,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#e6ebfd",
+            }}
+          >
+            <Icon.Feather
+              name="image"
+              size={25}
+              color={Colors.primaryLight}
+              style={{ marginHorizontal: 5 }}
+            />
+          </View>
+        )}
       </View>
       <Text style={styles.itemTwoTitle}>{item.name}</Text>
       <Text style={{ color: Colors.gray }}>{item.price}</Text>
@@ -90,6 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: margenHorizontal,
     marginVertical: 10,
+    // backgroundColor:'green'
   },
   button: {
     position: "absolute",

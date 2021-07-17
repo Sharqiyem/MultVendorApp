@@ -14,6 +14,7 @@ import {
 import StoresScreen from "../screens/StoresScreen";
 import StoreScreen from "../screens/StoreScreen";
 import Fonts from "../constants/Fonts";
+import CartScreen from "../screens/CartScreen";
 
 const Stack = createStackNavigator();
 
@@ -40,8 +41,8 @@ function StoresStack({ navigation }) {
         headerRight: () => (
           <CartButton
             navigation={navigation}
-            state={state}
-            sourceScreen="CartStores"
+            // state={state}
+            // sourceScreen="CartStores"
           />
         ),
       }}
@@ -50,6 +51,11 @@ function StoresStack({ navigation }) {
         name="Stores"
         options={{ title: t("Stores") }}
         component={StoresScreen}
+      />
+      <Stack.Screen
+        name="Cart"
+        options={{ title: t("Stores") }}
+        component={CartScreen}
       />
       <Stack.Screen
         name="Store"

@@ -55,10 +55,11 @@ export default RootNavigator = () => {
       screenOptions={{
         headerShown: false,
         gestureEnabled: false,
+        headerStyle: {},
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
           // fontWeight:"200",

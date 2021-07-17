@@ -34,6 +34,7 @@ export const StoreProducts = ({ storeId }) => {
 
   return (
     <FlatList
+      showsVerticalScrollIndicator={false}
       numColumns={3}
       data={data}
       renderItem={({ item }) => <ProductCycleItem item={item} />}

@@ -1,5 +1,15 @@
-import * as React from "react";
-import { StyleSheet, View, Share, Linking, Text } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Share,
+  Linking,
+  Text,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
+import { BottomSheet } from "react-native-btr";
+import * as Icon from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 
@@ -15,12 +25,14 @@ export default function ProfileScreen({ navigation }) {
   const { state, signOut } = React.useContext(AuthContext);
   const { t, changeLang, locale } = React.useContext(LocalizationContext);
 
-  const { text } = getStyle(locale === "ar");
+  const { text, textHeader, boldText, row } = getStyle(locale === "ar");
 
-  // console.log("AuthContext state", state);
-  const [] = React.useState(false);
-  const [] = React.useState(40);
-  const [] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+
+  const toggleBottomNavigationView = () => {
+    //Toggling the visibility state of the bottom sheet
+    setVisible(!visible);
+  };
 
   const handleSignOut = async () => {
     firebase.auth().signOut();
@@ -120,7 +132,9 @@ export default function ProfileScreen({ navigation }) {
             <SettingsNavigateRow
               label={t("Change store")}
               iconName="shopping-bag"
-              onPressCallback={() => {}}
+              onPressCallback={() => {
+                navigation.navigate("EditStore");
+              }}
             />
             <SettingsNavigateRow
               label={t("Disable store")}
@@ -134,14 +148,16 @@ export default function ProfileScreen({ navigation }) {
           <SectionRow label={t("Usage")}>
             <SettingsNavigateRow
               label={t("Orders")}
-              iconName="edit"
+              Icon={Icon.MaterialIcons}
+              iconName="reorder"
               onPressCallback={() => {
                 navigateToScreen("Orders");
               }}
             />
             <SettingsNavigateRow
               label={t("Addresses")}
-              iconName="edit"
+              Icon={Icon.Entypo}
+              iconName="address"
               onPressCallback={() => {
                 navigateToScreen("Address", { fromProfile: true });
               }}
@@ -153,7 +169,8 @@ export default function ProfileScreen({ navigation }) {
             label={t("Change language")}
             iconName="globe"
             onPressCallback={() => {
-              changeLang();
+              setVisible(true);
+              // changeLang();
             }}
           />
           <SettingsNavigateRow
@@ -190,12 +207,77 @@ export default function ProfileScreen({ navigation }) {
     );
   };
 
+  const renderLanguageChanger = () => {
+    return (
+      <BottomSheet
+        visible={visible}
+        onBackButtonPress={toggleBottomNavigationView}
+        onBackdropPress={toggleBottomNavigationView}
+      >
+        <View style={styles.bottomNavigationView}>
+          <Text
+            style={{ ...textHeader, textAlign: "center", paddingVertical: 15 }}
+          >
+            {t("Chose language")}
+          </Text>
+          <TouchableOpacity
+            style={{
+              ...row,
+              width: "100%",
+              marginBottom: 20,
+              paddingHorizontal: 30,
+              justifyContent: "space-between",
+              alignItems: "center",
+              // backgroundColor: "red",
+            }}
+            onPress={() => {
+              toggleBottomNavigationView();
+              changeLang();
+            }}
+          >
+            <Text style={[textHeader, boldText]}>عربي</Text>
+            <Icon.Feather
+              name={locale === "ar" ? "check" : ""}
+              size={25}
+              color={Colors.primaryLight}
+              style={{ marginHorizontal: 5 }}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              ...row,
+              width: "100%",
+              marginBottom: 20,
+              paddingHorizontal: 30,
+              justifyContent: "space-between",
+              alignItems: "center",
+              // backgroundColor:'red'
+            }}
+            onPress={() => {
+              toggleBottomNavigationView();
+              changeLang();
+            }}
+          >
+            <Text style={[textHeader, boldText]}>English</Text>
+            <Icon.Feather
+              name={locale === "en" ? "check" : ""}
+              size={25}
+              color={Colors.primaryLight}
+              style={{ marginHorizontal: 5 }}
+            />
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
+    );
+  };
   return (
     <View style={styles.container}>
-      <Text style={[text, { paddingHorizontal: 15, }]}>
+      <Text style={[text, { paddingHorizontal: 15 }]}>
         {t("Hello")} {state?.userData?.name}
       </Text>
       {renderSections()}
+      {renderLanguageChanger()}
     </View>
   );
 }
@@ -206,5 +288,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 5,
     backgroundColor: Colors.white,
+  },
+  bottomNavigationView: {
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    width: "100%",
+    height: 200,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
 });

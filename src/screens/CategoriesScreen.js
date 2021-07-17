@@ -9,23 +9,9 @@ export default function CategoriesScreen({ navigation }) {
   const { textInputLight } = getStyle(locale === "ar");
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          height: 50,
-          backgroundColor: Colors.primary,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <View style={textInputLight}>
-          <Text style={{ color: Colors.white }}>Search your category</Text>
-        </View>
-      </View>
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <CategoryList navigation={navigation} />
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <CategoryList />
+    </View>
   );
 }
 

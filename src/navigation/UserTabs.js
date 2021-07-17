@@ -19,8 +19,6 @@ import ProfileStack from "./ProfileStack";
 import Fonts from "../constants/Fonts";
 const BottomTab = createMaterialTopTabNavigator();
 
-const INITIAL_ROUTE_NAME = "Home";
-
 function UserTabs() {
   const { t, isRTL } = React.useContext(LocalizationContext);
   const { state, dispatch } = React.useContext(StoreContext);
@@ -59,7 +57,7 @@ function UserTabs() {
   return (
     <BottomTab.Navigator
       tabBarPosition="bottom"
-      initialRouteName={INITIAL_ROUTE_NAME}
+      initialRouteName="Home"
       tabBarOptions={{
         safeAreaInset: { bottom: "always" },
         indicatorStyle: {
@@ -69,7 +67,7 @@ function UserTabs() {
           borderColor: "transparent",
           borderBottomWidth: 0,
         },
-        labelStyle: { fontSize: 11, fontFamily: Fonts.primaryRegular },
+        labelStyle: { fontSize: 10, fontFamily: Fonts.primaryRegular },
         style: {
           backgroundColor: Colors.tabBarBG,
           paddingBottom: Platform.OS === "ios" ? 20 : 0,

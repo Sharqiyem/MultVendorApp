@@ -27,6 +27,8 @@ import ProductsScreen from "../screens/vendor/ProductsScreen";
 import NewProductScreen from "../screens/vendor/NewProductScreen";
 import Fonts from "../constants/Fonts";
 import CategorySelectorScreen from "../screens/vendor/CategorySelectorScreen";
+import EditStoreScreen from "../screens/vendor/EditStoreScreen";
+import ReviewsScreen from "../screens/vendor/ReviewsScreen";
 
 const BottomTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -46,10 +48,9 @@ function ProfileStack({ navigation }) {
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
-          // fontWeight:"200",
           fontFamily: Fonts.primaryRegular,
         },
         headerTintColor: "#fff",
@@ -62,26 +63,19 @@ function ProfileStack({ navigation }) {
       />
       <Stack.Screen
         name="EditProfile"
-        options={{ title: "Edit Profile" }}
+        options={{ title: t("Edit Profile") }}
         component={EditProfileScreen}
       />
       <Stack.Screen
         name="ChangePassword"
-        options={{ title: "Change Password" }}
+        options={{ title: t("Change Password") }}
         component={ChangePasswordScreen}
       />
 
       <Stack.Screen
-        name="Address"
-        options={{
-          title: "Addresses",
-        }}
-        component={AddressesScreen}
-      />
-      <Stack.Screen
-        name="ManageAddress"
-        options={{ title: "Manage address" }}
-        component={ManageAddressScreen}
+        name="EditStore"
+        options={{ title: t("Edit store") }}
+        component={EditStoreScreen}
       />
 
       <Stack.Screen
@@ -91,7 +85,7 @@ function ProfileStack({ navigation }) {
       />
       <Stack.Screen
         name="AboutUs"
-        options={{ title: "About Us" }}
+        options={{ title: t("About Us") }}
         component={AboutUsScreen}
       />
     </Stack.Navigator>
@@ -113,7 +107,7 @@ function OrdersStack({ navigation }) {
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
           // fontWeight:"200",
@@ -151,7 +145,7 @@ function HomeStack({ navigation }) {
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
           // fontWeight:"200",
@@ -164,6 +158,11 @@ function HomeStack({ navigation }) {
         name="Home"
         options={{ title: t("Home") }}
         component={VendorHomeScreen}
+      />
+      <Stack.Screen
+        name="Reviews"
+        options={{ title: t("Reviews") }}
+        component={ReviewsScreen}
       />
     </Stack.Navigator>
   );
@@ -184,7 +183,7 @@ function ProductsStack({ navigation }) {
         headerTitleStyle: {
           textAlign: "center",
           alignSelf: "center",
-          flex: 1,
+          // flex: 1,
           width: "100%",
           fontSize: 14,
           // fontWeight:"200",
@@ -252,7 +251,7 @@ export default function VendorTabs() {
   return (
     <BottomTab.Navigator
       tabBarPosition="bottom"
-      //   initialRouteName={INITIAL_ROUTE_NAME}
+      initialRouteName={"Home"}
       tabBarOptions={{
         safeAreaInset: { bottom: "always" },
         indicatorStyle: {

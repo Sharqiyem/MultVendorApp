@@ -15,94 +15,72 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
 import Fonts from "../constants/Fonts";
+import { LocalizationContext } from "../context/cartContext/provider";
 
-export const ExStoreDetailHeader = ({ item }) => {
-  // const item = {
-  //   id: 1,
-  //   brand: 'Citizen',
-  //   title: 'CITIZEN ECO-DRIVE',
-  //   subtitle: 'Limited Edition',
-  //   price: '$129.99',
-  //   products: '12',
-  //   reviews: '12',
-  //   orders: '12',
+export const StoreDetailHeader = ({ store }) => {
+  const { locale } = React.useContext(LocalizationContext);
+  const storeName = store?.names[locale] || store?.name;
 
-  //   badge: 'NEW',
-  //   badgeColor: '#3cd39f',
-  //   image:
-  //     'https://reactnativestarter.com/demo/images/city-sunny-people-street.jpg',
-  // };
-
-  return <StoreDetailHeader item={item} />;
-};
-export const StoreDetailHeader = ({ item }) => (
-  <View
-    key={item.id}
-    style={styles.itemTwoContainer}
-    // onPress={() => console.log({ item })}
-  >
-    <View style={styles.itemTwoContent}>
-      <Image
-        style={styles.itemTwoImage}
-        // source={{ uri: item.image }}
-        {...{ uri: item.image }}
-      />
-      <View style={styles.itemTwoOverlay} />
-      <Text style={styles.itemTwoTitle}>{item.name}</Text>
-      <Text style={styles.itemTwoSubTitle}>{item.description}</Text>
-      {/* <Text style={styles.itemTwoPrice}>{item.price}</Text> */}
-      <View
-        style={{
-          flexDirection: "row",
-          // justifyContent: 'space-arround',
-          alignItems: "center",
-          alignSelf: "center",
-          marginHorizontal: 5,
-        }}
-      >
-        <Text style={{ color: Colors.white }}>Social Media : </Text>
-        <Ionicons
-          name="logo-facebook"
-          size={25}
-          style={{ marginHorizontal: 10 }}
-          color={Colors.white}
-        />
-        <Ionicons
-          name="logo-youtube"
-          size={25}
-          style={{ marginHorizontal: 10 }}
-          color={Colors.white}
-        />
-        <Ionicons
-          name="logo-instagram"
-          size={25}
-          style={{ marginHorizontal: 10 }}
-          color={Colors.white}
-        />
+  return (
+    <View
+      style={styles.itemTwoContainer}
+      // onPress={() => console.log({ item })}
+    >
+      <View style={styles.itemTwoContent}>
+        <Image style={styles.itemTwoImage} {...{ uri: store?.image }} />
+        <View style={styles.itemTwoOverlay} />
+        <Text style={styles.itemTwoTitle}>{storeName}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            // justifyContent: 'space-arround',
+            alignItems: "center",
+            alignSelf: "center",
+            marginHorizontal: 5,
+          }}
+        >
+          <Text style={{ color: Colors.white }}>Social Media : </Text>
+          <Ionicons
+            name="logo-facebook"
+            size={25}
+            style={{ marginHorizontal: 10 }}
+            color={Colors.white}
+          />
+          <Ionicons
+            name="logo-youtube"
+            size={25}
+            style={{ marginHorizontal: 10 }}
+            color={Colors.white}
+          />
+          <Ionicons
+            name="logo-instagram"
+            size={25}
+            style={{ marginHorizontal: 10 }}
+            color={Colors.white}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginHorizontal: 5,
+            marginVertical: 10,
+          }}
+        >
+          <Text style={styles.metaText}>Products {store?.products}</Text>
+          <Text style={styles.metaText}>Reviews {store?.reviews}</Text>
+          <Text style={styles.metaText}>Orders {store?.orders}</Text>
+        </View>
+        <Text style={styles.addressTitle}>Address: 12 Tah str.</Text>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          marginHorizontal: 5,
-          marginVertical: 10,
-        }}
-      >
-        <Text style={styles.metaText}>Products {item.products}</Text>
-        <Text style={styles.metaText}>Reviews {item.reviews}</Text>
-        <Text style={styles.metaText}>Orders {item.orders}</Text>
-      </View>
-      <Text style={styles.addressTitle}>Address: 12 Tah str.</Text>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   itemTwoContainer: {
-    paddingBottom: 10,
     backgroundColor: "white",
     marginBottom: 2,
-    // marginTop: -2,
   },
   itemTwoContent: {
     padding: 20,
@@ -117,6 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     paddingTop: Constants.statusBarHeight,
+    paddingBottom: 20,
   },
   itemTwoSubTitle: {
     color: Colors.white,
@@ -153,11 +132,10 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     backgroundColor: Colors.primary,
-    opacity: 0.5,
+    opacity: 0.6,
   },
   metaText: {
     color: Colors.white,
-
     fontSize: 14,
     marginHorizontal: 10,
   },

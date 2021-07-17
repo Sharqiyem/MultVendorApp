@@ -18,6 +18,8 @@ export default Colors = {
   primary: "#555CC4",
   secondary: "#FF1358",
   primaryLight: "#829BF8",
+  primaryLighter : "#e6ebfd",
+  orange: "#faa700",
   primaryGradientStart: "#4f44b6",
   primaryGradientEnd: "#4f44b6",
   secondaryGradientStart: "#FF1358",

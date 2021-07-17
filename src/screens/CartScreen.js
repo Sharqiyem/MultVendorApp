@@ -15,7 +15,10 @@ import { Image } from "react-native-expo-image-cache";
 import * as Icon from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 
-import { LocalizationContext, StoreContext } from "../context/cartContext/provider";
+import {
+  LocalizationContext,
+  StoreContext,
+} from "../context/cartContext/provider";
 import types from "../context/cartContext/types";
 import Colors from "../constants/Colors";
 import getStyle from "../constants/styles";
@@ -49,8 +52,29 @@ const CartScreen = ({ navigation }) => {
   const RenderItem = ({ name, price, images, quantity, item }) => {
     const uri = images[0];
     return (
-      <View style={[styles.itemContainer, shadow]}>
-        {/* <StatusBar backgroundColor='red' barStyle='dark-content' /> */}
+      <View style={[styles.itemContainer, shadow, {}]}>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            padding: 5,
+            backgroundColor: Colors.secondary,
+            borderBottomLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}
+          onPress={() => {
+            removeItem(item.item);
+          }}
+        >
+          <Icon.MaterialIcons
+            name="close"
+            size={20}
+            color={Colors.white}
+            style={{ marginHorizontal: 5 }}
+          />
+        </TouchableOpacity>
+
         <View
           style={{
             flex: 1,
@@ -72,28 +96,30 @@ const CartScreen = ({ navigation }) => {
           >
             {images && images[0] ? (
               <Image
-                style={{ width: 70, height: 70, margin: 5 }}
+                style={{ width: 70, height: 70, borderRadius: 10, margin: 5 }}
                 // isBackground
                 // source={{ uri }}
                 {...{ uri }}
               />
             ) : (
-              // <Image
-              //   style={{ width: 70, height: 70, margin: 5 }}
-              //   resizeMode='stretch'
-              //   source={{ uri: images[0] }}
-              // />
-              // <Image
-              //   style={{ width: 70, height: 70, margin: 5 }}
-              //   resizeMode='stretch'
-              //   source={{ uri: images[0] }}
-              // />
-              <Image
-                style={{ width: 70, height: 70, margin: 5 }}
-                source={{
-                  uri: "https://facebook.github.io/react-native/img/tiny_logo.png",
+              <View
+                style={{
+                  width: 70,
+                  height: 70,
+                  borderRadius: 10,
+                  margin: 5,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#e6ebfd",
                 }}
-              />
+              >
+                <Icon.Feather
+                  name="image"
+                  size={25}
+                  color={Colors.primaryLight}
+                  style={{ marginHorizontal: 5 }}
+                />
+              </View>
             )}
             <View
               style={{
@@ -183,7 +209,7 @@ const CartScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ alignSelf: "flex-end" }}
           onPress={() => {
             removeItem(item.item);
@@ -195,7 +221,7 @@ const CartScreen = ({ navigation }) => {
             color={Colors.secondary}
             style={{ marginHorizontal: 5 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   };
@@ -206,7 +232,7 @@ const CartScreen = ({ navigation }) => {
         <FlatGrid
           style={{ marginBottom: 135 }}
           itemDimension={200}
-          items={data}
+          data={data}
           renderItem={({ item }) => {
             // console.log('Cart ', item);
             const {

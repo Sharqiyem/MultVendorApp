@@ -14,6 +14,7 @@ import InvertibleScrollView from "react-native-invertible-scroll-view";
 
 import Colors from "../constants/Colors";
 import { LocalizationContext } from "../context/cartContext/provider";
+import getStyle from "../constants/styles";
 
 const image1 = require("../../assets/images/Stores/1.jpeg");
 const image2 = require("../../assets/images/Stores/2.jpg");
@@ -23,11 +24,12 @@ const images = [image1, image2, image3];
 const { width } = Dimensions.get("window");
 
 export const BannerScrollView = () => {
-  const { isRTL } = React.useContext(LocalizationContext);
-  // const [images, setImages] = React.useState([image1, image2, image3]);
+  const { isRTL, locale } = React.useContext(LocalizationContext);
+  const { boldText } = getStyle(locale === "ar");
 
+  const bb = [" اطلب وجبه والثانيه مجانا", "خصم عشرين في الميه", "توصيل مجاني"];
   return (
-    <View style={{ backgroundColor: "#fff", minHeight:180 }}>
+    <View style={{ backgroundColor: "#fff", minHeight: 180 }}>
       <InvertibleScrollView
         key={isRTL}
         inverted={!isRTL}
@@ -38,7 +40,11 @@ export const BannerScrollView = () => {
           return (
             <View style={styles.imageContiner} key={`img-${index}`}>
               <Image style={styles.image} resizeMode="cover" source={image} />
-              <View style={styles.itemTwoOverlay} />
+              <View style={styles.itemTwoOverlay}>
+                <Text style={{ ...boldText, padding: 3, color: "#fff" }}>
+                 { bb[index]}
+                </Text>
+              </View>
             </View>
           );
         })}
@@ -69,9 +75,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    top: 0,
     bottom: 0,
     backgroundColor: Colors.primary,
-    opacity: 0.2,
+    opacity: 0.8,
   },
 });

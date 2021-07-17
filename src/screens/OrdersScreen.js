@@ -55,7 +55,7 @@ export default function OrdersScreen({ navigation }) {
 
     dispatch({
       type: types.REORDER,
-      payload: { products: item.products, storeId: item.store.id },
+      payload: { products: item.products, storeId: item?.store?.id },
     });
 
     navigation.navigate("Cart");
@@ -89,22 +89,22 @@ export default function OrdersScreen({ navigation }) {
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Store name</Text>
+            <Text>{t("Store name")}</Text>
             {item.store && <Text>{item.store.name}</Text>}
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Date</Text>
+            <Text>{t("Order date")}</Text>
             <Text>{moment(item.createdAt).format("YY-MM-DD hh:mm")}</Text>
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Total amount</Text>
-            <Text>{item.totalAmount}</Text>
+            <Text>{t("Total amount")}</Text>
+            <Text>{item.totalAmount}$</Text>
           </View>
 
           <View style={orderItemStyle}>
-            <Text>Payment method</Text>
+            <Text>{t("Payment method")}</Text>
 
             <Text>{item.selectedPaymentMethod.label}</Text>
           </View>

@@ -20,7 +20,7 @@ const BottomTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const CategoriesStack = ({ navigation }) => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const { state, dispatch } = React.useContext(StoreContext);
 
   return (
@@ -42,8 +42,8 @@ const CategoriesStack = ({ navigation }) => {
         headerRight: (props) => (
           <CartButton
             navigation={navigation}
-            state={state}
-            sourceScreen="CartCat"
+            // state={state}
+            // sourceScreen="CartCat"
           />
         ),
       }}
@@ -55,7 +55,9 @@ const CategoriesStack = ({ navigation }) => {
       />
       <Stack.Screen
         name="Category"
-        options={({ route }) => ({ title: route.params.item.name })}
+        options={({ route }) => ({
+          title: route.params.item.names[locale] || route.params.item.name,
+        })}
         component={CategoryScreen}
       />
       {/* <Stack.Screen

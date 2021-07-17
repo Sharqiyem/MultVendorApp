@@ -3,7 +3,7 @@ const initialState = {
   cartCount: 10,
   cartItems: [],
   totalAmount: 0,
-  selectedStore: {},
+  selectedStore: null,
 };
 
 export default initialState;

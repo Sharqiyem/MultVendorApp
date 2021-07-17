@@ -1,14 +1,22 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Icon from "@expo/vector-icons";
 import getStyle from "../../constants/styles";
 import { LocalizationContext } from "../../context/cartContext/provider";
 import Colors from "../../constants/Colors";
 
-const VendorHomeScreen = () => {
+const VendorHomeScreen = ({ navigation }) => {
   const { locale, t } = useContext(LocalizationContext);
-  const { row, text, boldText, shadow } = getStyle();
+  const { row, text, boldText, shadow, textHeader } = getStyle(locale === "ar");
+
+  const renderStoreDetails = () => {
+    return (
+      <View style={{ margin: 15 }}>
+        <Text style={[textHeader, boldText, {textAlign:'center'}]}>{t("Store name")}:  Store name</Text>
+      </View>
+    );
+  };
   const StatsItem = ({ title, total, colors, icon }) => {
     return (
       <LinearGradient
@@ -16,7 +24,7 @@ const VendorHomeScreen = () => {
         colors={colors}
         style={{
           borderRadius: 20,
-          margin: 10,
+          margin: 6,
           paddingVertical: 15,
           width: 160,
           justifyContent: "center",
@@ -48,7 +56,14 @@ const VendorHomeScreen = () => {
 
   const renderAllStats = () => {
     return (
-      <View style={{ ...row, justifyContent: "center", flexWrap: "wrap" }}>
+      <View
+        style={{
+          ...row,
+          flexWrap: "wrap",
+          marginHorizontal: 15,
+          // backgroundColor: "grey",
+        }}
+      >
         <StatsItem
           title={t("Total Sales")}
           total="55$"
@@ -77,24 +92,96 @@ const VendorHomeScreen = () => {
     );
   };
 
+  const renderSeeAllLink = (onPress) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          if (onPress) onPress();
+        }}
+        style={{
+          backgroundColor: Colors.primary,
+          borderRadius: 15,
+          // height: 30,
+          padding: 2,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 12,
+            paddingHorizontal: 10,
+            color: Colors.white,
+          }}
+        >
+          {t("See All")}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   const renderLastOrders = () => {
     return (
-      <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
-        <Text style={boldText}>{t("Last orders")}</Text>
+      <View
+        style={{
+          marginHorizontal: 15,
+          marginVertical: 10,
+          // backgroundColor: "grey",
+        }}
+      >
+        <View
+          style={[
+            row,
+            {
+              justifyContent: "space-between",
+              alignItems: "center",
+              // backgroundColor: "grey",
+            },
+          ]}
+        >
+          <Text style={[textHeader, boldText]}>{t("Last orders")}</Text>
+          {renderSeeAllLink(() => {
+            navigation.navigate("Orders");
+          })}
+        </View>
+        <Text style={{ ...text }}>{t("No orders yet")}</Text>
       </View>
     );
   };
 
   const renderLastreviews = () => {
     return (
-      <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
-        <Text style={boldText}>{t("Last reviews")}</Text>
+      <View
+        style={{
+          marginHorizontal: 15,
+          marginVertical: 10,
+          // backgroundColor: "grey",
+        }}
+      >
+        <View
+          style={[
+            row,
+            {
+              justifyContent: "space-between",
+              alignItems: "center",
+              // backgroundColor:'grey',
+            },
+          ]}
+        >
+          <Text style={[textHeader, boldText]}>{t("Last reviews")}</Text>
+          {renderSeeAllLink(() => {
+            navigation.navigate("Reviews");
+          })}
+        </View>
+
+        <Text style={text}>{t("No reviews yet")}</Text>
       </View>
     );
   };
 
   return (
     <View style={{ flex: 1 }}>
+      {renderStoreDetails()}
       {renderAllStats()}
       {renderLastOrders()}
       {renderLastreviews()}

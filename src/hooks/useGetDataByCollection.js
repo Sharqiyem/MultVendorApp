@@ -44,7 +44,3 @@ export default useGetDataByCollection = (collectionName = "products") => {
 
   return [data, isLoading];
 };
-
-// const useNewMessage = (collName, object) => {
-//   return firebase.firestore().collection(collName).add(object);
-// };

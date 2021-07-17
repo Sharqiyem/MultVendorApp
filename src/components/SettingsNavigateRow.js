@@ -6,7 +6,12 @@ import SettingsRowStyle from "../constants/SettingsRowStyle";
 import Colors from "../constants/Colors";
 import { LocalizationContext } from "../context/cartContext/provider";
 
-const SettingsNavigateRow = ({ onPressCallback, iconName, label }) => {
+const SettingsNavigateRow = ({
+  onPressCallback,
+  iconName,
+  label,
+  Icon = Feather,
+}) => {
   const {
     containerInSection,
     containerInnerSection,
@@ -21,8 +26,8 @@ const SettingsNavigateRow = ({ onPressCallback, iconName, label }) => {
   return (
     <TouchableOpacity onPress={onPressCallback}>
       <View style={containerInSection}>
-        <View style={[containerInnerSection, row, {   }]}>
-          <Feather
+        <View style={[containerInnerSection, row, {}]}>
+          <Icon
             name={iconName}
             size={20}
             style={iconLeftStyle}

@@ -96,15 +96,23 @@ const getStyle = (isRTL = true) => {
       fontFamily: isRTL ? "DroidKufi" : "DroidKufi",
       height: inputTextHeight,
       borderColor: Colors.primaryLight,
-      borderWidth: 1,
+      // borderWidth: 1,
       textAlign: "center",
-      borderRadius: inputTextHeight / 2,
+      // borderRadius: inputTextHeight / 2,
+      borderRadius: 5,
+      backgroundColor: Colors.primaryLighter,
       marginVertical: 5,
       paddingVertical: 5,
       paddingHorizontal: 15,
       color: Colors.darkGray,
-      backgroundColor: "#fff",
-      fontSize: 16,
+      // backgroundColor: "#fff",
+      fontSize: 14,
+    },
+    textArea: {
+      height: 80,
+      textAlign: "center",
+      textAlignVertical: "top", // hack android
+      fontSize: 14,
     },
     textInputLight: {
       width: "90%",
@@ -123,6 +131,7 @@ const getStyle = (isRTL = true) => {
       backgroundColor: Colors.primaryLight,
       fontSize: 14,
     },
+
     buttonPrimary: {
       height: inputTextHeight,
 

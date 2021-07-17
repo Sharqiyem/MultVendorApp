@@ -34,6 +34,8 @@ if (__DEV__) {
   import("./ReactotronConfig");
 }
 
+  SplashScreen.preventAutoHideAsync();
+
 export default function App(props) {
   const { skipLoadingScreen } = props;
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -123,7 +125,7 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        await SplashScreen.preventAutoHideAsync();
+        // await SplashScreen.preventAutoHideAsync();
 
         // First method to get init state - Load our initial navigation state
         const initState = await getInitialState();
