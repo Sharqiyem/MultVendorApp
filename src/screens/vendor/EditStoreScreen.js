@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from "react-native";
+
 import * as ImagePicker from "expo-image-picker";
 import { useForm, Controller, useController } from "react-hook-form";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -24,12 +25,15 @@ import * as Icon from "@expo/vector-icons";
 import firebase from "../../config/firebase.config";
 import { uploadImageAsync } from "../../core/imageHelper";
 import { useGetStoreByStoreId } from "../../hooks";
+import Loading from "../../components/Loading";
 
-const EditStoreScreen = () => {
-  const { state } = React.useContext(AuthContext);
+const EditStoreScreen = ({ navigation }) => {
+  const { state, updateUser } = React.useContext(AuthContext);
   const [store, isLoadingStore] = useGetStoreByStoreId(
     state?.userData?.storeId
   );
+
+  console.log("store", store);
 
   const { t, isRTL, locale } = React.useContext(LocalizationContext);
   const {
@@ -64,7 +68,9 @@ const EditStoreScreen = () => {
 
   const handleSend = async (data) => {
     const userId = firebase.auth().currentUser.uid;
-    const storeObject = {
+    const db = firebase.firestore();
+
+    let storeObject = {
       name: data.nameAr,
       names: {
         ar: data.nameAr,
@@ -75,12 +81,51 @@ const EditStoreScreen = () => {
         ar: data.descriptionAr,
         en: data.descriptionEn,
       },
-
       userId,
-
       image: imageurl,
     };
-    console.log("Store ", storeObject);
+
+    try {
+      setIsLoading(true);
+
+      if (store) {
+        //update
+        const storeData = await db
+          .collection("stores")
+          .doc(store?.id)
+          .update(storeObject);
+        console.log("storeData", storeData.id);
+
+        // signIn({ storeId: storeData.id });
+
+        updateUser({ storeId: storeData.id });
+      } else {
+        //creat new store
+        const storeData = await db.collection("stores").add(storeObject);
+        console.log("storeData", storeData.id);
+        //update user data
+        //set storeid for user
+        await db
+          .collection("users")
+          .doc(userId)
+          .update({ storeId: storeData.id });
+        //update state
+        // signIn({ storeId: storeData.id });
+        updateUser({ storeId: storeData.id });
+      }
+      Toast.show(`Your product ${store ? "updated" : "sent"} successfully.`, {
+        position: -20,
+        backgroundColor: Colors.primary,
+        opacity: 0.8,
+      });
+
+      navigation.goBack();
+      console.log("Store ", storeObject);
+    } catch (err) {
+      console.log("messages err", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const pickImage = async () => {
@@ -114,16 +159,27 @@ const EditStoreScreen = () => {
         onPress={() => {
           pickImage();
         }}
+        style={{
+          height: 150,
+        }}
       >
         <ImageBackground
           style={{
-            height: 150,
+            height: "100%",
             width: "100%",
-            //   backgroundColor: "red",
+            backgroundColor: Colors.primaryLighter,
             justifyContent: "center",
             alignItems: "center",
           }}
+          resizeMode="cover"
           source={{ uri: isLoading ? null : imageurl }}
+          imageStyle={
+            {
+              // marginTop:30,
+              // height: "100%",
+              // width: "100%",
+            }
+          }
         >
           {isLoading ? (
             <ActivityIndicator size="small" color={Colors.primary} />
@@ -227,7 +283,7 @@ const EditStoreScreen = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               multiline
-              style={[textInput, textarea]}
+              style={[textInput, textArea]}
               isRTL={isRTL}
               maxLength={100}
               placeholder={t("Input store description in Arabic")}
@@ -237,12 +293,11 @@ const EditStoreScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
-              defaultValue=""
             />
           )}
           name="descriptionAr"
           rules={{ required: true }}
-          defaultValue=""
+          defaultValue={store?.descriptions?.ar || ""}
         />
         {errors.descriptionAr && (
           <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
@@ -265,12 +320,11 @@ const EditStoreScreen = () => {
               onBlur={onBlur}
               onChangeText={(value) => onChange(value)}
               value={value}
-              defaultValue=""
             />
           )}
           name="descriptionEn"
           rules={{ required: true }}
-          defaultValue=""
+          defaultValue={store?.descriptions?.en || ""}
         />
         {errors.descriptionEn && (
           <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
@@ -298,6 +352,7 @@ const EditStoreScreen = () => {
     );
   };
 
+  if (isLoadingStore) return <Loading />;
   return (
     <View style={{ flex: 1 }}>
       <KeyboardAwareScrollView

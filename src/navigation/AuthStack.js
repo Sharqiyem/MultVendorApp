@@ -37,13 +37,6 @@ export function AuthStack({ navigation }) {
         },
         // Header text color
         headerTintColor: "#fff",
-        // headerRight: (props) => (
-        //   <CartButton
-        //     navigation={navigation}
-        //     state={state}
-        //     sourceScreen='CartCat'
-        //   />
-        // ),
       }}
     >
       <Stack.Screen

@@ -19,24 +19,6 @@ export default useGetDeliveryOrders = (storeId) => {
           ...doc.data(),
         }));
 
-        // const newData = snapShot.data().orders;
-
-        // const ordersArr = [];
-        // if (newData)
-        //   newData.map((orderItem, ind) => {
-        //     ordersArr.push({
-        //       id: orderItem.id,
-        //       selectedDeliveryAddress: orderItem.selectedDeliveryAddress,
-        //       selectedPaymentMethod: orderItem.selectedPaymentMethod,
-        //       totalAmount: orderItem.totalAmount,
-        //       createdAt: orderItem.createdAt,
-        //       updatedAt: orderItem.updatedAt,
-        //       products: orderItem.products,
-        //       status: orderItem.status,
-        //       selectedStore: orderItem.selectedStore,
-        //     });
-        //   });
-
         if (!isCancelled) {
           setData(newData);
           setIsLoading(false);
@@ -44,7 +26,10 @@ export default useGetDeliveryOrders = (storeId) => {
       });
     return () => {
       isCancelled = true;
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+        console.log("unsubscribe 2 useGetProductsByStoreId");
+      }
     };
   }, []);
 

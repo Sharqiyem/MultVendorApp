@@ -36,10 +36,10 @@ const authReducer = (prevState = initialState, action) => {
         ...prevState,
         isSignout: false,
         userData: action.data,
-        userToken: action.data.email,
+        userToken: action.data?.email,
 
-        role: action.data.role || "user",
-        storeId: action.data.storeId || "",
+        role: action.data?.role || "user",
+        storeId: action.data?.storeId || "",
         isDelivery: action.data?.role === "delivery",
         isVendor: action.data?.role === "vendor",
       };
@@ -77,7 +77,7 @@ const AuthProvider = ({ children }) => {
       },
       signOut: async () => {
         await AsyncStorage.removeItem("user");
-
+        
         dispatch({ type: "SIGN_OUT" });
       },
       signUp: async (data) => {

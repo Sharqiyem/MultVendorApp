@@ -1,22 +1,80 @@
-import React, { useContext } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Icon from "@expo/vector-icons";
 import getStyle from "../../constants/styles";
 import { LocalizationContext } from "../../context/cartContext/provider";
 import Colors from "../../constants/Colors";
+import { useGetDeliveryOrders, useGetProductsByStoreId } from "../../hooks";
+import { AuthContext } from "../../context/authContext/provider";
+import { useGetProductsCountByStoreId as getProductsCountByStoreId } from "../../hooks/useGetProductsByStoreId";
+import { FlatGrid } from "react-native-super-grid";
+import moment from "moment";
 
 const VendorHomeScreen = ({ navigation }) => {
   const { locale, t } = useContext(LocalizationContext);
   const { row, text, boldText, shadow, textHeader } = getStyle(locale === "ar");
+  const { state: authState } = React.useContext(AuthContext);
+
+  const [orders, isOrdersLoading] = useGetDeliveryOrders(
+    authState.userData?.storeId || ""
+  );
+
+  const [storeProductsCount, setStoreProductsCount] = useState(0);
+  const [store, isLoadingStore] = useGetStoreByStoreId(
+    authState.userData?.storeId
+  );
+
+  useEffect(() => {
+    const fetch = async () => {
+      const storeProductsCount = await getProductsCountByStoreId(
+        authState.userData?.storeId
+      );
+      console.log("storeProductsCount", storeProductsCount);
+      setStoreProductsCount(storeProductsCount);
+    };
+    fetch();
+  }, []);
+
+  // stats
+  // const [totalSales, setTotalSales] = useState(0);
+  // const [totalClients, setTotalClients] = useState(0);
+
+  const totalSales = orders?.reduce((accumulator, currentValue) => {
+    return currentValue.totalAmount + accumulator;
+  }, 0);
+
+  const totalClients = orders?.reduce((accumulator = [], currentValue) => {
+    if (accumulator.includes(currentValue.userid)) {
+      return accumulator;
+    }
+    return [...accumulator, currentValue.userId];
+  }, []);
 
   const renderStoreDetails = () => {
+    if (isLoadingStore)
+      return (
+        <Text style={[textHeader, boldText, { textAlign: "center" }]}> </Text>
+      );
     return (
       <View style={{ margin: 15 }}>
-        <Text style={[textHeader, boldText, {textAlign:'center'}]}>{t("Store name")}:  Store name</Text>
+        {store?.name ? (
+          <Text style={[textHeader, boldText, { textAlign: "center" }]}>
+            {t("Store name")}: {store?.name}
+          </Text>
+        ) : (
+          <Text>Config Your Store</Text>
+        )}
       </View>
     );
   };
+
   const StatsItem = ({ title, total, colors, icon }) => {
     return (
       <LinearGradient
@@ -24,11 +82,10 @@ const VendorHomeScreen = ({ navigation }) => {
         colors={colors}
         style={{
           borderRadius: 20,
-          margin: 6,
           paddingVertical: 15,
-          width: 160,
           justifyContent: "center",
           alignItems: "center",
+          minHeight: 180,
           ...shadow,
         }}
       >
@@ -55,6 +112,44 @@ const VendorHomeScreen = ({ navigation }) => {
   };
 
   const renderAllStats = () => {
+    const list = [
+      <StatsItem
+        title={t("Total Orders")}
+        total={orders?.length || 0}
+        // total={"0"}
+        colors={["#f2570f", "#f5793f"]}
+        icon="aperture"
+      />,
+      <StatsItem
+        title={t("Total Sales")}
+        total={totalSales + " $"}
+        // total={"0"}
+        colors={["#570ff2", "#793ff5"]}
+        icon="dollar-sign"
+      />,
+
+      <StatsItem
+        title={t("Total Products")}
+        total={storeProductsCount || "0"}
+        colors={["#c80ff2", "#d33ff5"]}
+        icon="codesandbox"
+      />,
+      <StatsItem
+        title={t("Total Customers")}
+        total={totalClients?.length || "0"}
+        colors={["#0faaf2", "#3fbbf5"]}
+        icon="user"
+      />,
+    ];
+    return (
+      <FlatGrid
+        itemDimension={130}
+        data={list}
+        // spacing={10}
+        renderItem={({ item }) => <View>{item}</View>}
+      />
+    );
+
     return (
       <View
         style={{
@@ -66,25 +161,27 @@ const VendorHomeScreen = ({ navigation }) => {
       >
         <StatsItem
           title={t("Total Sales")}
-          total="55$"
+          total={totalSales + " $"}
+          // total={" $"}
           colors={["#570ff2", "#793ff5"]}
           icon="dollar-sign"
         />
         <StatsItem
           title={t("Total Orders")}
-          total="25"
+          total={orders?.length || 0}
+          // total={"0"}
           colors={["#f2570f", "#f5793f"]}
           icon="aperture"
         />
         <StatsItem
           title={t("Total Products")}
-          total="605"
+          total={storeProductsCount || "0"}
           colors={["#c80ff2", "#d33ff5"]}
           icon="codesandbox"
         />
         <StatsItem
           title={t("Total Customers")}
-          total="6995"
+          total={totalClients?.length || "0"}
           colors={["#0faaf2", "#3fbbf5"]}
           icon="user"
         />
@@ -122,19 +219,14 @@ const VendorHomeScreen = ({ navigation }) => {
 
   const renderLastOrders = () => {
     return (
-      <View
-        style={{
-          marginHorizontal: 15,
-          marginVertical: 10,
-          // backgroundColor: "grey",
-        }}
-      >
+      <View style={{}}>
         <View
           style={[
             row,
             {
               justifyContent: "space-between",
               alignItems: "center",
+              marginHorizontal: 15,
               // backgroundColor: "grey",
             },
           ]}
@@ -144,20 +236,42 @@ const VendorHomeScreen = ({ navigation }) => {
             navigation.navigate("Orders");
           })}
         </View>
-        <Text style={{ ...text }}>{t("No orders yet")}</Text>
+        {orders?.length === 0 ? (
+          <Text style={{ ...text }}>{t("No orders yet")}</Text>
+        ) : (
+          <FlatGrid
+            itemDimension={130}
+            data={orders.slice(0, 4)}
+            // spacing={10}
+            renderItem={({ item }) => (
+              <View
+                style={[
+                  {
+                    padding: 10,
+                    backgroundColor: "#F4F3F3",
+                    borderRadius: 10,
+                  },
+                  shadow,
+                ]}
+              >
+                <Text style={(text, boldText)}>ID: {item.id}</Text>
+                <Text style={{ color: Colors.gray }}>
+                  {moment(item.createdAt).format("YY-MM-DD hh:mm")}
+                </Text>
+                <Text style={{ color: Colors.secondary, paddingVertical: 5 }}>
+                  {item.totalAmount}$
+                </Text>
+              </View>
+            )}
+          />
+        )}
       </View>
     );
   };
 
   const renderLastreviews = () => {
     return (
-      <View
-        style={{
-          marginHorizontal: 15,
-          marginVertical: 10,
-          // backgroundColor: "grey",
-        }}
-      >
+      <View style={{}}>
         <View
           style={[
             row,
@@ -165,6 +279,7 @@ const VendorHomeScreen = ({ navigation }) => {
               justifyContent: "space-between",
               alignItems: "center",
               // backgroundColor:'grey',
+              marginHorizontal: 15,
             },
           ]}
         >
@@ -174,18 +289,46 @@ const VendorHomeScreen = ({ navigation }) => {
           })}
         </View>
 
-        <Text style={text}>{t("No reviews yet")}</Text>
+        {orders?.length === 0 ? (
+          <Text style={{ ...text }}>{t("No reviews yet")}</Text>
+        ) : (
+          <FlatGrid
+            itemDimension={130}
+            data={orders.slice(0, 4)}
+            // spacing={10}
+            renderItem={({ item }) => (
+              <View
+                style={[
+                  {
+                    padding: 10,
+                    backgroundColor: "#F4F3F3",
+                    borderRadius: 10,
+                  },
+                  shadow,
+                ]}
+              >
+                <Text style={(text, boldText)}>ID: {item.id}</Text>
+                <Text style={{ color: Colors.gray }}>
+                  {moment(item.createdAt).format("YY-MM-DD hh:mm")}
+                </Text>
+                <Text style={{ color: Colors.secondary, paddingVertical: 5 }}>
+                  {item.totalAmount}$
+                </Text>
+              </View>
+            )}
+          />
+        )}
       </View>
     );
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
       {renderStoreDetails()}
       {renderAllStats()}
       {renderLastOrders()}
       {renderLastreviews()}
-    </View>
+    </ScrollView>
   );
 };
 

@@ -21,7 +21,7 @@ export const registerForPushNotificationsAsync = async () => {
     token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log("registerForPushNotificationsAsync token", token);
   } else {
-    alert("Must use physical device for Push Notifications");
+    console.log("Must use physical device for Push Notifications");
   }
 
   if (Platform.OS === "android") {

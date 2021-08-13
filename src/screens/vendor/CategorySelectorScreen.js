@@ -27,11 +27,12 @@ const CategorySelectorScreen = ({ navigation, route }) => {
 
   const { state: authState } = React.useContext(AuthContext);
 
+  console.log('authState', authState)
   const { refreshProducts, setRefreshProducts } =
     React.useContext(ProductsContext);
 
   const [data, isLoadingCategories] = useGetCategoriesByStoreId(
-    authState.userData.storeId
+    authState.userData?.storeId
   );
 
   // console.log("data", data);
@@ -82,7 +83,7 @@ const CategorySelectorScreen = ({ navigation, route }) => {
         ar: categoryArName,
         en: categoryEnName,
       },
-      storeId: authState.userData.storeId,
+      storeId: authState.userData?.storeId,
     };
     console.log("categoryObject", categoryObject);
 

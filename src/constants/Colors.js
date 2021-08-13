@@ -1,4 +1,4 @@
-// const tintColor = '#555CC4';
+const tintColor = '#555CC4';
 
 export default Colors = {
   tintColor: "#555CC4",
@@ -39,7 +39,8 @@ export default Colors = {
   yellow: "#ffc247",
 };
 
-// const tintColor = '#13293d';
+// // const tintColor = '#ffc529';
+// const tintColor = '#fe724c';
 // export default Colors = {
 //   tintColor,
 //   tabIconDefault: '#ddd',
@@ -55,7 +56,7 @@ export default Colors = {
 //   white: '#fff',
 //   headerBG: tintColor,
 //   blue: '#6271da',
-//   primary: '#13293d', // here
+//   primary: tintColor, // here
 //   secondary: '#FF1358',
 //   primaryLight: '#425363', // here
 //   primaryGradientStart: '#4f44b6',

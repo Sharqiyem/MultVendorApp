@@ -52,11 +52,11 @@ function StoresStack({ navigation }) {
         options={{ title: t("Stores") }}
         component={StoresScreen}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Cart"
         options={{ title: t("Stores") }}
         component={CartScreen}
-      />
+      /> */}
       <Stack.Screen
         name="Store"
         options={({ route }) => ({

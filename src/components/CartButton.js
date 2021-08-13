@@ -19,7 +19,6 @@ export default CartButton = ({}) => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: "row",
         alignItems: "center",
         marginHorizontal: 10,
       }}
@@ -27,7 +26,7 @@ export default CartButton = ({}) => {
     >
       <Icon.Feather
         name="shopping-cart"
-        size={26}
+        size={25}
         color="#fff"
         style={{ marginHorizontal: 15 }}
       />

@@ -28,7 +28,15 @@ export default class FirebaseAuth {
             console.log("push notification err", err);
             // reject('Failed to get push token for push notification!');
           }
-          const userObj = { ...userDoc.data(), pushNotificationToken: token };
+
+          if (token === undefined) {
+            token = "";
+          }
+
+          const userObj = {
+            ...userDoc.data(),
+            pushNotificationToken: token || "",
+          };
           resolve(userObj);
         })
         .catch((err) => {
@@ -55,11 +63,14 @@ export default class FirebaseAuth {
             alert("Failed to get push token for push notification!");
           }
 
+          if (token === undefined) {
+            token = "";
+          }
           const userData = {
             email,
             name,
             role: "user",
-            pushNotificationToken: token,
+            pushNotificationToken: token || "",
           };
 
           if (user) {

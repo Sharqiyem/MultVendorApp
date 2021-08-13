@@ -6,8 +6,11 @@ export default useGetProductsByStoreId = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { refreshProducts } = useContext(ProductsContext);
-  console.log("refreshProducts", refreshProducts);
+  console.log("useGetProductsByStoreId", storeId);
+ 
   useEffect(() => {
+    if (!storeId) return;
+
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     console.log("useGetProductsByStoreId useEffect");
     let isCancelled = false;
@@ -25,14 +28,13 @@ export default useGetProductsByStoreId = (storeId) => {
           }));
 
           if (!isCancelled) {
-            console.log(newData.map((s) => s.name).join("=="));
             setData(newData);
             setIsLoading(false);
           }
         });
     } catch (err) {
       //TODO : try to catch error on use logout
-      alert("useGetProductsByStoreId err" + err);
+      alert("useGetProductsByStoreId err " + err);
     }
     return () => {
       console.log("unsubscribe 1 useGetProductsByStoreId");
@@ -45,4 +47,18 @@ export default useGetProductsByStoreId = (storeId) => {
   }, [storeId, refreshProducts]);
 
   return [data, isLoading];
+};
+
+export const useGetProductsCountByStoreId = async (storeId) => {
+  if (storeId) {
+    const data = await firebase
+      .firestore()
+      .collection("products")
+      .where("storeId", "==", storeId)
+      .get();
+
+    console.log("useGetProductsCountByStoreId " + storeId, data.docs.length);
+    return data?.docs?.length;
+  }
+  return 0;
 };

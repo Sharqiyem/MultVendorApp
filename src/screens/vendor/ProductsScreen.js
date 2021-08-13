@@ -3,23 +3,24 @@ import {
   StyleSheet,
   Text,
   View,
-  SectionList,
   Image,
-  FlatList,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import * as Icon from "@expo/vector-icons";
 import { FlatGrid } from "react-native-super-grid";
 
-import { ProductCycleItem } from "../../components";
 import Loading from "../../components/Loading";
 import Colors from "../../constants/Colors";
 import Layout from "../../constants/Layout";
 import getStyle from "../../constants/styles";
 import { AuthContext } from "../../context/authContext/provider";
 import { LocalizationContext } from "../../context/cartContext/provider";
-import { useGetDataByCollection, useGetProductsByStoreId } from "../../hooks";
+import {
+  useGetCategoriesByStoreId,
+  useGetProductsByStoreId,
+  useGetDataByCollection
+} from "../../hooks";
 import { ProductsContext } from "../../context/productsContext/provider";
 
 const itemsPerRow = 3;
@@ -29,29 +30,26 @@ const width =
 const raduisWidth = width / 2;
 
 const ProductsScreen = ({ navigation }) => {
-  const { state, dispatch } = React.useContext(AuthContext);
+  const { state } = React.useContext(AuthContext);
 
   const { t, locale } = React.useContext(LocalizationContext);
-  const {
-    buttonPrimary,
-    row,
-    categoryContainer,
-    boldText,
-    primaryText,
-    shadow,
-    text,
-  } = getStyle(locale === "ar");
-
+  // const [storeProducts, isLoadingStores] = [[], false];
   const [storeProducts, isLoadingStores] = useGetProductsByStoreId(
     state.userData?.storeId
   );
 
-  const { refreshProducts } = useContext(ProductsContext);
+  // const [categories, isLoadingCats] = [[], false];
+  const [categories, isLoadingCats] = 
+  useGetCategoriesByStoreId(
+    state.userData?.storeId
+  );
 
-  console.log("storeProducts length", storeProducts?.length);
-  const [categories, isLoadingCats] = useGetDataByCollection("categories");
+  const { refreshProducts } = useContext(ProductsContext);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { buttonPrimary, row, categoryContainer, boldText, shadow, text } =
+    getStyle(locale === "ar");
 
   useEffect(() => {
     if (!isLoadingCats && !isLoadingStores) {
@@ -91,45 +89,6 @@ const ProductsScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    );
-  };
-
-  const renderItem = ({ item, index, categoryItem }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("NewProduct", { item, category: categoryItem });
-        }}
-        style={[styles.itemContainer, { backgroundColor: "red" }]}
-        key={item.id}
-      >
-        <View style={styles.itemTwoContainer}>
-          {item.images?.length > 0 ? (
-            <Image
-              style={styles.itemTwoImage}
-              source={{ uri: item.images[0] }}
-            />
-          ) : (
-            <View
-              style={{
-                ...styles.itemTwoImage,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#e6ebfd",
-              }}
-            >
-              <Icon.Feather
-                name="image"
-                size={25}
-                color={Colors.primaryLight}
-                style={{ marginHorizontal: 5 }}
-              />
-            </View>
-          )}
-        </View>
-        <Text style={styles.itemTwoTitle}>{item.name}</Text>
-        <Text style={{ color: Colors.gray }}>{item.price}</Text>
-      </TouchableOpacity>
     );
   };
 
@@ -294,12 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Colors.primary,
   },
-  itemContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: margenHorizontal,
-    marginVertical: 10,
-  },
+
   itemTwoImage: {
     width: "100%",
     height: width,

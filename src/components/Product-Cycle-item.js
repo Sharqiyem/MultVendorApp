@@ -49,7 +49,7 @@ export const ProductCycleItem = ({ item }) => {
   const { dispatch, state } = React.useContext(StoreContext);
 
   const addToCart = (productItem) => {
-    if (state.selectedStore && state.selectedStore !== item.storeId) {
+    if (state.selectedStore && state.selectedStore !== item?.storeId) {
       // alert user to change store
       Alert.alert(
         "Change store",

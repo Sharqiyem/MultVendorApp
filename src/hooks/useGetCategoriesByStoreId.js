@@ -5,6 +5,7 @@ export default useGetCategoriesByStoreId = (storeId) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    if (!storeId) return;
     //isCancel to prevent "Can't perform a React state update on an unmounted component"
     let isCancelled = false;
     let unsubscribe;

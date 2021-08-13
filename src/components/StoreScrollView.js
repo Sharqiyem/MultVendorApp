@@ -13,7 +13,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "react-native-expo-image-cache";
 import InvertibleScrollView from "react-native-invertible-scroll-view";
-
+import * as Icon from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import getStyle from "../constants/styles";
 import Layout from "../constants/Layout";
@@ -69,15 +69,41 @@ const StoreScrollView = ({}) => {
               }
             >
               <View style={styles.imageContiner}>
-                <Image
-                  style={styles.image}
-                  resizeMode="cover"
-                  // eslint-disable-next-line global-require
-                  // source={{ uri: image }}
-                  {...{ uri: image }}
-                />
+                {image ? (
+                  <Image
+                    style={styles.image}
+                    resizeMode="cover"
+                    {...{ uri: image }}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      ...styles.image,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon.Feather
+                      name="image"
+                      size={60}
+                      color={Colors.white}
+                      style={{ marginHorizontal: 5, opacity: 0.5 }}
+                    />
+                  </View>
+                )}
               </View>
-              <Text numberOfLines={1} style={[text, styles.shopTitle]}>{storeName}</Text>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  minHeight: 45,
+                  // backgroundColor: "red",
+                }}
+              >
+                <Text numberOfLines={1} style={[text, styles.shopTitle]}>
+                  {storeName}
+                </Text>
+              </View>
               {/* <Text style={shopSubTitle}>{description}</Text> */}
             </TouchableOpacity>
           );
@@ -108,12 +134,12 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colors.primaryLighter,
   },
   shopTitle: {
     fontSize: 14,
     paddingHorizontal: 5,
-    paddingVertical:3,
+    paddingVertical: 3,
     width: width / 2 - 50,
   },
   shopSubTitle: {

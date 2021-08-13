@@ -39,13 +39,7 @@ const CategoriesStack = ({ navigation }) => {
         },
         //Header text color
         headerTintColor: "#fff",
-        headerRight: (props) => (
-          <CartButton
-            navigation={navigation}
-            // state={state}
-            // sourceScreen="CartCat"
-          />
-        ),
+        headerRight: (props) => <CartButton />,
       }}
     >
       <Stack.Screen

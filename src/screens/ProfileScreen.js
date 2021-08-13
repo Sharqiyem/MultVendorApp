@@ -208,6 +208,40 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const renderLanguageChanger = () => {
+    let styleByDire = {};
+    console.log("locale", locale);
+    if (locale === "ar") {
+      styleByDire = {
+        left: 0,
+        borderTopRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        position: "absolute",
+        top: 0,
+        width: 40,
+        height: 40,
+        justifyContent: "center",
+        zIndex: 100,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.primary,
+      };
+    } else {
+      styleByDire = {
+        left: 0,
+        borderTopLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        position: "absolute",
+        top: 0,
+        width: 40,
+        height: 40,
+        justifyContent: "center",
+        zIndex: 100,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.primary,
+      };
+    }
+    // console.log("styleByDire", styleByDire);
     return (
       <BottomSheet
         visible={visible}
@@ -215,11 +249,34 @@ export default function ProfileScreen({ navigation }) {
         onBackdropPress={toggleBottomNavigationView}
       >
         <View style={styles.bottomNavigationView}>
-          <Text
-            style={{ ...textHeader, textAlign: "center", paddingVertical: 15 }}
-          >
-            {t("Chose language")}
-          </Text>
+          <View style={{ ...row, paddingVertical: 15, width: "100%" }}>
+            <TouchableOpacity
+              onPress={() => {
+                toggleBottomNavigationView();
+              }}
+              // hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              style={{
+                ...styleByDire,
+              }}
+            >
+              <Icon.AntDesign
+                name="close"
+                size={20}
+                color={Colors.white}
+                style={{}}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                ...textHeader,
+                textAlign: "center",
+
+                width: "100%",
+              }}
+            >
+              {t("Chose language")}
+            </Text>
+          </View>
           <TouchableOpacity
             style={{
               ...row,
@@ -231,8 +288,10 @@ export default function ProfileScreen({ navigation }) {
               // backgroundColor: "red",
             }}
             onPress={() => {
-              toggleBottomNavigationView();
-              changeLang();
+              if (locale === "en") {
+                toggleBottomNavigationView();
+                changeLang();
+              }
             }}
           >
             <Text style={[textHeader, boldText]}>عربي</Text>
@@ -255,8 +314,10 @@ export default function ProfileScreen({ navigation }) {
               // backgroundColor:'red'
             }}
             onPress={() => {
-              toggleBottomNavigationView();
-              changeLang();
+              if (locale === "ar") {
+                toggleBottomNavigationView();
+                changeLang();
+              }
             }}
           >
             <Text style={[textHeader, boldText]}>English</Text>

@@ -1,6 +1,7 @@
 import * as React from "react";
+import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import * as Icon from "@expo/vector-icons";
 //Custome
 import Colors from "../constants/Colors";
 import CartButton from "../components/CartButton";
@@ -16,6 +17,7 @@ import StoreScreen from "../screens/StoreScreen";
 import Fonts from "../constants/Fonts";
 import OrdersScreen from "../screens/OrdersScreen";
 import CategoryScreen from "../screens/CategoryScreen";
+import getStyle from "../constants/styles";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,8 @@ const HomeStack = ({ navigation }) => {
   const { t, locale } = React.useContext(LocalizationContext);
 
   const { state } = React.useContext(StoreContext);
+
+  const { row } = getStyle(locale === "ar");
 
   return (
     <Stack.Navigator
@@ -46,11 +50,16 @@ const HomeStack = ({ navigation }) => {
         // headerLeft: (props) => <View />,
 
         headerRight: () => (
-          <CartButton
-            navigation={navigation}
-            // state={state}
-            // sourceScreen="CartHome"
-          />
+          <View style={row}>
+            <CartButton />
+            <Icon.Feather
+              onPress={() => navigation.navigate("Search")}
+              name="search"
+              size={25}
+              color={Colors.white}
+              style={{}}
+            />
+          </View>
         ),
       }}
     >

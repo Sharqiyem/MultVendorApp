@@ -13,6 +13,7 @@ import VendorTabs from "./VendorTabs";
 import UserTabs from "./UserTabs";
 import AuthStack from "./AuthStack";
 import CartStack from "./CartStack";
+import SearchScreen from "../screens/shared/SearchScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,7 @@ export default RootNavigator = () => {
   const {
     state: { isLoading, userToken, isDelivery, isVendor, userData },
   } = React.useContext(AuthContext);
-  // console.log({ isLoading, userToken, isDelivery });
+  console.log({ isLoading, userToken, isDelivery, isVendor, userData });
 
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
@@ -89,6 +90,11 @@ export default RootNavigator = () => {
         name="Chat"
         options={{ title: "Chat" }}
         component={ChatScreen}
+      />
+      <Stack.Screen
+        name="Search"
+        options={{ title: "Search" }}
+        component={SearchScreen}
       />
     </Stack.Navigator>
   );

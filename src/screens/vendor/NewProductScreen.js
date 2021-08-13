@@ -75,7 +75,7 @@ const NewProductScreen = ({ navigation, route }) => {
       price: data.price,
       status: true,
       images,
-      storeId: authState.userData.storeId,
+      storeId: authState.userData?.storeId,
       isActive,
     };
     console.log("productObject", productObject);

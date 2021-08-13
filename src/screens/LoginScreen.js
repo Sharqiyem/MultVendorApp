@@ -36,8 +36,8 @@ export default function LoginScreen({ navigation }) {
   } = getStyle(locale === "ar");
 
   const { state, signIn } = React.useContext(AuthContext);
-
-  const [email, setEmail] = React.useState("a@a.com");
+  console.log("state?.userData?.email", state);
+  const [email, setEmail] = React.useState(state?.userData?.email || "v8@v.com");
   const [password, setPassword] = React.useState("123456");
   const [error, setError] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -151,7 +151,7 @@ export default function LoginScreen({ navigation }) {
               width: Layout.window.width,
             }}
             size={"large"}
-            color={Colors.primary}
+            color={Colors.white}
           />
         ) : null}
         {error ? <Text style={{}}>{error}</Text> : null}

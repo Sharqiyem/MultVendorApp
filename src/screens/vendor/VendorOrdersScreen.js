@@ -68,10 +68,10 @@ export default function VendorOrdersScreen({ navigation }) {
             <Text style={{}}>{item.id}</Text>
           </View>
 
-          <View style={orderItemStyle}>
+          {/* <View style={orderItemStyle}>
             <Text>{t("Store name")}</Text>
             {item.store && <Text>{item.store.name}</Text>}
-          </View>
+          </View> */}
 
           <View style={orderItemStyle}>
             <Text>{t("Order date")}</Text>
