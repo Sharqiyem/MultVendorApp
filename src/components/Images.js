@@ -84,7 +84,7 @@ const Images = ({ items, onChange }) => {
     if (!result.cancelled) {
       setIsLoading(true);
       const uploadUrl = await uploadImageAsync(result.uri);
-      const imagesTemp = [uploadUrl, ...images]
+      const imagesTemp = [uploadUrl, ...images];
       setImages(imagesTemp);
       onChange(imagesTemp);
       setTimeout(() => {

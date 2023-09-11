@@ -17,9 +17,10 @@ import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { useGetDataByCollection } from "../hooks";
 import { FlatGrid } from "react-native-super-grid";
+import { useNavigation } from "@react-navigation/native";
 
-export const ExCategoryCycleItem = ({ navigation }) => {
-  const [data, isLoading] = useGetDataByCollection("categories");
+export const ListCycleItems = ({ data, isLoading }) => {
+  const navigation = useNavigation();
 
   if (isLoading)
     return (
@@ -36,19 +37,20 @@ export const ExCategoryCycleItem = ({ navigation }) => {
   return (
     <FlatGrid
       itemDimension={100}
-      spacing={10}
+      spacing={5}
       // style={{ backgroundColor: "red" }}
       // numColumns={3}
       data={data}
       renderItem={({ item }) => (
+        // <View style={{backgroundColor:'yellow', height:100, width:100}} />
         <CategoryCycleItem item={item} navigation={navigation} />
       )}
       keyExtractor={(item) => item.id}
     />
   );
 
-  // return <CategoryCycleItem item={item} />;
-};
+ };
+
 export const CategoryCycleItem = ({ item, navigation }) => {
   const { locale } = React.useContext(LocalizationContext);
   return (
@@ -86,7 +88,7 @@ export const CategoryCycleItem = ({ item, navigation }) => {
 };
 
 const itemsPerRow = 3;
-const margenHorizontal = 15;
+const margenHorizontal = 5;
 const width =
   Layout.window.width / itemsPerRow - itemsPerRow * margenHorizontal;
 const raduisWidth = width / 2;
@@ -95,22 +97,18 @@ const styles = StyleSheet.create({
     // backgroundColor: Colors.primary,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: margenHorizontal,
-    marginVertical: 5,
+     marginVertical: 5,
   },
 
   itemTwoContainer: {
-    // paddingBottom: 10,
-    // backgroundColor: "red",
     marginBottom: 2,
     width: width,
-    // height: width,
     borderRadius: raduisWidth,
   },
 
   itemTwoTitle: {
     color: Colors.black,
-    fontSize: 15,
+    fontSize: 12,
     width: width,
     textAlign: "center",
   },

@@ -33,7 +33,7 @@ export default CartButton = ({}) => {
       <View
         style={{
           backgroundColor: Colors.secondary,
-          borderColor: Colors.secondary,
+          borderColor: Colors.white,
           borderWidth: 1,
           width: 25,
           height: 25,
@@ -47,7 +47,7 @@ export default CartButton = ({}) => {
         <Text
           style={{
             fontSize: 13,
-            color: Colors.white,
+            color: Colors.black,
             alignSelf: "center",
             // textAlign: 'center',
           }}

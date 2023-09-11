@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import firebase from "../config/firebase.config";
 
-export default useGetProductsByCatId = (catId) => {
+export default useGetProductsByCatId = (catId, key = "catId") => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -13,7 +13,7 @@ export default useGetProductsByCatId = (catId) => {
       unsubscribe = firebase
         .firestore()
         .collection("products")
-        .where("catId", "==", catId)
+        .where(key, "==", catId)
         .onSnapshot((snapShot) => {
           const newData = snapShot.docs.map((doc) => ({
             id: doc.id,

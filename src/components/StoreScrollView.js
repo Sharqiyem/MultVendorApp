@@ -23,13 +23,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
-const StoreScrollView = ({}) => {
+const StoreScrollView = ({data, isLoading}) => {
   const navigation = useNavigation();
   const { t, locale, isRTL } = React.useContext(LocalizationContext);
 
   const { row, flexDir, text } = getStyle(locale === "ar");
-  const shopSubTitle = [text, styles.shopTitle];
-  const [data, isLoading] = useGetDataByCollection("stores");
 
   return (
     <InvertibleScrollView
@@ -60,6 +58,7 @@ const StoreScrollView = ({}) => {
                 borderTopLeftRadius: 5,
                 borderTopRightRadius: 5,
                 overflow: "hidden",
+                height:200,
               }}
               key={id}
               onPress={() =>
@@ -104,8 +103,7 @@ const StoreScrollView = ({}) => {
                   {storeName}
                 </Text>
               </View>
-              {/* <Text style={shopSubTitle}>{description}</Text> */}
-            </TouchableOpacity>
+             </TouchableOpacity>
           );
         })
       )}
@@ -142,10 +140,5 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     width: width / 2 - 50,
   },
-  shopSubTitle: {
-    fontSize: 12,
-    color: Colors.gray,
-    marginHorizontal: 5,
-    width: width / 2 - 50,
-  },
+ 
 });

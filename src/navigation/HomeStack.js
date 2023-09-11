@@ -49,17 +49,15 @@ const HomeStack = ({ navigation }) => {
         headerTintColor: "#fff",
         // headerLeft: (props) => <View />,
 
-        headerRight: () => (
-          <View style={row}>
-            <CartButton />
-            <Icon.Feather
-              onPress={() => navigation.navigate("Search")}
-              name="search"
-              size={25}
-              color={Colors.white}
-              style={{}}
-            />
-          </View>
+        headerRight: () => <CartButton />,
+        headerLeft: () => (
+          <Icon.Feather
+            onPress={() => navigation.navigate("Search")}
+            name="search"
+            size={25}
+            color={Colors.white}
+            style={{ marginLeft: 10 }}
+          />
         ),
       }}
     >

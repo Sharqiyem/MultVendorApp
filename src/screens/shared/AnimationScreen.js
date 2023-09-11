@@ -32,23 +32,11 @@ const AnimationScreen = ({ onFinished }) => {
         loop={false}
         onAnimationFinish={onFinished}
         ref={ref}
-        // ref={animation => {
-        //   this.animation = animation;
-        // }}
         style={{
-          // width: 400,
-          // height: 400,
-          // backgroundColor: '#04D4C4'
           backgroundColor: Colors.primary,
         }}
         source={animPath}
-        // OR find more Lottie files @ https://lottiefiles.com/featured
-        // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
       />
-      {/* <Button title='Restart Animation' onPress={resetAnimation} /> */}
-
-      {/* <ActivityIndicator size='large' color={Colors.white} /> */}
-      {/* <Text>Loading</Text> */}
     </View>
   );
 };

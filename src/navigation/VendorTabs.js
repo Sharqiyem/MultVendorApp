@@ -29,6 +29,8 @@ import Fonts from "../constants/Fonts";
 import CategorySelectorScreen from "../screens/vendor/CategorySelectorScreen";
 import EditStoreScreen from "../screens/vendor/EditStoreScreen";
 import ReviewsScreen from "../screens/vendor/ReviewsScreen";
+import CuisineSelectorScreen from "../screens/vendor/CuisineSelectorScreen";
+import { tabBarOptions } from "./tabBarOptions";
 
 const BottomTab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -207,6 +209,11 @@ function ProductsStack({ navigation }) {
         options={{ title: t("Select category") }}
         component={CategorySelectorScreen}
       />
+      <Stack.Screen
+        name="CuisineSelector"
+        options={{ title: t("Select cuisine") }}
+        component={CuisineSelectorScreen}
+      />
     </Stack.Navigator>
   );
 }
@@ -252,26 +259,7 @@ export default function VendorTabs() {
     <BottomTab.Navigator
       tabBarPosition="bottom"
       initialRouteName={"Home"}
-      tabBarOptions={{
-        safeAreaInset: { bottom: "always" },
-        indicatorStyle: {
-          display: "none",
-          color: "#fff",
-          borderColor: "transparent",
-          borderBottomWidth: 0,
-        },
-        labelStyle: { fontSize: 11, fontFamily: Fonts.primaryRegular },
-        style: {
-          backgroundColor: Colors.tabBarBG,
-          paddingBottom: Platform.OS === "ios" ? 20 : 0,
-          // paddingBottom: 20,
-        },
-        activeTintColor: Colors.tabIconSelected,
-        inactiveTintColor: Colors.primaryLight,
-        showIcon: true,
-        // keyboardHidesTabBar: true,
-        keyboardHidesTabBar: false,
-      }}
+      tabBarOptions={tabBarOptions}
     >
       {tabs.map((tabItem) => {
         return (

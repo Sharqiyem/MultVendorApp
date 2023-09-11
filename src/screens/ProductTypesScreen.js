@@ -5,10 +5,12 @@ import { CategoryList } from "../components/index";
 import getStyle from "../constants/styles";
 import { LocalizationContext } from "../context/cartContext/provider";
 import { useGetDataByCollection } from "../hooks";
-export default function CategoriesScreen({ navigation }) {
+export default function ProductTypesScreen({ navigation }) {
   const { t, locale } = React.useContext(LocalizationContext);
   const { textInputLight } = getStyle(locale === "ar");
-  const [data, isLoading] = useGetDataByCollection("categories");
+
+  const [data, isLoading] = useGetDataByCollection("cuisines");
+
 
   return (
     <View style={styles.container}>

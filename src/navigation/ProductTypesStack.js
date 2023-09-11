@@ -16,11 +16,13 @@ import {
 import CategoriesScreen from "../screens/CategoriesScreen";
 import CategoryScreen from "../screens/CategoryScreen";
 import Fonts from "../constants/Fonts";
+import ProductTypesScreen from "../screens/ProductTypesScreen";
+import ProductsByTypesScreen from "../screens/ProductsByTypesScreen";
 const BottomTab = createMaterialTopTabNavigator();
 
 const Stack = createStackNavigator();
 
-const CategoriesStack = ({ navigation }) => {
+const ProductTypesStack = ({ navigation }) => {
   const { t, locale } = React.useContext(LocalizationContext);
   const { state, dispatch } = React.useContext(StoreContext);
 
@@ -41,32 +43,38 @@ const CategoriesStack = ({ navigation }) => {
         //Header text color
         headerTintColor: "#fff",
         headerRight: (props) => <CartButton />,
-        headerLeft: () => (
-          <Icon.Feather
-            onPress={() => navigation.navigate("Search")}
-            name="search"
-            size={25}
-            color={Colors.white}
-            style={{ marginLeft: 10 }}
-          />
-        ),
       }}
     >
       <Stack.Screen
         name="Categories"
-        options={{ title: t("Categories") }}
-        component={CategoriesScreen}
+        options={{
+          title: t("Categories"),
+          headerLeft: () => (
+            <Icon.Feather
+              onPress={() => navigation.navigate("Search")}
+              name="search"
+              size={25}
+              color={Colors.white}
+              style={{ marginLeft: 10 }}
+            />
+          ),
+        }}
+        component={ProductTypesScreen}
       />
       <Stack.Screen
         name="Category"
         options={({ route }) => ({
           title: route.params.item.names[locale] || route.params.item.name,
         })}
-        component={CategoryScreen}
+        component={ProductsByTypesScreen}
       />
-      
+      {/* <Stack.Screen
+        name='CartCat'
+        options={{ title: 'Your cart', headerRight: null }}
+        component={CartScreen}
+      /> */}
     </Stack.Navigator>
   );
 };
 
-export default CategoriesStack;
+export default ProductTypesStack;

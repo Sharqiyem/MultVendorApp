@@ -17,9 +17,7 @@ import PropTypes from "prop-types";
 import { ProductCycleItem } from "./Product-Cycle-item";
 import useGetProductsByStoreId from "../hooks/useGetProductsByStoreId";
 
-export const StoreProducts = ({ storeId }) => {
-  const [data, isLoading] = useGetProductsByStoreId(storeId);
-
+export const StoreProducts = ({ data, isLoading }) => {
   if (isLoading)
     return (
       <ActivityIndicator

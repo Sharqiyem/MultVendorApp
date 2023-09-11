@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -15,6 +15,7 @@ import getStyle from "../../constants/styles";
 import { LocalizationContext } from "../../context/cartContext/provider";
 
 const SearchScreen = ({ navigation }) => {
+  const [searchTerm, setSearchTerm] = useState("")
   const { t, isRTL, locale } = React.useContext(LocalizationContext);
   const {
     textInput,
@@ -48,8 +49,8 @@ const SearchScreen = ({ navigation }) => {
           style={textInput}
           placeholder={t("Name")}
           placeholderStyle={{ textAlign: "center" }}
-          onChangeText={(text) => setName(text)}
-          value={""}
+          onChangeText={(text) => setSearchTerm(text)}
+          value={searchTerm}
           autoFocus
           autoCorrect={false}
           autoCapitalize="none"

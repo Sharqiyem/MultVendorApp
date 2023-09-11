@@ -16,15 +16,13 @@ import Layout from "../constants/Layout";
 import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { LocalizationContext } from "../context/cartContext/provider";
-import { useGetDataByCollection } from "../hooks";
+import { useGetDataByCollection, useGetProductsByCatId } from "../hooks";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "./Loading";
 
 const widowWidth = Dimensions.get("window").width;
 
-export const CategoryList = ({}) => {
-  const [data, isLoading] = useGetDataByCollection("categories");
-
+export const CategoryList = ({ data, isLoading }) => {
   if (isLoading) return <Loading />;
 
   return (
@@ -39,7 +37,7 @@ export const CategoryList = ({}) => {
 };
 
 export const CategoryListItem = ({ item }) => {
-  const [data] = useGetProductsByCatId(item.id);
+  const [data] = useGetProductsByCatId(item.id, (key = "type"));
   const navigation = useNavigation();
   const { t, locale } = React.useContext(LocalizationContext);
 

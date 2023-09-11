@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import * as Icon from "@expo/vector-icons";
 
 //Custome
 import Colors from "../constants/Colors";
@@ -43,6 +44,15 @@ function StoresStack({ navigation }) {
             navigation={navigation}
             // state={state}
             // sourceScreen="CartStores"
+          />
+        ),
+        headerLeft: () => (
+          <Icon.Feather
+            onPress={() => navigation.navigate("Search")}
+            name="search"
+            size={25}
+            color={Colors.white}
+            style={{ marginLeft: 10 }}
           />
         ),
       }}

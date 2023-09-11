@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import * as Icon from "@expo/vector-icons";
 
@@ -16,14 +17,72 @@ import {
 import Colors from "../constants/Colors";
 import CartButton from "../components/CartButton";
 import { StoreDetailHeader } from "../components/StoreDetailHeader";
-import { useGetStoreByStoreId } from "../hooks";
+import { useGetProductsByStoreId, useGetStoreByStoreId } from "../hooks";
 import { LocalizationContext } from "../context/cartContext/provider";
 import Loading from "../components/Loading";
+
+function RenderImage({ image }) {
+  return (
+    <View
+      style={{
+        height: 250,
+        backgroundColor: Colors.primaryLightest,
+      }}
+    >
+      <Image
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+        source={{
+          uri: image,
+        }}
+      />
+    </View>
+  );
+}
+
+function RenderHeaderIcons(props) {
+  return (
+    <View
+      style={{
+        position: "absolute",
+        top: 50,
+        left: 0,
+        right: 0,
+        padding: 5,
+        zIndex: 999,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center", // backgroundColor:'grey'
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#fff",
+          // padding: 5,
+          height: 24 * 2,
+          width: 24 * 2,
+          borderRadius: 24,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onPress={() => props.goBack()}
+      >
+        <Icon.Feather name="arrow-left" size={24} color="grey" />
+      </TouchableOpacity>
+      <CartButton />
+    </View>
+  );
+}
 
 export default function StoreScreen({ navigation, route }) {
   const { item } = route.params;
   const { locale } = React.useContext(LocalizationContext);
   const [store, isLoading] = useGetStoreByStoreId(item?.id);
+  const [storeProducts, isLoadingStoreProducts] = useGetProductsByStoreId(
+    item.id
+  );
 
   const [activeTab, setActiveTab] = React.useState("products");
 
@@ -31,102 +90,48 @@ export default function StoreScreen({ navigation, route }) {
 
   const storeDescription = store?.descriptions[locale] || store?.description;
 
+  const renderProducts = () => {
+    return (
+      <View style={{ margin: 5, marginVertical: 15, flex: 1 }}>
+        <StoreProducts
+          data={storeProducts}
+          isLoading={isLoadingStoreProducts}
+          storeId={item.id}
+        />
+      </View>
+    );
+  };
+
+  const renderAbout = () => {
+    return (
+      <ScrollView
+        contentContainerStyle={{
+          padding: 10,
+          paddingBottom: 20,
+        }}
+        style={{
+          backgroundColor: Colors.primaryLightest,
+          flex: 1,
+        }}
+      >
+        <StoreDetailHeader store={store} />
+        <Text style={{ textAlign: "center", paddingHorizontal: 20 }}>
+          {storeDescription}
+        </Text>
+      </ScrollView>
+    );
+  };
+  
   return (
     <View style={styles.container}>
-      <StoreDetailHeader store={store} />
-
-      <View
-        style={{
-          position: "absolute",
-          top: 50,
-          left: 0,
-          right: 0,
-
-          padding: 5,
-          zIndex: 999,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon.Feather
-            name="arrow-left"
-            size={26}
-            color="#fff"
-            style={{ marginHorizontal: 15 }}
-          />
-        </TouchableOpacity>
-        <CartButton />
-      </View>
-
+      {/* header image */}
+      <RenderImage image={store?.image} />
+      {/* Header buttons icons */}
+      <RenderHeaderIcons goBack={navigation.goBack} />
       {/* BUTTONS */}
-      <View
-        style={{
-          marginTop: -12,
-          flexDirection: "row",
-        }}
-      >
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            backgroundColor: Colors.primary,
-            height: 50,
-            // width: '100%',
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            borderBottomColor: "#fff",
-            borderBottomWidth: activeTab === "products" ? 1 : 0,
-          }}
-          onPress={() => {
-            setActiveTab("products");
-          }}
-        >
-          <Text style={styles.btnText}>Products</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            backgroundColor: Colors.primary,
-            height: 50,
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            borderBottomColor: "#fff",
-            borderBottomWidth: activeTab === "reviews" ? 1 : 0,
-          }}
-          onPress={() => {
-            setActiveTab("reviews");
-          }}
-        >
-          <Text style={styles.btnText}>Reviews</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            backgroundColor: Colors.primary,
-            height: 50,
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            borderBottomColor: "#fff",
-            borderBottomWidth: activeTab === "about" ? 1 : 0,
-          }}
-          onPress={() => {
-            setActiveTab("about");
-          }}
-        >
-          <Text style={styles.btnText}>About</Text>
-        </TouchableOpacity>
-      </View>
 
       {/* TABS */}
-      {activeTab === "products" && (
-        <View style={{ margin: 5, marginVertical: 15, flex: 1 }}>
-          <StoreProducts storeId={item.id} />
-        </View>
-      )}
+      {activeTab === "products" && renderProducts()}
 
       {activeTab === "reviews" && (
         <View style={{ margin: 5, marginVertical: 15 }}>
@@ -134,11 +139,7 @@ export default function StoreScreen({ navigation, route }) {
         </View>
       )}
 
-      {activeTab === "about" && (
-        <View style={{ margin: 10, marginVertical: 15 }}>
-          <Text>{storeDescription}</Text>
-        </View>
-      )}
+      {activeTab === "about" && renderAbout()}
     </View>
   );
 }
@@ -165,5 +166,26 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#fff",
     textAlign: "center",
+  },
+
+  function({ store, image }) {
+    return (
+      <View
+        style={{
+          height: 250,
+          backgroundColor: Colors.primaryLightest,
+        }}
+      >
+        <Image
+          style={{
+            height: "100%",
+            width: "100%",
+          }}
+          source={{
+            uri: store?.image,
+          }}
+        />
+      </View>
+    );
   },
 });

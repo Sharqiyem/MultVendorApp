@@ -24,6 +24,7 @@ import { AuthProvider } from "./src/context/authContext/provider";
 import { UserProvider } from "./src/context/userContext/provider";
 import Colors from "./src/constants/Colors";
 import { ProductsProvider } from "./src/context/productsContext/provider";
+import TestScreen from "./src/screens/TestScreen";
 
 LogBox.ignoreLogs([
   "VirtualizedLists should never be nested", // TODO: Remove when fixed
@@ -210,6 +211,7 @@ export default function App(props) {
   if (!isLoadedAnime) {
     return <AnimationScreen onFinished={onAnimeFinished} />;
   }
+  // return <TestScreen />
   return (
     <>
       <StatusBar

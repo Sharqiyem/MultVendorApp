@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -39,7 +39,8 @@ const NewProductScreen = ({ navigation, route }) => {
   } = getStyle(locale === "ar");
 
   const { state: authState } = React.useContext(AuthContext);
-  const { refreshProducts, setRefreshProducts } =
+
+  const { refreshProducts, setRefreshProducts, productTypes } =
     React.useContext(ProductsContext);
 
   //useForm
@@ -54,7 +55,19 @@ const NewProductScreen = ({ navigation, route }) => {
   const [images, setImages] = useState(product ? product.images : []);
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState(productCategory || null);
+  const _productType = productTypes.filter((type) => type.id === product?.type);
+
+  const [productType, setProductType] = useState(_productType?.[0]);
+  const [preparationTime, setPreparationTime] = useState(
+    product?.preparationTime || ""
+  );
   const [isActive, setIsActive] = useState(product ? product.isActive : true);
+
+  //fetch product type by id
+  useEffect(() => {
+    if (product?.type && productTypes?.length > 0) {
+    }
+  }, [product?.type, productTypes]);
 
   const onChange = (items) => {
     if (items) {
@@ -63,7 +76,7 @@ const NewProductScreen = ({ navigation, route }) => {
   };
 
   const handleSend = async (data) => {
-    // console.log("data", data);
+    console.log("data", data);
     const userId = firebase.auth().currentUser.uid;
     const productObject = {
       catId: category?.id,
@@ -77,8 +90,11 @@ const NewProductScreen = ({ navigation, route }) => {
       images,
       storeId: authState.userData?.storeId,
       isActive,
+      type: productType?.id,
+      preparationTime: data.preparationTime,
     };
     console.log("productObject", productObject);
+    // return;
 
     try {
       setIsLoading(true);
@@ -92,7 +108,7 @@ const NewProductScreen = ({ navigation, route }) => {
       Toast.show(`Your product ${product ? "updated" : "sent"} successfully.`, {
         position: -20,
         backgroundColor: Colors.primary,
-        opacity: 0.8
+        opacity: 0.8,
       });
 
       reset();
@@ -133,6 +149,16 @@ const NewProductScreen = ({ navigation, route }) => {
     }
   };
 
+  const onCuisineSelectorBack = (item, field) => {
+    console.log("item back", item);
+    if (item && item.name) {
+      const name = item?.names[!isRTL ? "ar" : "en"] || item?.name;
+
+      field.onChange(name);
+      setProductType(item);
+    }
+  };
+
   const renerImagesInput = () => {
     return (
       <View style={fieldContainer}>
@@ -166,7 +192,7 @@ const NewProductScreen = ({ navigation, route }) => {
             placeholder={t("Select product category")}
             placeholderStyle={{ textAlign: "center" }}
             autoCorrect={false}
-            autoCapitalize="none" 
+            autoCapitalize="none"
             onChangeText={field.onChange}
             value={field.value}
             editable={false}
@@ -175,6 +201,50 @@ const NewProductScreen = ({ navigation, route }) => {
         </TouchableOpacity>
 
         {errors.category && (
+          <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
+        )}
+      </View>
+    );
+  };
+
+  const renderSelectorCuisine = () => {
+    const name =
+      productType?.names?.[!isRTL ? "ar" : "en"] || productType?.name || "";
+
+    const { field } = useController({
+      control,
+      defaultValue: name,
+      name: "productType",
+      rules: {
+        required: true,
+      },
+    });
+    return (
+      <View style={fieldContainer}>
+        <Text style={text}>{t("Product cuisine")}</Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("CuisineSelector", {
+              field,
+              onBack: onCuisineSelectorBack,
+            });
+          }}
+        >
+          <TextInput
+            style={[textInput, { marginHorizontal: 0 }]}
+            placeholder={t("Select product cuisine")}
+            placeholderStyle={{ textAlign: "center" }}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={field.onChange}
+            value={field.value}
+            editable={false}
+            pointerEvents="none"
+          />
+        </TouchableOpacity>
+
+        {errors.productType && (
           <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
         )}
       </View>
@@ -274,9 +344,47 @@ const NewProductScreen = ({ navigation, route }) => {
     );
   };
 
+  const renderInputPreparationTime = () => {
+    return (
+      <View style={fieldContainer}>
+        <Text style={text}>{t("Preparation time")}</Text>
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={[textInput, { marginHorizontal: 0 }]}
+              placeholder={t("Input preparation time")}
+              placeholderStyle={{ textAlign: "center" }}
+              autoCorrect={false}
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="preparationTime"
+          rules={{ required: true }}
+          defaultValue={product?.preparationTime || ""}
+        />
+        {errors.preparationTime && (
+          <Text style={errorStyle}>{t("Errors.This field is required")}</Text>
+        )}
+      </View>
+    );
+  };
+
   const renderActiveBox = () => {
     return (
-      <View style={[fieldContainer, row, { justifyContent: "space-between" }]}>
+      <TouchableOpacity
+        onPress={() => {
+          setIsActive(!isActive);
+        }}
+        style={[fieldContainer, row, { justifyContent: "space-between" }]}
+      >
         <Text style={text}>{t("Product active")}</Text>
         <TouchableOpacity
           onPress={() => {
@@ -300,7 +408,7 @@ const NewProductScreen = ({ navigation, route }) => {
             style={{ marginHorizontal: 5 }}
           />
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -342,14 +450,22 @@ const NewProductScreen = ({ navigation, route }) => {
       scrollEnabled
     >
       <View style={styles.formContainer}>
-        {/* {<RenerImagesInput items={items} onChange={onChange} />} */}
         {renerImagesInput()}
 
         {renderInputName()}
+
         {renderSelectorCategory()}
+
+        {renderSelectorCuisine()}
+
         {renderInputPrice()}
+
+        {renderInputPreparationTime()}
+
         {renderActiveBox()}
+
         {renderSubmitButton()}
+
         {product && renderDeleteButton()}
       </View>
     </KeyboardAwareScrollView>

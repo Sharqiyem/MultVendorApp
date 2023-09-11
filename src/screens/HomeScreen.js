@@ -6,15 +6,25 @@ import {
   BannerScrollView,
   StoreScrollView,
   ExCategoryCycleItem,
+  ListCycleItems,
 } from "../components/index";
 import getStyle from "../constants/styles.js";
 import { useGetDataByCollection } from "../hooks";
 import Link from "../components/Link";
+import { RoundedProducsList } from "../components/RoundedProducsList";
 
 export default function HomeScreen({ navigation, route }) {
   const [data, isLoading] = useGetDataByCollection("products");
   const { t, isRTL, locale } = React.useContext(LocalizationContext);
   const { row, text, textHeader } = getStyle(locale === "ar");
+
+  const [categories, isLoadingCategories] = useGetDataByCollection("cuisines");
+
+  const [stores, isLoadingStores] = useGetDataByCollection("stores");
+
+  const [products, isLoadingProducts] = useGetDataByCollection("products");
+
+  const popularProducts =  products?.slice(2, 6);
 
   const renderShopByStores = () => {
     return (
@@ -39,7 +49,7 @@ export default function HomeScreen({ navigation, route }) {
             }}
           />
         </View>
-        <StoreScrollView />
+        <StoreScrollView data={stores} isLoading={isLoadingStores} />
       </View>
     );
   };
@@ -67,15 +77,68 @@ export default function HomeScreen({ navigation, route }) {
             }}
           />
         </View>
+
+        <ListCycleItems
+          data={categories}
+          isLoading={isLoadingCategories}
+        />
+      </View>
+    );
+  };
+
+  const renderPopularProducts = () => {
+    return (
+      <View style={{ margin: 10 }}>
         <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
+          style={[
+            row,
+            {
+              justifyContent: "space-between",
+              marginVertical: 15,
+            },
+          ]}
         >
-          <ExCategoryCycleItem navigation={navigation} />
+          <View styles={{}}>
+            <Text style={[textHeader, { marginHorizontal: 5 }]}>
+              {t("Popular products")}
+            </Text>
+          </View>
+          <Link
+            onPress={() => {
+              navigation.navigate("Orders");
+            }}
+          />
         </View>
+
+        <RoundedProducsList key="propular" data={popularProducts} isLoading={isLoadingProducts} limit={3} />
+      </View>
+    );
+  };
+  const renderLastAddedProducts = () => {
+    return (
+      <View style={{ margin: 10 }}>
+        <View
+          style={[
+            row,
+            {
+              justifyContent: "space-between",
+              marginVertical: 15,
+            },
+          ]}
+        >
+          <View styles={{}}>
+            <Text style={[textHeader, { marginHorizontal: 5 }]}>
+              {t("Last added")}
+            </Text>
+          </View>
+          <Link
+            onPress={() => {
+              navigation.navigate("Orders");
+            }}
+          />
+        </View>
+
+        <ExProductCycleList data={products} isLoading={isLoadingProducts} limit={3} />
       </View>
     );
   };
@@ -104,7 +167,7 @@ export default function HomeScreen({ navigation, route }) {
           />
         </View>
 
-        <ExProductCycleList limit={6} />
+        <ExProductCycleList data={products} isLoading={isLoadingProducts} limit={6} />
       </View>
     );
   };
@@ -122,18 +185,14 @@ export default function HomeScreen({ navigation, route }) {
       {/* Shop By categories */}
       {renderShopByCategories()}
 
+      {renderPopularProducts()}
+
+      {renderLastAddedProducts()}
+
       {renderMyLastOrders()}
     </ScrollView>
   );
 }
-
-HomeScreen.navigationOptions = {
-  title: "TITLE",
-  headerTitleStyle: { textAlign: "center", alignSelf: "center" },
-  headerStyle: {
-    // backgroundColor: 'red',
-  },
-};
 
 const styles = StyleSheet.create({
   container: {

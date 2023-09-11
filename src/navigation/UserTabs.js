@@ -17,6 +17,8 @@ import CategoriesStack from "./CategoriesStack";
 import StoresStack from "./StoresStack";
 import ProfileStack from "./ProfileStack";
 import Fonts from "../constants/Fonts";
+import ProductTypesStack from "./ProductTypesStack";
+import { tabBarOptions } from "./tabBarOptions";
 const BottomTab = createMaterialTopTabNavigator();
 
 function UserTabs() {
@@ -39,7 +41,7 @@ function UserTabs() {
     },
     {
       name: "Categories",
-      component: CategoriesStack,
+      component: ProductTypesStack,
       title: t("Categories"),
       tabBarIconName: "md-book",
     },
@@ -58,26 +60,7 @@ function UserTabs() {
     <BottomTab.Navigator
       tabBarPosition="bottom"
       initialRouteName="Home"
-      tabBarOptions={{
-        safeAreaInset: { bottom: "always" },
-        indicatorStyle: {
-          display: "none",
-          color: "#fff",
-          height: 0, //this works
-          borderColor: "transparent",
-          borderBottomWidth: 0,
-        },
-        labelStyle: { fontSize: 10, fontFamily: Fonts.primaryRegular },
-        style: {
-          backgroundColor: Colors.tabBarBG,
-          paddingBottom: Platform.OS === "ios" ? 20 : 0,
-          // paddingBottom: 20,
-        },
-        activeTintColor: Colors.tabIconSelected,
-        inactiveTintColor: Colors.primaryLight,
-        showIcon: true,
-        keyboardHidesTabBar: true,
-      }}
+      tabBarOptions={tabBarOptions}
     >
       {tabs.map((tabItem) => {
         return (
